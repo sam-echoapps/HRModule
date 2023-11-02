@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="../../css/addStaff.css">
+<div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
+    <div class="oj-panel oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
+        <h6 style="font-weight: 500;font-size: 22px;color: #06668a;">Add New Staff</h6>
+    <oj-validation-group id="formValidation" class="form-container" role="group">
+        <div id="form-container" class="oj-panel">
+            <oj-form-layout id="personal-information" class="form" direction="row" max-columns="2">
+                <oj-input-text id="firstname" label-hint="First Name" required="true" value="{{firstName}}"></oj-input-text>
+                <oj-input-text id="lastname" label-hint="Last Name" required="true" value="{{lastName}}"></oj-input-text>
+                <div class="oj-flex">
+                    <div class="oj-flex-item oj-sm-5 oj-sm-padding-2x-end oj-md-padding-3x-end">
+                        <oj-select-single required id="nearestOffice" label-hint="Country Code" label-edge="inside"
+                            data="[[countryCodes]]" value="{{countryCode}}"></oj-select-single>
+                    </div>
+                    <div class="oj-flex-item oj-sm-7 oj-sm-padding-2x-start oj-md-padding-3x-start">
+                        <oj-input-text id="phone" label-hint="Phone" required="true" value="{{phone}}" on-value-changed="[[phoneValidator]]"></oj-input-text>
+                    </div>
+                    <div class="oj-text-color-danger"><oj-bind-text value='[[phoneError]]'></oj-bind-text></div></br>
+                </div>
+                <div>
+                    <oj-input-text id="email" label-hint="Email" required="true" value="{{email}}" on-value-changed="[[emailPatternValidator]]"></oj-input-text>
+                    <div class="oj-text-color-danger"><oj-bind-text value='[[emailError]]'></oj-bind-text></div></br>
+                </div>
+                <oj-input-text id="qualification" label-hint="Qualification" required="true" autocomplete="off" value="{{qualification}}"></oj-input-text>
+                <oj-select-single id="designation" label-hint="Designation" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
+                 value="{{designation}}"></oj-select-single>
+                <oj-input-text id="employeeId" label-hint="Employee Id" required="true" autocomplete="off" value="{{employeeId}}"></oj-input-text>
+                <oj-file-picker  id="width25em" class="demo-max-width-50percent" primary-text="Profile Photo"
+                secondary-text="Please Upload">
+                </oj-file-picker>
+            </oj-form-layout>
+            <oj-button id="save" chroming="outlined" on-oj-action="[[formSubmit]]">Submit</oj-button>
+        </div>
+    </oj-validation-group>
+
+    <oj-popup id="popup1" class="demo-popup" auto-dismiss="none" modality="modal" position.my.horizontal="center"
+        position.my.vertical="center" position.at.horizontal="center" position.at.vertical="center" position.of="window" tail="none">
+        <div class="demo-popup-body">
+            <div class="demo-popup-content oj-sm-padding-2x">
+                <oj-progress-circle id="progressCircle" value="-1"></oj-progress-circle>
+            </div>
+        </div>
+    </oj-popup>
+    
+    <oj-dialog id="popup2">
+        <div slot="header" style="display: contents;">
+            <p id="dialogTitleId" class="oj-dialog-title">Successfully Added</p>
+            <oj-button id="btnCancel" class="oj-button-sm" display="icons" on-oj-action="[[messageClose]]">
+                <span slot="startIcon" class="oj-ux-ico-close"></span>
+                Cancel
+            </oj-button>
+        </div>
+        <div slot="body">
+            <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
+                <p style="font-weight: 500;text-align: left">Student added successfully</p>
+            </div>
+        </div>
+    </oj-dialog>
+</div>

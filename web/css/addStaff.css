@@ -1,0 +1,21 @@
+#form-container{
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    margin-top: 20px;
+    background-color: #f0f0f0;
+}
+
+.form{
+    width: 100%;
+}
+
+#formValidation{
+    width: 100%;
+}
+
+.demo-max-width-50percent {
+    max-width: 100% !important;
+  }

@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="../../css/addStaff.css">
+<div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
+    <div class="oj-panel oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
+        <h6 style="font-weight: 500;font-size: 22px;color: #06668a;">Add Designation</h6>
+    <oj-validation-group id="formValidation" class="form-container" role="group">
+        <div id="form-container" class="oj-panel">
+            <oj-form-layout id="personal-information" class="form" direction="row" max-columns="1">
+                <oj-input-text id="designation" label-hint="Designation" required="true" value="{{designation}}"></oj-input-text>
+            </oj-form-layout>
+            <oj-button id="save" chroming="outlined" on-oj-action="[[formSubmit]]">Submit</oj-button>
+        </div>
+    </oj-validation-group>
+
+    <oj-popup id="popup1" class="demo-popup" auto-dismiss="none" modality="modal" position.my.horizontal="center"
+        position.my.vertical="center" position.at.horizontal="center" position.at.vertical="center" position.of="window" tail="none">
+        <div class="demo-popup-body">
+            <div class="demo-popup-content oj-sm-padding-2x">
+                <oj-progress-circle id="progressCircle" value="-1"></oj-progress-circle>
+            </div>
+        </div>
+    </oj-popup>
+    
+    <oj-dialog id="popup2">
+        <div slot="header" style="display: contents;">
+            <p id="dialogTitleId" class="oj-dialog-title">Successfully Added</p>
+            <oj-button id="btnCancel" class="oj-button-sm" display="icons" on-oj-action="[[messageClose]]">
+                <span slot="startIcon" class="oj-ux-ico-close"></span>
+                Cancel
+            </oj-button>
+        </div>
+        <div slot="body">
+            <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
+                <p style="font-weight: 500;text-align: left">Student added successfully</p>
+            </div>
+        </div>
+    </oj-dialog>
+</div>
