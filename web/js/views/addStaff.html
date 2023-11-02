@@ -1,7 +1,11 @@
 <link rel="stylesheet" href="../../css/addStaff.css">
+<div class="oj-panel oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
+    <h6 style="font-weight: 500;font-size: 22px;">Add New Staff</h6>
+</div>
+<div class="hint" style="border: 1px solid #80808036; margin: 10px;padding: 10px;background-color: #0b93ab;">
+    <i class="bi bi-info-circle-fill" style="color: rgb(38, 0, 255);font-size: 20px;"></i> &nbsp;&nbsp;<span style="color:white;">This is where you can enter the details of your new team members.</span> 
+  </div>    
 <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
-    <div class="oj-panel oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
-        <h6 style="font-weight: 500;font-size: 22px;color: #06668a;">Add New Staff</h6>
     <oj-validation-group id="formValidation" class="form-container" role="group">
         <div id="form-container" class="oj-panel">
             <oj-form-layout id="personal-information" class="form" direction="row" max-columns="2">
@@ -13,7 +17,7 @@
                             data="[[countryCodes]]" value="{{countryCode}}"></oj-select-single>
                     </div>
                     <div class="oj-flex-item oj-sm-7 oj-sm-padding-2x-start oj-md-padding-3x-start">
-                        <oj-input-text id="phone" label-hint="Phone" required="true" value="{{phone}}" on-value-changed="[[phoneValidator]]"></oj-input-text>
+                        <oj-input-text id="phone" label-hint="Phone" required="true" value="{{phone}}" length.max="10" on-value-changed="[[phoneValidator]]"></oj-input-text>
                     </div>
                     <div class="oj-text-color-danger"><oj-bind-text value='[[phoneError]]'></oj-bind-text></div></br>
                 </div>
@@ -23,13 +27,18 @@
                 </div>
                 <oj-input-text id="qualification" label-hint="Qualification" required="true" autocomplete="off" value="{{qualification}}"></oj-input-text>
                 <oj-select-single id="designation" label-hint="Designation" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
-                 value="{{designation}}"></oj-select-single>
-                <oj-input-text id="employeeId" label-hint="Employee Id" required="true" autocomplete="off" value="{{employeeId}}"></oj-input-text>
-                <oj-file-picker  id="width25em" class="demo-max-width-50percent" primary-text="Profile Photo"
-                secondary-text="Please Upload">
+                 value="{{designation}}"  data="[[designationList]]"></oj-select-single>
+                 <oj-text-area id="address" value="{{address}}" label-hint="Address" raw-valuenewE=""
+                 rows="3" clear-icon="always" required="true">
+                 </oj-text-area> 
+                 <div>          
+                 <oj-file-picker  id="profilePhoto" class="demo-max-width" primary-text="Profile Photo"
+                secondary-text="Please Upload(Optional)" on-oj-select="[[uploadProfilePhoto]]">
                 </oj-file-picker>
+                <div class="oj-text-color-danger"><oj-bind-text value='[[typeError]]'></oj-bind-text></div></br>
+            </div>     
             </oj-form-layout>
-            <oj-button id="save" chroming="outlined" on-oj-action="[[formSubmit]]">Submit</oj-button>
+            <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]">Submit</oj-button>
         </div>
     </oj-validation-group>
 
@@ -52,7 +61,7 @@
         </div>
         <div slot="body">
             <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
-                <p style="font-weight: 500;text-align: left">Student added successfully</p>
+                <p style="font-weight: 500;text-align: left">Staff added successfully</p>
             </div>
         </div>
     </oj-dialog>

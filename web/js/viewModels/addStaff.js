@@ -10,23 +10,17 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.router = args.parentRouter;
                 let BaseURL = sessionStorage.getItem("BaseURL")
                 
-                self.userRole = ko.observable(sessionStorage.getItem("userRole"));
-
                 self.firstName = ko.observable();
                 self.lastName = ko.observable();
                 self.phone = ko.observable();
                 self.email = ko.observable();
                 self.qualification = ko.observable();
                 self.designation = ko.observable();
-                self.employeeId = ko.observable();
-
-                self.nationality = ko.observable();
-                self.dob = ko.observable();
-                self.marketingSource = ko.observable();
-                self.fileName = ko.observableArray();
+                self.profilePhoto = ko.observable('');
                 self.phoneError = ko.observable('');
                 self.emailError = ko.observable('');
-                self.course = ko.observable('');
+                self.address = ko.observable('');
+                self.typeError = ko.observable('');
 
                 self.countryCode = ko.observable();
                 self.countryCodes = ko.observableArray([]);
@@ -276,81 +270,29 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     keyAttributes: 'value'
                 });
 
-                self.studyAbroadDestination = ko.observable();
 
-                self.abroadDestionations = [
-                    {"label":"UK","value":"UK"},
-                    {"label":"Canada","value":"Canada"},
-                    {"label":"USA","value":"USA"},
-                    {"label":"Australia","value":"Australia"}
-                ]
+              
 
-                self.abroadDestionationsDp = new ArrayDataProvider(self.abroadDestionations, {
-                    keyAttributes: 'value'
-                });
-
-                self.offices = ko.observableArray([]);
-                self.getOffices = ()=>{
+                self.DesignationDet = ko.observableArray([]);
+                self.getDesignation = ()=>{
                     $.ajax({
-                        url: BaseURL+"/getOffices",
+                        url: BaseURL+"/HRModuleGetDesignation",
                         type: 'GET',
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
                         error: function (xhr, textStatus, errorThrown) {
                             console.log(textStatus);
                         },
                         success: function (data) {
-                            if(data[0] != "No data found"){
-                                data = JSON.parse(data);
-                                self.offices([])
-                                let len = data.length;
-                                for(let i=0;i<len;i++){
-                                    self.offices.push({value: `${data[i][0]}`, label: `${data[i][1]}`})
+                            if(data[0].length !=0){ 
+                                for (var i = 0; i < data[0].length; i++) {
+                                    self.DesignationDet.push({'value': data[0][i][0],'label': data[0][i][1]  });
                                 }
                             }
                         }
                     })
                 }
-                self.officesList = new ArrayDataProvider(self.offices, {
-                    keyAttributes: 'value'
-                });
-
-                self.officeChangeHandler = ()=>{
-                    self.getCounselors(self.office())
-                }
-
-                self.counsilor = ko.observable();
-                self.counselors = ko.observableArray([])
-
-                self.getCounselors = (officeId)=>{
-                    self.counselors([]);
-                    $.ajax({
-                        url: BaseURL+"/getCounselors",
-                        type: 'POST',
-                        data: JSON.stringify({
-                            office: officeId,
-                        }),
-                        dataType: 'json',
-                        error: function (xhr, textStatus, errorThrown) {
-                            console.log(textStatus);
-                        },
-                        success: function (data) {
-                            if(data[0] != "No data found"){
-                                data = JSON.parse(data);
-                                let len = data.length;
-                                for(let i=0;i<len;i++){
-                                    self.counselors.push({value: `${data[i][0]}`, label: `${data[i][1]}`})
-                                }
-                            }
-                        }
-                    })
-                }
-                self.counselorList = new ArrayDataProvider(self.counselors, {
-                    keyAttributes: 'value'
-                });
-
-                if(self.userRole()=="manager"){
-                    self.office(sessionStorage.getItem("userOfficeId"));
-                    self.getCounselors(self.office());
-                }
+                self.designationList = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "value"});
                 
                 self.phoneValidator = (event)=>{
                     var phone = event.detail.value
@@ -370,23 +312,18 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     }
                     else
                     {
-                        self.emailError("Should enter a valid email address.");
+                        self.emailError("Invalid email address.");
                     }   
                 }
                 
                 self.formSubmit = ()=>{
                     const formValid = self._checkValidationGroup("formValidation"); 
                     if (formValid) {
-                        if(self.emailError()=='' && self.phoneError()==''){
+                        if(self.emailError()=='' && self.phoneError()=='' && self.typeError()==''){
                             let popup = document.getElementById("popup1");
                             popup.open();
-                            
-                            if(self.userRole()=="counselor"){
-                                self.office(sessionStorage.getItem("userOfficeId"));
-                                self.counsilor(sessionStorage.getItem("userId"));
-                            }
                             $.ajax({
-                                url: BaseURL+"/addStudent",
+                                url: BaseURL+"/HRModuleAddStaff",
                                 type: 'POST',
                                 data: JSON.stringify({
                                     firstName : self.firstName(),
@@ -394,14 +331,10 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     countryCode : self.countryCode(),
                                     phone : self.phone(),
                                     email : self.email(),
-                                    office : self.office(),
-                                    counselor : self.counsilor(),
-                                    course : self.course(),
-                                    nationality : self.nationality(),
-                                    dob : self.dob(),
-                                    leadSource : self.marketingSource(),
-                                    addUserId : sessionStorage.getItem("userId"),
-                                    studyAbroadDestination: self.studyAbroadDestination()
+                                    qualification : self.qualification(),
+                                    designation : self.designation(),
+                                    address : self.address(),
+                                    profile_photo : self.profilePhoto(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -451,9 +384,27 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     }
                     else {
                         app.onAppSuccess();
-                        self.getOffices();
+                        self.getDesignation();
                     }
                 }
+
+                self.uploadProfilePhoto = function (event) {
+                    var file = event.detail.files[0];
+                    const result = event.detail.files;
+                    const files = result[0];
+                    var fileName= files.name;
+                    self.profilePhoto(fileName)
+    
+                    console.log(files)
+                    var fileFormat =files.name.split(".");
+                    var checkFormat =fileFormat[1];
+                    if(checkFormat == 'png' || checkFormat =="jpeg" || checkFormat =="jpg"){
+                    self.typeError('')
+                }
+                else{
+                    self.typeError('The image must be a file of type: jpeg, png, jpg')
+                }
+              }
 
             }
         }

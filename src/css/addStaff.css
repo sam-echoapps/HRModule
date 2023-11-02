@@ -16,6 +16,6 @@
     width: 100%;
 }
 
-.demo-max-width-50percent {
+.demo-max-width {
     max-width: 100% !important;
   }
