@@ -1,0 +1,42 @@
+<div class="oj-panel oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
+    <h6 style="font-weight: 500;font-size: 22px;">View Staff</h6>
+</div>
+<div class="hint-text">
+    <i class="bi bi-info-circle-fill hint-icon"></i> &nbsp;&nbsp;<span>This is where you can see the list of staff and manage them.</span> 
+  </div> 
+
+  <div class="oj-flex">
+    <div class="oj-sm-10"></div>
+    <oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[goToAddStaff]]">
+          <span slot="startIcon" class="demo-icon-sprite"> Add New Staff</span>
+        </oj-button>
+      </div>
+  <div class="oj-table-color oj-sm-padding-4x-horizontal oj-sm-padding-8x-vertical">
+  <oj-table id='staffTable' aria-label='All Table' data='[[staffList]]' display='list'
+  selection-mode='{"row": "single"}'  columns='[
+  { "headerText": "Name", "field": "name", "id": "name",
+    "headerClassName" : "table-header-style"	 },
+  { "headerClassName" : "table-header-style",
+    "headerText": "Employee Id", "field": "employee_id", "id": "employee_id" },
+  { "headerClassName" : "table-header-style",
+  "headerText": "Phone", "field": "phone", "id": "phone" },
+  { "headerClassName" : "table-header-style",
+  "headerText": "Email", "field": "email", "id": "email" },
+  { "headerClassName" : "table-header-style",
+  "headerText": "Designation", "field": "designation", "id": "designation" },
+  { "headerClassName" : "table-header-style",
+    "headerText": "Action",
+    "maxWidth" : "10rem",
+    "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
+    "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
+   <template slot="actionTemplate" data-oj-as="cell">
+       <oj-button
+        chroming="borderless"
+        display="icons"
+        on-oj-action="">
+        <span slot="startIcon" class="fa-solid fa-trash" style="color: #ff4b5b; font-size: 20px; margin-top: 15px;"></span>
+        Delete
+      </oj-button>
+   </template>
+  </oj-table>
+  </div>

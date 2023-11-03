@@ -57,6 +57,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'addStaff', detail : {label: 'Add Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'Staff', detail : {label: 'Add Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'addDesignation', detail : {label: 'Add Designation',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'staffList', detail : {label: 'View Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
         ];
       }
 
@@ -67,6 +68,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           {"name": "Dashboard","id": "dashboardAdmin","icons": "fa-solid fa fa-home", "path":"dashboardAdmin"},
           {"name": "Staffs", "id": "staff", "icons": "fa-solid fa fa-id-card", 
             "children": [
+              {"name": "View Staff","id": "staffList","icons": "fa-solid fa fa-id-card", "path":"staffList"},
               {"name": "Add Staff","id": "addStaff","icons": "fa-solid fa fa-id-card", "path":"addStaff"},
 /*               {"name": "Add Staff","id": "addStaff","icons": "fa-solid fa fa-id-card", "path":"Staff"},
  */            ]

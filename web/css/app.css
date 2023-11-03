@@ -54,5 +54,24 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+  .demo-table-container tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+.hint-text{
+  border: 1px solid #80808036; 
+  margin: 10px;padding: 10px;
+  background-color: #d1ecf1;
+}
+.hint-icon{
+  color: forestgreen;
+  font-size: 20px;
+}
+.table-header-style{
+  font-size:14px; 
+  text-align: center;
+}
 
   
+td{
+  text-align: center !important;
+}

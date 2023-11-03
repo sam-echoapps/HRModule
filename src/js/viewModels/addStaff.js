@@ -21,7 +21,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.emailError = ko.observable('');
                 self.address = ko.observable('');
                 self.typeError = ko.observable('');
-
+                self.file = ko.observable('');
+                self.secondaryText = ko.observable('Please Upload(Optional)')
                 self.countryCode = ko.observable();
                 self.countryCodes = ko.observableArray([]);
                 self.countryCodes.push(
@@ -322,6 +323,10 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         if(self.emailError()=='' && self.phoneError()=='' && self.typeError()==''){
                             let popup = document.getElementById("popup1");
                             popup.open();
+                            const reader = new FileReader();
+                            reader.readAsDataURL(self.file());
+                            reader.onload = ()=>{
+                            const fileContent = reader.result;
                             $.ajax({
                                 url: BaseURL+"/HRModuleAddStaff",
                                 type: 'POST',
@@ -335,6 +340,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     designation : self.designation(),
                                     address : self.address(),
                                     profile_photo : self.profilePhoto(),
+                                    file : fileContent,
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -349,6 +355,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     popup1.open();
                                 }
                             })
+                        }
                         }
                     }
                 }
@@ -373,11 +380,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         return false;
                     }
                 };
-
-                self.cancelListener = ()=> {
-                    location.reload()
-                }
-
+                
                 self.connected = function () {
                     if (sessionStorage.getItem("userName") == null) {
                         self.router.go({path : 'signin'});
@@ -394,8 +397,9 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     const files = result[0];
                     var fileName= files.name;
                     self.profilePhoto(fileName)
-    
-                    console.log(files)
+                    //console.log(files)
+                    self.file(files)
+                    self.secondaryText(fileName)
                     var fileFormat =files.name.split(".");
                     var checkFormat =fileFormat[1];
                     if(checkFormat == 'png' || checkFormat =="jpeg" || checkFormat =="jpg"){
