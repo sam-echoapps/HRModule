@@ -58,6 +58,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'Staff', detail : {label: 'Add Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'addDesignation', detail : {label: 'Add Designation',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'staffList', detail : {label: 'View Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'editStaff', detail : {label: 'Edit Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'myProfile', detail : {label: 'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
         ];
       }
 
@@ -176,8 +178,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
         sessionStorage.clear();
       event.preventDefault();
       self.goToSignIn();
-      }else if (self.selectedMenuItem() == 'about'){
-        document.querySelector('#abtDialog').open();
+      }else if (self.selectedMenuItem() == 'myProfile'){
+        router.go({path : 'myProfile'});
       }
       else if (self.selectedMenuItem() == 'help'){
         document.querySelector('#helpDialog').open();

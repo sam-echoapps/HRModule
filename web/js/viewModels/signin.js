@@ -40,7 +40,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                         }
                         var key = "."+generateString(8);
                         $.ajax({
-                            //url: "/jobPlusLogin", 
+                            //url: "/HRModuleLogin", 
                             url: "http://169.197.183.168:8060/HRModuleLogin",
                             type: 'POST',
                             data: JSON.stringify({

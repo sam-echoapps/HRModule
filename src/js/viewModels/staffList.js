@@ -24,7 +24,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.StaffDet = ko.observableArray([]);
                 self.getStaff = ()=>{
                     $.ajax({
-                        url: BaseURL+"/HRModuleGetStaff",
+                        url: BaseURL+"/HRModuleGetStaffList",
                         type: 'GET',
                         timeout: sessionStorage.getItem("timeInetrval"),
                         context: self,
@@ -45,6 +45,11 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
 
                 self.goToAddStaff = ()=>{
                     self.router.go({path:'addStaff'})
+                }
+                self.goToEditStaff = (event,data)=>{
+                    var clickedStaffId = data.item.data.id
+                    sessionStorage.setItem("staffId", clickedStaffId);
+                    self.router.go({path:'editStaff'})
                 }
                 
             }

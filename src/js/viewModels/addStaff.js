@@ -324,6 +324,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             let popup = document.getElementById("popup1");
                             popup.open();
                             const reader = new FileReader();
+                            if(self.file() !=''){
                             reader.readAsDataURL(self.file());
                             reader.onload = ()=>{
                             const fileContent = reader.result;
@@ -356,7 +357,37 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 }
                             })
                         }
+                        }else{
+                            $.ajax({
+                                url: BaseURL+"/HRModuleAddStaff",
+                                type: 'POST',
+                                data: JSON.stringify({
+                                    firstName : self.firstName(),
+                                    lastName : self.lastName(),
+                                    countryCode : self.countryCode(),
+                                    phone : self.phone(),
+                                    email : self.email(),
+                                    qualification : self.qualification(),
+                                    designation : self.designation(),
+                                    address : self.address(),
+                                    profile_photo : self.profilePhoto(),
+                                    file : 'Null',
+                                }),
+                                dataType: 'json',
+                                timeout: sessionStorage.getItem("timeInetrval"),
+                                context: self,
+                                error: function (xhr, textStatus, errorThrown) {
+                                    console.log(textStatus);
+                                },
+                                success: function (data) {
+                                    let popup = document.getElementById("popup1");
+                                    popup.close();
+                                    let popup1 = document.getElementById("popup2");
+                                    popup1.open();
+                                }
+                            })
                         }
+                    }
                     }
                 }
 

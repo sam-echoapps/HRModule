@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="../../css/addStaff.css">
+<div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px; display:none;" id="contentView">
+<div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
+    <h6 style="font-weight: 500;font-size: 22px;">Edit Staff Details</h6>
+</div>
+<div class="hint-text">
+    <i class="bi bi-info-circle-fill hint-icon"></i> &nbsp;&nbsp;<span>This is where you can edit the details of your selected staff.</span> 
+  </div>    
+<div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
+    <oj-validation-group id="formValidation" class="form-container" role="group">
+        <div id="form-container" class="oj-panel">
+            <oj-form-layout id="personal-information" class="form" direction="row" max-columns="2">
+                <oj-input-text id="firstname" label-hint="First Name" required="true" value="{{firstName}}"></oj-input-text>
+                <oj-input-text id="lastname" label-hint="Last Name" required="true" value="{{lastName}}"></oj-input-text>
+                <div class="oj-flex">
+                    <div class="oj-flex-item oj-sm-5 oj-sm-padding-2x-end oj-md-padding-3x-end">
+                        <oj-select-single required id="nearestOffice" label-hint="Country Code" label-edge="inside"
+                            data="[[countryCodes]]" value="{{countryCode}}"></oj-select-single>
+                    </div>
+                    <div class="oj-flex-item oj-sm-7 oj-sm-padding-2x-start oj-md-padding-3x-start">
+                        <oj-input-text id="phone" label-hint="Phone" required="true" value="{{phone}}" length.max="10" on-value-changed="[[phoneValidator]]"></oj-input-text>
+                    </div>
+                    <div class="oj-text-color-danger"><oj-bind-text value='[[phoneError]]'></oj-bind-text></div></br>
+                </div>
+                <div>
+                    <oj-input-text id="email" label-hint="Email" required="true" value="{{email}}" on-value-changed="[[emailPatternValidator]]"></oj-input-text>
+                    <div class="oj-text-color-danger"><oj-bind-text value='[[emailError]]'></oj-bind-text></div></br>
+                </div>
+                <oj-input-text id="qualification" label-hint="Qualification" required="true" autocomplete="off" value="{{qualification}}"></oj-input-text>
+                <oj-combobox-one id="designation" label-hint="Designation" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
+                 value="{{designation}}"  options="[[designationList]]"></oj-combobox-one>
+                 <oj-text-area id="address" value="{{address}}" label-hint="Address" raw-valuenewE=""
+                 rows="3" clear-icon="always" required="true">
+                 </oj-text-area> 
+                 <div class="oj-flex">
+                    <div class="oj-flex-item oj-sm-3 oj-sm-padding-2x-end oj-md-padding-3x-end" style="padding-top:10px">
+                        <oj-avatar
+                        role="img"
+                        src="[[profilePhoto]]"
+                        :title="Profile Photo">
+                        </oj-avatar>      
+                    </div>
+                    <div class="oj-flex-item oj-sm-9 oj-sm-padding-2x-start oj-md-padding-3x-start">
+                        <oj-file-picker  id="profilePhoto" class="demo-max-width" primary-text="Profile Photo"
+                        secondary-text="[[secondaryText]]" on-oj-select="[[uploadProfilePhoto]]">
+                        </oj-file-picker>
+                        <div class="oj-text-color-danger"><oj-bind-text value='[[typeError]]'></oj-bind-text></div></br>                    </div>
+                </div>  
+            </oj-form-layout>
+            <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]">Submit</oj-button>
+        </div>
+    </oj-validation-group>
+
+    <oj-popup id="popup1" class="demo-popup" auto-dismiss="none" modality="modal" position.my.horizontal="center"
+        position.my.vertical="center" position.at.horizontal="center" position.at.vertical="center" position.of="window" tail="none">
+        <div class="demo-popup-body">
+            <div class="demo-popup-content oj-sm-padding-2x">
+                <oj-progress-circle id="progressCircle" value="-1"></oj-progress-circle>
+            </div>
+        </div>
+    </oj-popup>
+    
+    <oj-dialog id="popup2">
+        <div slot="header" style="display: contents;">
+            <p id="dialogTitleId" class="oj-dialog-title">Successfully Updated</p>
+            <oj-button id="btnCancel" class="oj-button-sm" display="icons" on-oj-action="[[messageClose]]">
+                <span slot="startIcon" class="oj-ux-ico-close"></span>
+                Cancel
+            </oj-button>
+        </div>
+        <div slot="body">
+            <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
+                <p style="font-weight: 500;text-align: left">Staff updated successfully</p>
+            </div>
+        </div>
+    </oj-dialog>
+</div>
+</div>
+
+<div class="centered-container" id="loaderView">
+    <div class="loader"></div>
+  </div> 
