@@ -6,12 +6,31 @@
   </div> 
 
   <div class="oj-flex">
-    <div class="oj-sm-10"></div>
-    <oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[goToAddStaff]]">
+    <div class="oj-sm-2"></div>
+    <div id="tabbardemo" class="tabView">
+      <div class="demo-tabbarcontainer">
+          <oj-buttonset-one id="setMultipleButtons" value="{{selectedTab}}" aria-label="Choose only one format">
+              <oj-bind-for-each data="[[tabData]]">
+                  <template>
+                      <oj-option value="[[$current.data.id]]">
+                      <span>
+                          <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+                      </span>
+                      </oj-option>
+                  </template>
+              </oj-bind-for-each>
+          </oj-buttonset-one>
+      </div>
+  </div>
+  <div class="oj-sm-5"></div>
+<oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[goToAddStaff]]">
           <span slot="startIcon" class="demo-icon-sprite"> Add New Staff</span>
         </oj-button>
       </div>
+
+       
   <div class="oj-table-color oj-sm-padding-4x-horizontal oj-sm-padding-8x-vertical">
+    <oj-bind-if test="[[status() == 'active' ]]">
   <oj-table id='staffTable' aria-label='All Table' data='[[staffList]]' display='list'
   selection-mode='{"row": "single"}'  columns='[
   { "headerText": "Name", "field": "name", "id": "name",
@@ -37,6 +56,91 @@
         <span slot="startIcon" class="fa-solid fa-edit" style="color: forestgreen; font-size: 20px; margin-top: 15px;"></span>
         Edit
       </oj-button>
+      <oj-button
+      chroming="borderless"
+      display="icons"
+      on-oj-action="[[inactiveStaff]]">
+      <span slot="startIcon" class="fa-solid fa-ban delete-btn"></span>
+      Deactivate
+    </oj-button>
    </template>
   </oj-table>
+    </oj-bind-if>
+
+    <oj-bind-if test="[[status() == 'inactive' ]]">
+      <oj-table id='staffTable' aria-label='All Table' data='[[staffList]]' display='list'
+      selection-mode='{"row": "single"}'  columns='[
+      { "headerText": "Name", "field": "name", "id": "name",
+        "headerClassName" : "table-header-style"	 },
+      { "headerClassName" : "table-header-style",
+        "headerText": "Employee Id", "field": "employee_id", "id": "employee_id" },
+      { "headerClassName" : "table-header-style",
+      "headerText": "Designation", "field": "designation", "id": "designation" },
+      { "headerClassName" : "table-header-style",
+      "headerText": "Phone", "field": "phone", "id": "phone" },
+      { "headerClassName" : "table-header-style",
+      "headerText": "Email", "field": "email", "id": "email" },
+      { "headerClassName" : "table-header-style",
+        "headerText": "Action",
+        "maxWidth" : "10rem",
+        "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
+        "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
+       <template slot="actionTemplate" data-oj-as="cell">
+           <oj-button
+            chroming="borderless"
+            display="icons"
+            on-oj-action="[[goToEditStaff]]">
+            <span slot="startIcon" class="fa-solid fa-edit" style="color: forestgreen; font-size: 20px; margin-top: 15px;"></span>
+            Edit
+          </oj-button>
+          <oj-button
+          chroming="borderless"
+          display="icons"
+          on-oj-action="[[activateStaff]]">
+          <span slot="startIcon" class="fa-solid fa-unlock" style="color: forestgreen; font-size: 20px; margin-top: 15px;"></span>
+          Activate
+        </oj-button>
+       </template>
+      </oj-table>
+        </oj-bind-if>
   </div>
+
+      <oj-popup id="popup1" class="demo-popup" auto-dismiss="none" modality="modal" position.my.horizontal="center"
+        position.my.vertical="center" position.at.horizontal="center" position.at.vertical="center" position.of="window" tail="none">
+        <div class="demo-popup-body">
+            <div class="demo-popup-content oj-sm-padding-2x">
+                <oj-progress-circle id="progressCircle" value="-1"></oj-progress-circle>
+            </div>
+        </div>
+    </oj-popup>
+    
+    <oj-dialog id="popup2">
+        <div slot="header" style="display: contents;">
+            <p id="dialogTitleId" class="oj-dialog-title">Successfully Inactivated</p>
+            <oj-button id="btnCancel" class="oj-button-sm" display="icons" on-oj-action="[[messageClose]]">
+                <span slot="startIcon" class="oj-ux-ico-close"></span>
+                Cancel
+            </oj-button>
+        </div>
+        <div slot="body">
+            <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
+                <p style="font-weight: 500;text-align: left">Staff inactivated successfully</p>
+            </div>
+        </div>
+    </oj-dialog>
+
+
+    <oj-dialog id="popup3">
+      <div slot="header" style="display: contents;">
+          <p id="dialogTitleId" class="oj-dialog-title">Successfully Activated</p>
+          <oj-button id="btnCancel" class="oj-button-sm" display="icons" on-oj-action="[[messageClose]]">
+              <span slot="startIcon" class="oj-ux-ico-close"></span>
+              Cancel
+          </oj-button>
+      </div>
+      <div slot="body">
+          <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
+              <p style="font-weight: 500;text-align: left">Staff activated successfully</p>
+          </div>
+      </div>
+  </oj-dialog>

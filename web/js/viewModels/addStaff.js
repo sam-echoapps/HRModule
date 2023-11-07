@@ -314,7 +314,21 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     else
                     {
                         self.emailError("Invalid email address.");
-                    }   
+                    } 
+                    $.ajax({
+                         url: 'http://169.197.183.168:8060/HRModuleStaffEmailExist',
+                         //url: '/HRModuleStaffEmailExist',
+                        method: 'POST',
+                        data: JSON.stringify({ email: email }),
+                        success: function(response) {
+                            if(response == 1){
+                                self.emailError("Email id already exists")
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                          console.log("Error : "+xhr.responseText);
+                        }
+                      });      
                 }
                 
                 self.formSubmit = ()=>{

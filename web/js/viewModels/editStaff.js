@@ -17,12 +17,16 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.qualification = ko.observable();
                 self.designation = ko.observable();
                 self.profilePhoto = ko.observable('');
+                self.profilePhotoShow = ko.observable('');
+                self.fileContent = ko.observable('');
                 self.phoneError = ko.observable('');
                 self.emailError = ko.observable('');
                 self.address = ko.observable('');
                 self.typeError = ko.observable('');
                 self.file = ko.observable('');
                 self.secondaryText = ko.observable('Please Upload(Optional)')
+                self.username = ko.observable();
+                self.password = ko.observable();
                 self.countryCode = ko.observable();
                 self.countryCodes = ko.observableArray([]);
                 self.countryCodes.push(
@@ -300,12 +304,19 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             self.qualification(data[0][0][6])
                             self.designation(data[0][0][7])
                             self.address(data[0][0][8])
-                            self.profilePhoto('data:image/jpeg;base64,'+data[2]);      
+                            self.secondaryText(data[0][0][9])
+                            self.profilePhoto(data[0][0][9])
+                            if(data[2] != ''){
+                                self.profilePhotoShow('data:image/jpeg;base64,'+data[2]);
+                                self.fileContent(self.profilePhotoShow())
+                            } 
                             if(data[1].length !=0){ 
                                 for (var i = 0; i < data[1].length; i++) {
                                     self.DesignationDet.push({'value': data[1][i][0],'label': data[1][i][1]  });
                                 }
                             }
+                            self.username(data[3])
+                            self.password(data[4])
                         }
                     })
                 }
@@ -390,7 +401,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     designation : self.designation(),
                                     address : self.address(),
                                     profile_photo : self.profilePhoto(),
-                                    file : 'Null',
+                                    file : self.fileContent(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -459,6 +470,36 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     self.typeError('The image must be a file of type: jpeg, png, jpg')
                 }
               }
+
+              self.sendCredentials = ()=>{
+                const formValid = self._checkValidationGroup("formValidation"); 
+                if (formValid) {
+                        let popup = document.getElementById("popup1");
+                        popup.open();
+                        
+                        $.ajax({
+                            url: BaseURL+"/HRModuleStaffCredentialSend",
+                            type: 'POST',
+                            data: JSON.stringify({
+                                staffId : sessionStorage.getItem("staffId"),
+                                username : self.username(),
+                                password : self.password(),
+                            }),
+                            dataType: 'json',
+                            timeout: sessionStorage.getItem("timeInetrval"),
+                            context: self,
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.log(textStatus);
+                            },
+                            success: function (data) {
+                                let popup = document.getElementById("popup1");
+                                popup.close();
+                                let popup1 = document.getElementById("popupMail");
+                                popup1.open();
+                            }
+                        })
+                    }
+                }
 
             }
         }

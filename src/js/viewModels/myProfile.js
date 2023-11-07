@@ -1,6 +1,6 @@
 define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovider", "ojs/ojfilepickerutils",
     "ojs/ojinputtext", "ojs/ojformlayout", "ojs/ojvalidationgroup", "ojs/ojselectsingle","ojs/ojdatetimepicker",
-     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog"], 
+     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog",,"ojs/ojselectcombobox","ojs/ojavatar"], 
     function (oj,ko,$, app, ArrayDataProvider, FilePickerUtils) {
 
         class MyProfile {
@@ -14,15 +14,20 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.lastName = ko.observable();
                 self.phone = ko.observable();
                 self.email = ko.observable();
+                self.emailCheck = ko.observable();
                 self.qualification = ko.observable();
                 self.designation = ko.observable();
                 self.profilePhoto = ko.observable('');
+                self.profilePhotoShow = ko.observable('');
+                self.fileContent = ko.observable('');
                 self.phoneError = ko.observable('');
                 self.emailError = ko.observable('');
                 self.address = ko.observable('');
                 self.typeError = ko.observable('');
                 self.file = ko.observable('');
                 self.secondaryText = ko.observable('Please Upload(Optional)')
+                self.username = ko.observable();
+                self.password = ko.observable();
                 self.countryCode = ko.observable();
                 self.countryCodes = ko.observableArray([]);
                 self.countryCodes.push(
@@ -274,34 +279,61 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
 
               
 
+                self.StaffDet = ko.observableArray([]);
                 self.DesignationDet = ko.observableArray([]);
-                self.getDesignation = ()=>{
+                self.getStaff = ()=>{
+                    document.getElementById('loaderView').style.display='block';
                     $.ajax({
-                        url: BaseURL+"/HRModuleGetDesignation",
-                        type: 'GET',
+                        url: BaseURL+"/HRModuleGetStaff",
+                        type: 'POST',
                         timeout: sessionStorage.getItem("timeInetrval"),
                         context: self,
+                        data: JSON.stringify({
+                            staffId : sessionStorage.getItem("userId")
+                        }),
                         error: function (xhr, textStatus, errorThrown) {
                             console.log(textStatus);
                         },
                         success: function (data) {
-                            if(data[0].length !=0){ 
-                                for (var i = 0; i < data[0].length; i++) {
-                                    self.DesignationDet.push({'value': data[0][i][0],'label': data[0][i][1]  });
+                            document.getElementById('loaderView').style.display='none';
+                            document.getElementById('contentView').style.display='block';
+                            self.firstName(data[0][0][1])
+                            self.lastName(data[0][0][2])
+                            self.countryCode(data[0][0][3])
+                            self.phone(data[0][0][4])
+                            self.email(data[0][0][5])
+                            self.emailCheck(data[0][0][5])
+                            self.qualification(data[0][0][6])
+                            self.designation(data[0][0][7])
+                            self.address(data[0][0][8])
+                            self.secondaryText(data[0][0][9])
+                            self.profilePhoto(data[0][0][9])
+                            if(data[2] != ''){
+                                self.profilePhotoShow('data:image/jpeg;base64,'+data[2]);
+                                self.fileContent(self.profilePhotoShow())
+                            } 
+                            if(data[1].length !=0){ 
+                                for (var i = 0; i < data[1].length; i++) {
+                                    self.DesignationDet.push({'value': data[1][i][0],'label': data[1][i][1]  });
                                 }
                             }
+                            self.username(data[3])
+                            self.password(data[4])
                         }
                     })
                 }
-                self.designationList = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "value"});
-                
+                self.staffList = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
+                self.designationList = new ArrayDataProvider(self.DesignationDet, { keyAttributes: "value"});
+
                 self.phoneValidator = (event)=>{
                     var phone = event.detail.value
+                    if(phone !=''){
                     if (phone > 31 && (phone < 48 || phone > 57) && phone.length==10){
                         self.phoneError('')
                     }else{
                         self.phoneError("Invalid phone number.");
                     }
+                }
                 }
 
                 self.emailPatternValidator = (event)=>{
@@ -314,7 +346,21 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     else
                     {
                         self.emailError("Invalid email address.");
-                    }   
+                    } 
+                    $.ajax({
+                        url: 'http://169.197.183.168:8060/HRModuleStaffEmailExist',
+                        //url: '/HRModuleStaffEmailExist',
+                       method: 'POST',
+                       data: JSON.stringify({ email: email }),
+                       success: function(response) {
+                           if(response == 1 && self.email() != self.emailCheck()){
+                               self.emailError("Email id already exists")
+                           }
+                       },
+                       error: function(xhr, status, error) {
+                         console.log("Error : "+xhr.responseText);
+                       }
+                     });        
                 }
                 
                 self.formSubmit = ()=>{
@@ -324,13 +370,15 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             let popup = document.getElementById("popup1");
                             popup.open();
                             const reader = new FileReader();
+                            if(self.file() !=''){
                             reader.readAsDataURL(self.file());
                             reader.onload = ()=>{
                             const fileContent = reader.result;
                             $.ajax({
-                                url: BaseURL+"/HRModuleAddStaff",
+                                url: BaseURL+"/HRModuleUpdateStaff",
                                 type: 'POST',
                                 data: JSON.stringify({
+                                    staffId : sessionStorage.getItem("staffId"),
                                     firstName : self.firstName(),
                                     lastName : self.lastName(),
                                     countryCode : self.countryCode(),
@@ -356,7 +404,38 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 }
                             })
                         }
+                        }else{
+                            $.ajax({
+                                url: BaseURL+"/HRModuleUpdateStaff",
+                                type: 'POST',
+                                data: JSON.stringify({
+                                    staffId : sessionStorage.getItem("staffId"),
+                                    firstName : self.firstName(),
+                                    lastName : self.lastName(),
+                                    countryCode : self.countryCode(),
+                                    phone : self.phone(),
+                                    email : self.email(),
+                                    qualification : self.qualification(),
+                                    designation : self.designation(),
+                                    address : self.address(),
+                                    profile_photo : self.profilePhoto(),
+                                    file : self.fileContent(),
+                                }),
+                                dataType: 'json',
+                                timeout: sessionStorage.getItem("timeInetrval"),
+                                context: self,
+                                error: function (xhr, textStatus, errorThrown) {
+                                    console.log(textStatus);
+                                },
+                                success: function (data) {
+                                    let popup = document.getElementById("popup1");
+                                    popup.close();
+                                    let popup1 = document.getElementById("popup2");
+                                    popup1.open();
+                                }
+                            })
                         }
+                    }
                     }
                 }
 
@@ -387,7 +466,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     }
                     else {
                         app.onAppSuccess();
-                        self.getDesignation();
+                        self.getStaff();
                     }
                 }
 
@@ -410,8 +489,38 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 }
               }
 
+              self.sendCredentials = ()=>{
+                const formValid = self._checkValidationGroup("formValidation"); 
+                if (formValid) {
+                        let popup = document.getElementById("popup1");
+                        popup.open();
+                        
+                        $.ajax({
+                            url: BaseURL+"/HRModuleStaffCredentialSend",
+                            type: 'POST',
+                            data: JSON.stringify({
+                                staffId : sessionStorage.getItem("staffId"),
+                                username : self.username(),
+                                password : self.password(),
+                            }),
+                            dataType: 'json',
+                            timeout: sessionStorage.getItem("timeInetrval"),
+                            context: self,
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.log(textStatus);
+                            },
+                            success: function (data) {
+                                let popup = document.getElementById("popup1");
+                                popup.close();
+                                let popup1 = document.getElementById("popupMail");
+                                popup1.open();
+                            }
+                        })
+                    }
+                }
+
             }
         }
-        return  MyProfile;
+        return MyProfile;
     }
 );
