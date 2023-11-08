@@ -1,6 +1,6 @@
 define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovider", "ojs/ojfilepickerutils",
     "ojs/ojinputtext", "ojs/ojformlayout", "ojs/ojvalidationgroup", "ojs/ojselectsingle","ojs/ojdatetimepicker",
-     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog","ojs/ojtable"], 
+     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog","ojs/ojtable","ojs/ojavatar"], 
     function (oj,ko,$, app, ArrayDataProvider, FilePickerUtils) {
 
         class staffList {
@@ -14,8 +14,9 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     { id: "active", label: "Active Staff" },
                     { id: "inactive", label: "Inactive Staff" },
                 ];
-                self.selectedTab = ko.observable("active");
+                self.selectedTab = ko.observable("active");  
                 self.status = ko.observable('');
+                self.designationFilter = ko.observable('');
 
                 self.connected = function () {
                     if (sessionStorage.getItem("userName") == null) {
@@ -24,12 +25,38 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     else {
                         app.onAppSuccess();
                         //self.getStaff('Active');
+                        self.getDesignation();
                     }
                 }
+
+                self.DesignationDet = ko.observableArray([]);
+                self.getDesignation = ()=>{
+                    document.getElementById('loaderView').style.display='block';
+                    self.StaffDet([]);
+                    $.ajax({
+                        url: BaseURL+"/HRModuleGetDesignation",
+                        type: 'GET',
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        },
+                        success: function (data) {
+                            if(data[0].length !=0){ 
+                                for (var i = 0; i < data[0].length; i++) {
+                                    self.DesignationDet.push({'value': data[0][i][0],'label': data[0][i][1]  });
+                                }
+                                self.DesignationDet.unshift({ value: '0', label: 'All' });
+                            }
+                        }
+                    })
+                }
+                self.designationList = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "value"});
 
                 
                 self.StaffDet = ko.observableArray([]);
                 self.getStaff = (status)=>{
+                    $('#loaderView').css('display', 'block');
                     self.status(status)
                     self.StaffDet([]);
                     $.ajax({
@@ -44,18 +71,20 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             console.log(textStatus);
                         },
                         success: function (data) {
+                            document.getElementById('loaderView').style.display='none';
+                            document.getElementById('contentView').style.display='block';
                             console.log(data)
                             if(data[0].length !=0){ 
                                 for (var i = 0; i < data[0].length; i++) {
-                                    self.StaffDet.push({'id': data[0][i][0],  'employee_id':  "EMP"+data[0][i][0] , 'name': data[0][i][1] + " " + data[0][i][2], 'phone': data[0][i][3] + " " + data[0][i][4], 'email': data[0][i][5], 'qualification': data[0][i][6], 'designation_id': data[0][i][7], 'address': data[0][i][8], 'profile_photo': data[0][i][9], 'designation': data[0][i][10], 'status': data[0][i][11] });
+                                    self.StaffDet.push({'id': data[0][i][0],  'employee_id':  "EMP"+data[0][i][0] , 'name': data[0][i][1] + " " + data[0][i][2], 'phone': data[0][i][3] + " " + data[0][i][4], 'email': data[0][i][5], 'qualification': data[0][i][6], 'designation_id': data[0][i][7], 'address': data[0][i][8], 'profile_photo': data[0][i][9], 'designation': data[0][i][10], 'status': data[0][i][11], 'photo' : 'data:image/jpeg;base64,'+data[1][i] });
                                 }
                             }
                         }
                     })
                 }
-                self.staffList = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
 
-                self.selectedTabAction = ko.computed(() => {   
+                self.selectedTabAction = ko.computed(() => { 
+                    self.designationFilter('') 
                     self.getStaff(self.selectedTab())
                 });
 
@@ -127,6 +156,44 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         }
                     })
                 }
+
+                self.filterDesignation = function (event,data) {
+                    // if(self.designationFilter() == ''){
+                    //     self.designationFilter('0')
+                    // }
+                    if (self.designationFilter() != '' ) {
+                        document.getElementById('loaderView').style.display='block';
+                        self.StaffDet([]);
+                        $.ajax({
+                            url: BaseURL  + "/HRModuleGetDesignationFilterList",
+                            type: 'POST',
+                            data: JSON.stringify({
+                                designationId : self.designationFilter(),
+                                status : self.status()
+                            }),
+                            dataType: 'json',
+                            timeout: sessionStorage.getItem("timeInetrval"),
+                            context: self,
+                            error: function (xhr, textStatus, errorThrown) {
+                                if(textStatus == 'timeout' || textStatus == 'error'){
+                                    document.querySelector('#TimeoutSup').open();
+                                }
+                            },
+                            success: function (data) {
+                                document.getElementById('loaderView').style.display='none';
+                                document.getElementById('contentView').style.display='block';
+                                console.log(data)
+                                if(data[0].length !=0){ 
+                                    for (var i = 0; i < data[0].length; i++) {
+                                        self.StaffDet.push({'id': data[0][i][0],  'employee_id':  "EMP"+data[0][i][0] , 'name': data[0][i][1] + " " + data[0][i][2], 'phone': data[0][i][3] + " " + data[0][i][4], 'email': data[0][i][5], 'qualification': data[0][i][6], 'designation_id': data[0][i][7], 'address': data[0][i][8], 'profile_photo': data[0][i][9], 'designation': data[0][i][10], 'status': data[0][i][11], 'photo' : 'data:image/jpeg;base64,'+data[1][i] });
+                                    }
+                                }
+                        }
+                        })
+                    }
+                       
+                    }
+                self.staffList = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
 
                 
             }

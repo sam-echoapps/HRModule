@@ -9,18 +9,18 @@
 
 .wrap-login100 {
   width: 100%;
-  background-image: url('../css/images/hr-module-bg.jpg');
+  background: 
+    linear-gradient(90deg, rgba(2,0,36,0.5) 0%, rgba(9,9,121,0.5) 35%, rgba(0,212,255,0.5) 100%),
+    url('../css/images/hr-module-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
   overflow: hidden;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
   flex-direction: row-reverse;
-
 }
+
 
 
 .login100-form {

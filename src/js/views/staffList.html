@@ -1,3 +1,4 @@
+<div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px; display:none;" id="contentView">
 <div class="oj-panel oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
     <h6 style="font-weight: 500;font-size: 22px;">View Staff</h6>
 </div>
@@ -6,7 +7,7 @@
   </div> 
 
   <div class="oj-flex">
-    <div class="oj-sm-2"></div>
+    <div class="oj-sm-1"></div>
     <div id="tabbardemo" class="tabView">
       <div class="demo-tabbarcontainer">
           <oj-buttonset-one id="setMultipleButtons" value="{{selectedTab}}" aria-label="Choose only one format">
@@ -22,17 +23,28 @@
           </oj-buttonset-one>
       </div>
   </div>
-  <div class="oj-sm-5"></div>
-<oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[goToAddStaff]]">
-          <span slot="startIcon" class="demo-icon-sprite"> Add New Staff</span>
+  <div class="oj-sm-3"></div>
+  <div class="oj-sm-3">
+        <oj-select-single required label-hint="Select Designation" style="padding-top:28px;"
+        label-edge="inside" data="[[designationList]]"  value="{{designationFilter}}" on-value-changed="[[filterDesignation]]">
+        </oj-select-single>
+    </div>
+        <oj-button chroming="solid" class="" on-oj-action="[[goToAddStaff]]" style="padding:35px;">
+          <span slot="startIcon" class="demo-icon-sprite" style="font-size: 18px;"> Add New Staff</span>
         </oj-button>
       </div>
+
 
        
   <div class="oj-table-color oj-sm-padding-4x-horizontal oj-sm-padding-8x-vertical">
     <oj-bind-if test="[[status() == 'active' ]]">
   <oj-table id='staffTable' aria-label='All Table' data='[[staffList]]' display='list'
   selection-mode='{"row": "single"}'  columns='[
+  { "headerClassName" : "table-header-style",
+  "headerText": "Photo",
+  "maxWidth" : "10rem",
+  "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
+  "template": "photoTemplate", "id": "photo","sortable": "disabled" },
   { "headerText": "Name", "field": "name", "id": "name",
     "headerClassName" : "table-header-style"	 },
   { "headerClassName" : "table-header-style",
@@ -48,6 +60,14 @@
     "maxWidth" : "10rem",
     "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
     "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
+    <template slot="photoTemplate" data-oj-as="cell">
+      <oj-avatar
+      slot="leading"
+      role="img"
+      size="xs"
+      src="[[cell.row.photo]]"
+      :title="[[cell.row.name]]"></oj-avatar>
+  </template>
    <template slot="actionTemplate" data-oj-as="cell">
        <oj-button
         chroming="borderless"
@@ -70,6 +90,11 @@
     <oj-bind-if test="[[status() == 'inactive' ]]">
       <oj-table id='staffTable' aria-label='All Table' data='[[staffList]]' display='list'
       selection-mode='{"row": "single"}'  columns='[
+      { "headerClassName" : "table-header-style",
+        "headerText": "Photo",
+        "maxWidth" : "10rem",
+        "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
+        "template": "photoTemplate", "id": "photo","sortable": "disabled" },
       { "headerText": "Name", "field": "name", "id": "name",
         "headerClassName" : "table-header-style"	 },
       { "headerClassName" : "table-header-style",
@@ -85,7 +110,15 @@
         "maxWidth" : "10rem",
         "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
         "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
-       <template slot="actionTemplate" data-oj-as="cell">
+        <template slot="photoTemplate" data-oj-as="cell">
+          <oj-avatar
+          slot="leading"
+          role="img"
+          size="xs"
+          src="[[cell.row.photo]]"
+          :title="[[cell.row.name]]"></oj-avatar>
+      </template>
+        <template slot="actionTemplate" data-oj-as="cell">
            <oj-button
             chroming="borderless"
             display="icons"
@@ -104,6 +137,7 @@
       </oj-table>
         </oj-bind-if>
   </div>
+</div>
 
       <oj-popup id="popup1" class="demo-popup" auto-dismiss="none" modality="modal" position.my.horizontal="center"
         position.my.vertical="center" position.at.horizontal="center" position.at.vertical="center" position.of="window" tail="none">
@@ -144,3 +178,8 @@
           </div>
       </div>
   </oj-dialog>
+
+  <div class="centered-container" id="loaderView">
+    <div class="loader"></div>
+  </div> 
+  

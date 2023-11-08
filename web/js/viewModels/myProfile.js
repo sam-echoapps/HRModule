@@ -295,6 +295,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             console.log(textStatus);
                         },
                         success: function (data) {
+                            console.log(data)
                             document.getElementById('loaderView').style.display='none';
                             document.getElementById('contentView').style.display='block';
                             self.firstName(data[0][0][1])
@@ -378,7 +379,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 url: BaseURL+"/HRModuleUpdateStaff",
                                 type: 'POST',
                                 data: JSON.stringify({
-                                    staffId : sessionStorage.getItem("staffId"),
+                                    staffId : sessionStorage.getItem("userId"),
                                     firstName : self.firstName(),
                                     lastName : self.lastName(),
                                     countryCode : self.countryCode(),
@@ -409,7 +410,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 url: BaseURL+"/HRModuleUpdateStaff",
                                 type: 'POST',
                                 data: JSON.stringify({
-                                    staffId : sessionStorage.getItem("staffId"),
+                                    staffId : sessionStorage.getItem("userId"),
                                     firstName : self.firstName(),
                                     lastName : self.lastName(),
                                     countryCode : self.countryCode(),
@@ -499,7 +500,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             url: BaseURL+"/HRModuleStaffCredentialSend",
                             type: 'POST',
                             data: JSON.stringify({
-                                staffId : sessionStorage.getItem("staffId"),
+                                staffId : sessionStorage.getItem("userId"),
                                 username : self.username(),
                                 password : self.password(),
                             }),
@@ -517,6 +518,34 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             }
                         })
                     }
+                }
+
+                self.crediantialUpdate = function (event,data) {
+                    const formValid = self._checkValidationGroup("formValidation"); 
+                    if (formValid) {
+                        let popup = document.getElementById("popup1");
+                        popup.open();
+                    $.ajax({
+                        url: BaseURL + "/HRModuleCredentialUpdate",
+                        type: 'POST',
+                        data: JSON.stringify({
+                            staffId : sessionStorage.getItem("userId"),
+                            password : self.password()
+                        }),
+                        dataType: 'json',
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        },
+                        success: function (data) {
+                            let popup = document.getElementById("popup1");
+                            popup.close();
+                            let popup1 = document.getElementById("popupPassword");
+                            popup1.open();
+                        }
+                    }) 
+                }
                 }
 
             }

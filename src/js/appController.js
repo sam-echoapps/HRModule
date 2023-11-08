@@ -48,8 +48,9 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path:"" ,redirect : 'signin'},
           { path: 'signin', detail : {label: 'SignIn',iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-chart-icon-24'} },
           { path: 'dashboardStaff', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
-          { path: 'staffProfile', detail : {label: 'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
-        ];  
+/*        { path: 'staffProfile', detail : {label: 'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
+ */       { path: 'myProfile', detail : {label: 'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-home'} }
+       ];  
       }
       else{
         var navData = [
@@ -69,7 +70,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
       if (sessionStorage.getItem("userRole") == "staff") {
         self.navMenu = [
           {"name": "Dashboard","id": "dashboardStaff","icons": "fa-solid fa fa-home", "path":"dashboardStaff"},
-          {"name": "Staff Profile","id": "staffProfile","icons": "fa-solid fa fa-home", "path":"staffProfile"},
+/*           {"name": "Staff Profile","id": "staffProfile","icons": "fa-solid fa fa-home", "path":"staffProfile"},
+ */          {"name": "My Profile","id": "myProfile","icons": "fa-solid fa fa-home", "path":"myProfile"},
         ]       
       }else {
         self.navMenu = [
