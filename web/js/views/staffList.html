@@ -1,47 +1,55 @@
-<div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px; display:none;" id="contentView">
-<div class="oj-panel oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
-    <h6 style="font-weight: 500;font-size: 22px;">View Staff</h6>
-</div>
-<div class="hint-text">
-    <i class="bi bi-info-circle-fill hint-icon"></i> &nbsp;&nbsp;<span>This is where you can see the list of staff and manage them.</span> 
-  </div> 
 
-  <div class="oj-flex">
-    <div class="oj-sm-1"></div>
-    <div id="tabbardemo" class="tabView">
-      <div class="demo-tabbarcontainer">
-          <oj-buttonset-one id="setMultipleButtons" value="{{selectedTab}}" aria-label="Choose only one format">
-              <oj-bind-for-each data="[[tabData]]">
-                  <template>
-                      <oj-option value="[[$current.data.id]]">
-                      <span>
-                          <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
-                      </span>
-                      </oj-option>
-                  </template>
-              </oj-bind-for-each>
-          </oj-buttonset-one>
-      </div>
+<div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px; display:none;" id="contentView">
+<div class="oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
+    <h6 style="font-weight: 500;font-size: 22px;">View Staff</h6>
+    <div class="">
+      <i class="bi bi-info-circle-fill hint-icon"></i> &nbsp;&nbsp;<span>This is where you can see the list of staff and manage them.</span> 
+    </div> 
+</div>
+</div>
+
+<div style="display:none;" id="actionView">
+<div class="oj-flex oj-panel oj-sm-justify-content-space-around oj-xl-margin-4x">
+  <div class="oj-md-2 oj-sm-12">
+    <oj-buttonset-one id="setMultipleButtons" value="{{selectedTab}}" aria-label="Choose only one format">
+      <oj-bind-for-each data="[[tabData]]">
+        <template>
+          <oj-option value="[[$current.data.id]]">
+            <span>
+              <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+            </span>
+          </oj-option>
+        </template>
+      </oj-bind-for-each>
+    </oj-buttonset-one>
   </div>
-  <div class="oj-sm-3"></div>
-  <div class="oj-sm-3">
-        <oj-select-single required label-hint="Select Designation" style="padding-top:28px;"
-        label-edge="inside" data="[[designationList]]"  value="{{designationFilter}}" on-value-changed="[[filterDesignation]]">
-        </oj-select-single>
-    </div>
-        <oj-button chroming="solid" class="" on-oj-action="[[goToAddStaff]]" style="padding:35px;">
-          <span slot="startIcon" class="demo-icon-sprite" style="font-size: 18px;"> Add New Staff</span>
-        </oj-button>
-      </div>
+
+  <div class="oj-md-2 oj-sm-12">
+    <oj-select-single label-hint="Select Designation"
+                      label-edge="inside" data="[[designationList]]" value="{{designationFilter}}" on-value-changed="[[filterDesignation]]">
+    </oj-select-single>
+  </div>
+<div class="oj-md-2 oj-sm-12">
+  <oj-input-text id="filter" label-hint="Search" label-edge="inside"
+        placeholder="Search.." on-raw-value-changed="[[handleValueChanged]]" value="{{search}}" clear-icon="always">
+  </oj-input-text>
+  </div>
+  <div class="oj-md-2 oj-sm-12">
+    <oj-button chroming="solid"  on-oj-action="[[goToAddStaff]]">
+      <span class=""> Add New Staff</span>
+    </oj-button>
+  </div>
+</div>
+</div>
 
 
        
-  <div class="oj-table-color oj-sm-padding-4x-horizontal oj-sm-padding-8x-vertical">
+  <div class="oj-table-color oj-sm-padding-4x-horizontal oj-sm-padding-8x-vertical" style="display:none;" id="tableView">
     <oj-bind-if test="[[status() == 'active' ]]">
   <oj-table id='staffTable' aria-label='All Table' data='[[staffList]]' display='list'
   selection-mode='{"row": "single"}'  columns='[
   { "headerClassName" : "table-header-style",
-  "headerText": "Photo",
+  "headerText": "",
   "maxWidth" : "10rem",
   "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
   "template": "photoTemplate", "id": "photo","sortable": "disabled" },
@@ -62,6 +70,7 @@
     "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
     <template slot="photoTemplate" data-oj-as="cell">
       <oj-avatar
+      shape="circle"
       slot="leading"
       role="img"
       size="xs"
@@ -91,7 +100,7 @@
       <oj-table id='staffTable' aria-label='All Table' data='[[staffList]]' display='list'
       selection-mode='{"row": "single"}'  columns='[
       { "headerClassName" : "table-header-style",
-        "headerText": "Photo",
+        "headerText": "",
         "maxWidth" : "10rem",
         "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
         "template": "photoTemplate", "id": "photo","sortable": "disabled" },
@@ -112,6 +121,7 @@
         "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
         <template slot="photoTemplate" data-oj-as="cell">
           <oj-avatar
+          shape="circle"
           slot="leading"
           role="img"
           size="xs"
@@ -137,7 +147,6 @@
       </oj-table>
         </oj-bind-if>
   </div>
-</div>
 
       <oj-popup id="popup1" class="demo-popup" auto-dismiss="none" modality="modal" position.my.horizontal="center"
         position.my.vertical="center" position.at.horizontal="center" position.at.vertical="center" position.of="window" tail="none">

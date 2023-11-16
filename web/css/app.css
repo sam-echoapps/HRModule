@@ -73,6 +73,7 @@
   font-size:14px; 
   text-align: center;
   background-color: #b6a2ea;
+  color:#ffffff;
 
 }
 
@@ -91,18 +92,18 @@ td{
   margin-top: 15px;
 }
 
-.tabView{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+
 oj-buttonset-one .oj-selected{
   background-color: #1da2d2 !important;
 }
 .oj-selected .oj-button-label .oj-complete .oj-button-text{
   color: #fff !important;
 }
+
+.main-bg-color{
+  background-color: #ffffff;
+}
+
 
 
 

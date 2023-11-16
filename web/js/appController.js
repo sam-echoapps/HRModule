@@ -72,6 +72,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           {"name": "Dashboard","id": "dashboardStaff","icons": "fa-solid fa fa-home", "path":"dashboardStaff"},
 /*           {"name": "Staff Profile","id": "staffProfile","icons": "fa-solid fa fa-home", "path":"staffProfile"},
  */          {"name": "My Profile","id": "myProfile","icons": "fa-solid fa fa-home", "path":"myProfile"},
+ {"name": "My Profile","id": "myProfile","icons": "fa-solid fa fa-home", "path":"myProfile"},
         ]       
       }else {
         self.navMenu = [
@@ -166,6 +167,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
       if(sessionStorage.getItem("userRole")=="staff"){
         
         router.go({path : 'dashboardStaff'});
+
       }
       else{
         router.go({path : 'dashboardAdmin'});
