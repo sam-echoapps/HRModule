@@ -1,13 +1,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/signin.css" type="text/css" />
 
-	<div class="limiter">
+	<div class="limiter" id="contentView" style="display:none;">
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-form validate-form">
-                            <div class="logo">
-                                <img style= "width:150px;height:100px;"src="../../css/images/sample_company.jpg" alt="QuickHCM360 HR Application">
-                            </div>
+                        <div class="logo">
+                            <oj-bind-if test="[[logo() == 'no' ]]">
+                                <oj-avatar
+                                    role="img"
+                                    src="../../css/images/sample_company.jpg"
+                                    :title="Company Logo"
+                                    alt="QuickHCM360 HR Application">
+                                </oj-avatar> 
+                            </oj-bind-if> 
+<!--                                  <img style= "width:150px;height:100px;"src="../../css/images/sample_company.jpg" alt="QuickHCM360 HR Application">
+ -->                  <oj-bind-if test="[[logo() == 'yes' ]]">
+                        <oj-avatar
+                            role="img"
+                            src="[[companyLogoShow]]"
+                            :title="Company Logo">
+                        </oj-avatar> 
+                    </oj-bind-if> 
+                </div>
                     <div class="login-form">
                         <div class="input">
                           <oj-validation-group id="tracker" valid="{{groupValid}}">
@@ -61,3 +76,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavio
         
     </div>
 </oj-dialog>
+
+<div class="centered-container" id="loaderView">
+    <div class="loader"></div>
+  </div> 

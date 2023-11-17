@@ -2,7 +2,7 @@
 define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
     'ojs/ojknockout', 'ojs/ojcheckboxset', 'ojs/ojinputtext',
     'ojs/ojbutton', 'ojs/ojvalidationgroup',
-    'ojs/ojanimation','ojs/ojformlayout','ojs/ojdialog'], 
+    'ojs/ojanimation','ojs/ojformlayout','ojs/ojdialog','ojs/ojavatar'], 
     function(oj, ko, app, appUtils) {
         class signin {
             constructor() {
@@ -20,6 +20,8 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                 self.OnePlaceuserName = ko.observable();
                 self.OnePlacepassWord = ko.observable();
                 self.CancelBehaviorOpt = ko.observable('icon');
+                self.companyLogoShow = ko.observable();
+                self.logo = ko.observable('');
                 self.signIn = function(data, event) {
                     var valid = self._checkValidationGroup("tracker");
                     if (valid){
@@ -109,10 +111,33 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                 }
                 self.connected = function () {
                     var loginCheck = sessionStorage.getItem('userRole');
+                    self.getCompanyDetails();
                     if(loginCheck){
                         app.onLoginSuccess();
                     }
                 };
+                self.getCompanyDetails = ()=>{
+                    $.ajax({
+                        url: "http://169.197.183.168:8060//HRModuleGetCompanyInfo",
+                        type: 'GET',
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        },
+                        success: function (data) {
+                            document.getElementById('loaderView').style.display='none';
+                            document.getElementById('contentView').style.display='block';
+                            if(data[1] != ''){
+                                self.logo('yes')
+                                self.companyLogoShow('data:image/jpeg;base64,'+data[1]);
+                            } else{
+                                self.logo('no')
+                            }
+                        }
+                    })
+                }
+                
             }
         }
         return signin;
