@@ -1,19 +1,19 @@
 :root {
-    --oj-button-solid-chrome-bg-color:              forestgreen;
+    --oj-button-solid-chrome-bg-color:              #5a5278;
     --oj-button-solid-chrome-border-color:          transparent;
     --oj-button-solid-chrome-text-color:            var(--oj-core-neutral-contrast);
-    --oj-button-solid-chrome-bg-color-hover:        forestgreen;
+    --oj-button-solid-chrome-bg-color-hover:        #5a5278;
 
     --oj-button-solid-chrome-border-color-hover:    transparent;
     --oj-button-solid-chrome-text-color-hover:      var(--oj-core-neutral-contrast);
   
-    --oj-button-solid-chrome-bg-color-active:       forestgreen;
+    --oj-button-solid-chrome-bg-color-active:       #5a5278;
     --oj-button-solid-chrome-border-color-active:   transparent;
     --oj-button-solid-chrome-text-color-active:     var(--oj-core-neutral-contrast);
   
-    --oj-button-solid-chrome-bg-color-disabled:     forestgreen;
+    --oj-button-solid-chrome-bg-color-disabled:     #5a5278;
     --oj-button-solid-chrome-border-color-disabled: transparent;
-    --oj-button-solid-chrome-text-color-disabled:   forestgreen;
+    --oj-button-solid-chrome-text-color-disabled:   #5a5278;
 
     --oj-dialog-header-padding: .6rem;
     --oj-dialog-body-padding: 1rem;
@@ -38,8 +38,8 @@
     border: 16px solid #f3f3f3;
     border-radius: 50%;
     border-top: 16px solid #3498db;
-    width: 120px;
-    height: 120px;
+    width: 70px;
+    height: 70px;
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
   }
@@ -55,7 +55,7 @@
     100% { transform: rotate(360deg); }
   }
   .demo-table-container tr:nth-child(even) {
-    background-color: #efedfa;
+    background-color: #c8bfea;
   }
   .demo-table-container tr:nth-child(odd) {
     background-color: #ffffff;
@@ -72,7 +72,7 @@
 .table-header-style{
   font-size:14px; 
   text-align: center;
-  background-color: #b6a2ea;
+  background-color: #5a5278;;
   color:#ffffff;
 
 }
@@ -94,10 +94,11 @@ td{
 
 
 oj-buttonset-one .oj-selected{
-  background-color: #1da2d2 !important;
+  background-color: #5a5278 !important;
+  color:  #ffffff !important;
 }
-.oj-selected .oj-button-label .oj-complete .oj-button-text{
-  color: #fff !important;
+.oj-selected .oj-button-label .oj-complete .oj-button-text .oj-hover{
+  color: #ffffff !important;
 }
 
 .main-bg-color{

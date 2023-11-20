@@ -65,6 +65,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'editStaff', detail : {label: 'Edit Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'myProfile', detail : {label :'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'addCompany', detail : {label :'Add Company',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'addHoliday', detail : {label :'Add Holiday',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
         ];
       }
 
@@ -89,6 +90,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
             "children": [
               {"name": "Add Company","id": "addCompany","icons": "fa-solid fa fa-calendar-alt", "path":"addCompany"},
               {"name": "Add Designation","id": "addDesignation","icons": "fa-solid fa fa-calendar-alt", "path":"addDesignation"},
+              {"name": "Add Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},
             ]
           },
         ]
