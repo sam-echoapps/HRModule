@@ -274,11 +274,21 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.countryCodes = new ArrayDataProvider(self.countryCodes, {
                     keyAttributes: 'value'
                 });
+                self.joining_date = ko.observable('');
+                self.department = ko.observable();
+                self.emergency_contact = ko.observable('');
+                self.emergencyCountryCode = ko.observable('');
+                self.emergencyPhone = ko.observable('');
+                self.emergencyEmail = ko.observable('');
+                self.emergencyCountryCode = ko.observable('');
+                self.emergencyPhoneError = ko.observable('');
+                self.emergencyEmailError = ko.observable('');
 
 
               
 
                 self.StaffDet = ko.observableArray([]);
+                self.DepartmentDet = ko.observableArray([]);
                 self.DesignationDet = ko.observableArray([]);
                 self.getStaff = ()=>{
                     document.getElementById('loaderView').style.display='block';
@@ -296,16 +306,20 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         success: function (data) {
                             document.getElementById('loaderView').style.display='none';
                             document.getElementById('contentView').style.display='block';
-                            self.firstName(data[0][0][1])
-                            self.lastName(data[0][0][2])
-                            self.countryCode(data[0][0][3])
-                            self.phone(data[0][0][4])
-                            self.email(data[0][0][5])
-                            self.qualification(data[0][0][6])
-                            self.designation(data[0][0][7])
-                            self.address(data[0][0][8])
-                            self.secondaryText(data[0][0][9])
-                            self.profilePhoto(data[0][0][9])
+                            var result = JSON.parse(data[0]);
+                            console.log(result)
+                            self.firstName(result[0][1])
+                            self.lastName(result[0][2])
+                            self.countryCode(result[0][3])
+                            self.phone(result[0][4])
+                            self.email(result[0][5])
+                            self.qualification(result[0][6])
+                            self.designation(result[0][7])
+                            self.address(result[0][8])
+                            self.secondaryText(result[0][9])
+                            self.profilePhoto(result[0][9])
+                            self.joining_date(result[0][11])
+                            self.department(result[0][12])
                             if(data[2] != ''){
                                 self.profilePhotoShow('data:image/jpeg;base64,'+data[2]);
                                 self.fileContent(self.profilePhotoShow())
@@ -317,11 +331,18 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             }
                             self.username(data[3])
                             self.password(data[4])
+                            console.log(data[5])
+                            if(data[5].length !=0){ 
+                                for (var i = 0; i < data[5].length; i++) {
+                                    self.DepartmentDet.push({'value': data[5][i][0],'label': data[5][i][1]  });
+                                }
+                            }
                         }
                     })
                 }
                 self.staffList = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
                 self.designationList = new ArrayDataProvider(self.DesignationDet, { keyAttributes: "value"});
+                self.departmentList = new ArrayDataProvider(self.DepartmentDet, { keyAttributes: "value"});
 
                 self.phoneValidator = (event)=>{
                     var phone = event.detail.value
@@ -342,6 +363,28 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     else
                     {
                         self.emailError("Invalid email address.");
+                    }   
+                }
+
+                self.emergencyPhoneValidator = (event)=>{
+                    var phone = event.detail.value
+                    if (phone > 31 && (phone < 48 || phone > 57) && phone.length==10){
+                        self.emergencyPhoneError('')
+                    }else{
+                        self.emergencyPhoneError("Invalid phone number.");
+                    }
+                }
+
+                self.emergencyEmailPatternValidator = (event)=>{
+                    var email = event.detail.value
+                    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                    if(email.match(mailformat))
+                    {
+                        self.emergencyEmailError('')
+                    }
+                    else
+                    {
+                        self.emergencyEmailError("Invalid email address.");
                     }   
                 }
                 
@@ -371,6 +414,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     address : self.address(),
                                     profile_photo : self.profilePhoto(),
                                     file : fileContent,
+                                    joining_date : self.joining_date(),
+                                    department : self.department(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -402,6 +447,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     address : self.address(),
                                     profile_photo : self.profilePhoto(),
                                     file : self.fileContent(),
+                                    joining_date : self.joining_date(),
+                                    department : self.department(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),

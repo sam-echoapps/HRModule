@@ -1,11 +1,8 @@
 <link rel="stylesheet" href="../../css/addStaff.css">
-<div class="oj-panel oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
-    <h6 style="font-weight: 500;font-size: 22px;">Add New Staff</h6>
-</div>
-<div class="hint-text">
-    <i class="bi bi-info-circle-fill hint-icon"></i> &nbsp;&nbsp;<span>This is where you can enter the details of your new team members.</span> 
-  </div>    
-<div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
+<div class="oj-panel oj-xl-margin-4x oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
+    <div><span class="hint-title"> <span class="icon-container"><i class="fas fa-user icon"></i></span>&nbsp;Add New Employee </span><span class="hint-note">(This is where you can enter the details of your new team members.)</span></div> 
+</div> 
+<div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center oj-xl-margin-4x">
     <oj-validation-group id="formValidation" class="form-container" role="group">
         <div id="form-container" class="oj-panel">
             <oj-form-layout id="personal-information" class="form" direction="row" max-columns="2">
@@ -26,7 +23,10 @@
                     <div class="oj-text-color-danger"><oj-bind-text value='[[emailError]]'></oj-bind-text></div></br>
                 </div>
                 <oj-input-text id="qualification" label-hint="Qualification" required="true" autocomplete="off" value="{{qualification}}"></oj-input-text>
-                <oj-select-single id="designation" label-hint="Designation" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
+                <oj-input-date id="joining_date" label-hint="Joining Date" value="{{joining_date}}"></oj-input-date>
+                <oj-select-single id="department" label-hint="Department" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
+                 value="{{department}}"  data="[[departmentList]]"></oj-select-single>
+                  <oj-select-single id="designation" label-hint="Designation" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
                  value="{{designation}}"  data="[[designationList]]"></oj-select-single>
                  <oj-text-area id="address" value="{{address}}" label-hint="Address" raw-valuenewE=""
                  rows="3" clear-icon="always" required="true">
@@ -36,7 +36,7 @@
                 secondary-text="[[secondaryText]]" on-oj-select="[[uploadProfilePhoto]]">
                 </oj-file-picker>
                 <div class="oj-text-color-danger"><oj-bind-text value='[[typeError]]'></oj-bind-text></div></br>
-            </div>     
+            </div>  
             </oj-form-layout>
             <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]">Submit</oj-button>
         </div>
@@ -61,7 +61,7 @@
         </div>
         <div slot="body">
             <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
-                <p style="font-weight: 500;text-align: left">Staff added successfully</p>
+                <p style="font-weight: 500;text-align: left">Employee added successfully</p>
             </div>
         </div>
     </oj-dialog>

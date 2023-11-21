@@ -1,99 +1,75 @@
-'use strict';
-define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
-    'ojs/ojknockout', 'ojs/ojcheckboxset', 'ojs/ojinputtext',
-    'ojs/ojbutton', 'ojs/ojvalidationgroup',
-    'ojs/ojanimation','ojs/ojformlayout','ojs/ojdialog','ojs/ojavatar'], 
-    function(oj, ko, app, appUtils) {
-        class signin {
+define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojinputtext", "ojs/ojformlayout", 
+    "ojs/ojvalidationgroup", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog","ojs/ojavatar"], 
+    function (oj,ko,$, app) {
+
+        class SignIn {
             constructor() {
                 var self = this;
 
-                self.transitionCompleted = function() {
-                    appUtils.setFocusAfterModuleLoad('signInBtn');
-                    var animateOptions = { 'delay': 0, 'duration': '1s', 'timingFunction': 'ease-out' };
-                    oj.AnimationUtils['fadeIn'](document.getElementsByClassName('demo-signin-bg')[0], animateOptions);
-                }
-
-                self.groupValid = ko.observable();
+                self.username = ko.observable();
+                self.password = ko.observable();
+                self.formValid = ko.observable();
                 self.SignIn = ko.observable();
-                self.LoginErr = ko.observableArray([]);
-                self.OnePlaceuserName = ko.observable();
-                self.OnePlacepassWord = ko.observable();
-                self.CancelBehaviorOpt = ko.observable('icon');
-                self.companyLogoShow = ko.observable();
                 self.logo = ko.observable('');
-                self.signIn = function(data, event) {
-                    var valid = self._checkValidationGroup("tracker");
-                    if (valid){
-                        sessionStorage.setItem("timeInetrval",0);
-                        document.querySelector('#signInProgress').open();
-                        self.SignIn('');
-                        self.LoginErr([]);
+                self.companyLogoShow = ko.observable();
 
-                        const characters ='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-                        function generateString(length) {
-                            let result = '';
-                            const charactersLength = characters.length;
-                            for ( let i = 0; i < length; i++ ) {
-                                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-                            }
-                            
-                            return result;
-                        }
-                        var key = "."+generateString(8);
+                self.logout = ()=>{
+                    sessionStorage.clear();
+                }
+                self.logout()
+
+                self.signIn = ()=>{
+                    const formValid = self._checkValidationGroup("formValidation"); 
+                    if (formValid) {
+                        let popup = document.getElementById("popup1");
+                        popup.open();
                         $.ajax({
-                            //url: "/HRModuleLogin", 
                             url: "http://169.197.183.168:8060/HRModuleLogin",
                             type: 'POST',
                             data: JSON.stringify({
-                                user: self.OnePlaceuserName(),
-                                passwd : self.OnePlacepassWord(),
-                                onepsuid :  key
+                                user: self.username(),
+                                passwd : self.password()
                             }),
                             dataType: 'json',
                             timeout: sessionStorage.getItem("timeInetrval"),
                             context: self,
                             error: function (xhr, textStatus, errorThrown) {
-                                if(textStatus == 'timeout' || textStatus == 'error'){
-                                    document.querySelector('#signInProgress').close();
-                                    document.querySelector('#TimeoutSign').open();
-                                }
+                                let popup = document.getElementById("popup1");
+                                popup.close();
+                                self.username('')
+                                self.password('')
+                                let popup1 = document.getElementById("errorLog");
+                                popup1.open();
                             },
                             success: function (data) {
                                 if (data[1]== 'Y') {
-                                    //sessionStorage.setItem("BaseURL", "");
                                     sessionStorage.setItem("BaseURL", "http://169.197.183.168:8060");
                                     sessionStorage.setItem("userId", data[2]);
                                     sessionStorage.setItem("userName", data[3]);
                                     sessionStorage.setItem("userRole", data[4]);
-                                    var login = localStorage.getItem('login');
                                     self.SignIn('Y');
-                                    if(login == "yes"){
-                                        app.onLoginSuccess();
-                                    }
-                                    else{
-                                        setTimeout(function(){
-                                            document.querySelector('#signInProgress').close();
-                                            app.onLoginSuccess();
-                                        }, 1000);
-                                    }
-                            
-                                    localStorage.setItem('login', 'yes');
-                                    sessionStorage.setItem("userName", self.OnePlaceuserName());
+                                    app.onLoginSuccess();
                                 }
-                                else {
-                                    self.SignIn('N');
-                                    document.querySelector('#LoginErrDialog').open();
-                                    self.LoginErr(data[0]);
+                                if(data[1]=='N'){
+                                    let popup1 = document.getElementById("popup1");
+                                    popup1.close();
+                                    self.username('')
+                                    self.password('')
+                                    let popup = document.getElementById("errorLog");
+                                    popup.open();
                                 }
-                                return self;
                             }
-
                         })
                     }
-                };
+                }
+
+                self.LoginMsgOKClose = ()=>{
+                    let popup = document.getElementById("errorLog");
+                    popup.close();
+                }
+
                 self._checkValidationGroup = (value) => {
-                    var tracker = document.getElementById(value);
+                    const tracker = document.getElementById(value);
                     if (tracker.valid === "valid") {
                         return true;
                     }
@@ -104,18 +80,10 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                     }
                 };
 
-                self.LoginMsgOKClose = function () {
-                    document.querySelector('#TimeoutSign').close();
-                    document.querySelector('#LoginErrDialog').close();
-                    document.querySelector('#signInProgress').close();
-                }
                 self.connected = function () {
-                    var loginCheck = sessionStorage.getItem('userRole');
                     self.getCompanyDetails();
-                    if(loginCheck){
-                        app.onLoginSuccess();
-                    }
                 };
+
                 self.getCompanyDetails = ()=>{
                     $.ajax({
                         url: "http://169.197.183.168:8060//HRModuleGetCompanyInfo",
@@ -137,9 +105,8 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                         }
                     })
                 }
-                
             }
         }
-        return signin;
+        return  SignIn;
     }
 );

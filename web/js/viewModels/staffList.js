@@ -11,8 +11,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 let BaseURL = sessionStorage.getItem("BaseURL")
 
                 self.tabData = [
-                    { id: "active", label: "Active Staff" },
-                    { id: "inactive", label: "Inactive Staff" },
+                    { id: "active", label: "Active Employees" },
+                    { id: "inactive", label: "Inactive Employees" },
                 ];
                 self.selectedTab = ko.observable("active");  
                 self.status = ko.observable('');

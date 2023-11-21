@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="../../css/addStaff.css">
+<div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px; display:none;" id="contentView">
+    <div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
+    <h6 style="font-weight: 500;font-size: 22px;">Add Department</h6>
+</div>
+<div class="hint-text">
+    <i class="bi bi-info-circle-fill hint-icon"></i> &nbsp;&nbsp;<span>Here you can create and manage department for the employees.</span> 
+  </div>   
+<div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
+    <oj-validation-group id="formValidation" class="form-container" role="group" style="padding-bottom: 50px;">
+        <div id="form-container" class="oj-panel">
+            <oj-form-layout id="department-information" class="form" direction="row" max-columns="1">
+                <oj-input-text id="department" label-hint="Department" required="true" value="{{department}}"></oj-input-text>
+            </oj-form-layout>
+            <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]">Submit</oj-button>
+        </div>
+    </oj-validation-group>
+    <oj-table id='departmentTable' aria-label='All Table' data='[[dataProvider]]' display='list'
+        selection-mode='{"row": "single"}'  columns='[
+        { "headerClassName" : "table-header-style",
+          "headerText": "Department", "field": "department", "id": "department" },
+        { "headerClassName" : "table-header-style",
+          "headerText": "Action",
+          "maxWidth" : "10rem",
+          "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
+          "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 70%;' class="demo-table-container">
+         <template slot="actionTemplate" data-oj-as="cell">
+             <oj-button
+              chroming="borderless"
+              display="icons"
+              on-oj-action="[[deleteDepartment]]">
+              <span slot="startIcon" class="fa-solid fa-trash delete-btn"></span>
+              Delete
+            </oj-button>
+         </template>
+        </oj-table>
+</div>
+
+    
+
+    <oj-popup id="loaderPopup" class="demo-popup" auto-dismiss="none" modality="modal" position.my.horizontal="center"
+        position.my.vertical="center" position.at.horizontal="center" position.at.vertical="center" position.of="window" tail="none">
+        <div class="demo-popup-body">
+            <div class="demo-popup-content oj-sm-padding-2x">
+                <oj-progress-circle id="progressCircle" value="-1"></oj-progress-circle>
+            </div>
+        </div>
+    </oj-popup>
+    
+    <oj-dialog id="successView">
+        <div slot="header" style="display: contents;">
+            <p id="dialogTitleId" class="oj-dialog-title">Successfully Added</p>
+        </div>
+        <div slot="body">
+            <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
+                <p style="font-weight: 500;text-align: left">Department added successfully</p>
+            </div>
+        </div>
+        <div  class="oj-flex-bar" slot="footer">
+            <oj-button  id="btnCancel" class="oj-button-sm"  style="background-color:#0da9d8;" class="oj-xl-margin-4x" on-oj-action="[[messageClose]]"><span style="color:white">OK</span>
+            </oj-button>
+          </div>
+    </oj-dialog>
+</div>
+</div>
+
+<div class="centered-container" id="loaderView">
+    <div class="loader"></div>
+  </div> 

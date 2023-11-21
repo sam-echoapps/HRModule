@@ -270,11 +270,12 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.countryCodes = new ArrayDataProvider(self.countryCodes, {
                     keyAttributes: 'value'
                 });
-
+                self.joining_date = ko.observable();
+                self.department = ko.observable();
 
               
-
                 self.DesignationDet = ko.observableArray([]);
+                self.DepartmentDet = ko.observableArray([]);
                 self.getDesignation = ()=>{
                     $.ajax({
                         url: BaseURL+"/HRModuleGetDesignation",
@@ -290,11 +291,17 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     self.DesignationDet.push({'value': data[0][i][0],'label': data[0][i][1]  });
                                 }
                             }
+                            if(data[1].length !=0){ 
+                                for (var i = 0; i < data[1].length; i++) {
+                                    self.DepartmentDet.push({'value': data[1][i][0],'label': data[1][i][1]  });
+                                }
+                            }
                         }
                     })
                 }
                 self.designationList = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "value"});
-                
+                self.departmentList = new ArrayDataProvider(this.DepartmentDet, { keyAttributes: "value"});
+
                 self.phoneValidator = (event)=>{
                     var phone = event.detail.value
                     if (phone > 31 && (phone < 48 || phone > 57) && phone.length==10){
@@ -356,6 +363,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     address : self.address(),
                                     profile_photo : self.profilePhoto(),
                                     file : fileContent,
+                                    joining_date : self.joining_date(),
+                                    department : self.department(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -386,6 +395,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     address : self.address(),
                                     profile_photo : self.profilePhoto(),
                                     file : 'Null',
+                                    joining_date : self.joining_date(),
+                                    department : self.department(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),

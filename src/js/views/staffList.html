@@ -1,12 +1,12 @@
 
 <div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px; display:none;" id="contentView">
 <div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
-      <div><span style="font-weight: 500;font-size: 25px;"><i class="fas fa-users" style="color: #5a5278;"></i>&nbsp;&nbsp;View Staff &nbsp;&nbsp;</span><span>This is where you can see the list of staff and manage them.</span></div> 
+      <div><span class="hint-title"> <span class="icon-container"><i class="fas fa-users icon"></i></span>&nbsp;View Employee </span><span class="hint-note">(This is where you can see the list of employee and manage them.)</span></div> 
       <div class="oj-flex-item oj-sm-padding-2x-horizontal">
         <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
           <div class="oj-flex-item oj-sm-padding-2x-horizontal">
             <oj-button chroming="solid"  on-oj-action="[[goToAddStaff]]">
-              <i class="fa-solid fa-plus"></i>&nbsp;Add New Staff
+              <i class="fa-solid fa-plus"></i>&nbsp;Add New Employee
             </oj-button>
           </div>
         </div>
@@ -14,7 +14,8 @@
     </div>
 </div>
 
-<div class="oj-flex">
+<div style="display:none;" id="actionView">
+<div class="oj-flex oj-panel oj-xl-margin-4x">
   <div class="oj-flex-item oj-sm-padding-2x-horizontal">
     <oj-buttonset-one id="setMultipleButtons" value="{{selectedTab}}" aria-label="Choose only one format">
       <oj-bind-for-each data="[[tabData]]">
@@ -28,53 +29,21 @@
       </oj-bind-for-each>
     </oj-buttonset-one>
   </div>
-  <div class="oj-flex-item oj-sm-padding-2x-horizontal">
-    <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
+  <div class="oj-md-3 oj-sm-12"></div>
+  <div class="oj-md-2 oj-sm-12 oj-sm-padding-2x-horizontal">
+    <oj-select-single label-hint="Select Designation"
+    label-edge="inside" data="[[designationList]]" value="{{designationFilter}}" on-value-changed="[[filterDesignation]]">
+    </oj-select-single>
+  </div>
+    <div class="oj-flex oj-sm-flex-items-initial oj-md-justify-content-flex-end">
       <div class="oj-flex-item oj-sm-padding-2x-horizontal">
         <oj-input-text id="filter" label-hint="Search" label-edge="inside"
         placeholder="Search.." on-raw-value-changed="[[handleValueChanged]]" value="{{search}}" clear-icon="always">
       </oj-input-text>
       </div>
-    </div>
-  </div>
-</div>
-
-
-<div style="display:none;" id="actionView">
-<div class="oj-flex oj-panel oj-sm-justify-content-space-around oj-xl-margin-4x">
-  <div class="oj-md-2 oj-sm-12">
-    <oj-buttonset-one id="setMultipleButtons" value="{{selectedTab}}" aria-label="Choose only one format">
-      <oj-bind-for-each data="[[tabData]]">
-        <template>
-          <oj-option value="[[$current.data.id]]">
-            <span>
-              <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
-            </span>
-          </oj-option>
-        </template>
-      </oj-bind-for-each>
-    </oj-buttonset-one>
-  </div>
-
-  <div class="oj-md-2 oj-sm-12">
-    <oj-select-single label-hint="Select Designation"
-                      label-edge="inside" data="[[designationList]]" value="{{designationFilter}}" on-value-changed="[[filterDesignation]]">
-    </oj-select-single>
-  </div>
-<div class="oj-md-2 oj-sm-12">
-  <oj-input-text id="filter" label-hint="Search" label-edge="inside"
-        placeholder="Search.." on-raw-value-changed="[[handleValueChanged]]" value="{{search}}" clear-icon="always">
-  </oj-input-text>
-  </div>
-  <div class="oj-md-2 oj-sm-12">
-    <oj-button chroming="solid"  on-oj-action="[[goToAddStaff]]">
-      <i class="fa-solid fa-plus"></i>&nbsp;Add New Staff
-    </oj-button>
   </div>
 </div>
 </div>
-
-
        
   <div class="oj-table-color oj-sm-padding-4x-horizontal oj-sm-padding-8x-vertical" style="display:none;" id="tableView">
     <oj-bind-if test="[[status() == 'active' ]]">
@@ -82,7 +51,6 @@
   selection-mode='{"row": "single"}'  columns='[
   { "headerClassName" : "table-header-style",
   "headerText": "",
-  "maxWidth" : "10rem",
   "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
   "template": "photoTemplate", "id": "photo","sortable": "disabled" },
   { "headerText": "Name", "field": "name", "id": "name",
@@ -102,6 +70,7 @@
     "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
     <template slot="photoTemplate" data-oj-as="cell">
       <oj-avatar
+      class="oj-sm-padding-3x-vertical"
       shape="circle"
       slot="leading"
       role="img"
@@ -114,7 +83,7 @@
         chroming="borderless"
         display="icons"
         on-oj-action="[[goToEditStaff]]">
-        <span slot="startIcon" class="fa-solid fa-edit" style="color: forestgreen; font-size: 20px; margin-top: 15px;"></span>
+        <span slot="startIcon" class="fa-solid fa-edit edit-btn"></span>
         Edit
       </oj-button>
       <oj-button
@@ -153,6 +122,7 @@
         "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
         <template slot="photoTemplate" data-oj-as="cell">
           <oj-avatar
+          class="oj-sm-padding-3x-vertical"
           shape="circle"
           slot="leading"
           role="img"
@@ -165,14 +135,14 @@
             chroming="borderless"
             display="icons"
             on-oj-action="[[goToEditStaff]]">
-            <span slot="startIcon" class="fa-solid fa-edit" style="color: forestgreen; font-size: 20px; margin-top: 15px;"></span>
+            <span slot="startIcon" class="fa-solid fa-edit edit-btn"></span>
             Edit
           </oj-button>
           <oj-button
           chroming="borderless"
           display="icons"
           on-oj-action="[[activateStaff]]">
-          <span slot="startIcon" class="fa-solid fa-unlock" style="color: forestgreen; font-size: 20px; margin-top: 15px;"></span>
+          <span slot="startIcon" class="fa-solid fa-unlock edit-btn"></span>
           Activate
         </oj-button>
        </template>
@@ -199,7 +169,7 @@
         </div>
         <div slot="body">
             <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
-                <p style="font-weight: 500;text-align: left">Staff inactivated successfully</p>
+                <p style="font-weight: 500;text-align: left">Employee inactivated successfully</p>
             </div>
         </div>
     </oj-dialog>
@@ -215,7 +185,7 @@
       </div>
       <div slot="body">
           <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
-              <p style="font-weight: 500;text-align: left">Staff activated successfully</p>
+              <p style="font-weight: 500;text-align: left">Employee activated successfully</p>
           </div>
       </div>
   </oj-dialog>

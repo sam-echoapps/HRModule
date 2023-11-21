@@ -60,6 +60,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'dashboardAdmin', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
           { path: 'addStaff', detail : {label: 'Add Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'Staff', detail : {label: 'Add Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'addDepartment', detail : {label: 'Add Department',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'addDesignation', detail : {label: 'Add Designation',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'staffList', detail : {label: 'View Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'editStaff', detail : {label: 'Edit Staff',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
@@ -79,17 +80,18 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
       }else {
         self.navMenu = [
           {"name": "Dashboard","id": "dashboardAdmin","icons": "fa-solid fa fa-home", "path":"dashboardAdmin"},
-          {"name": "Staffs", "id": "staff", "icons": "fa-solid fa fa-id-card", 
+          {"name": "Employees", "id": "staff", "icons": "fa-solid fa fa-id-card", 
             "children": [
-              {"name": "View Staff","id": "staffList","icons": "fa-solid fa fa-id-card", "path":"staffList"},
-              {"name": "Add Staff","id": "addStaff","icons": "fa-solid fa fa-id-card", "path":"addStaff"},
+              {"name": "View Employees","id": "staffList","icons": "fa-solid fa fa-users", "path":"staffList"},
+              {"name": "Add Employee","id": "addStaff","icons": "fa-solid fa fa-user", "path":"addStaff"},
 /*               {"name": "Add Staff","id": "addStaff","icons": "fa-solid fa fa-id-card", "path":"Staff"},
  */            ]
           },
           {"name": "Settings", "id": "settings", "icons": "fa-solid fa fa-cogs", 
             "children": [
-              {"name": "Add Company","id": "addCompany","icons": "fa-solid fa fa-calendar-alt", "path":"addCompany"},
-              {"name": "Add Designation","id": "addDesignation","icons": "fa-solid fa fa-calendar-alt", "path":"addDesignation"},
+              {"name": "Company Info","id": "addCompany","icons": "fa-solid fa fa-building", "path":"addCompany"},
+              {"name": "Add Department","id": "addDepartment","icons": "fa-solid fa fa-user-tie", "path":"addDepartment"},
+              {"name": "Add Designation","id": "addDesignation","icons": "fa-solid fa fa-user-graduate", "path":"addDesignation"},
               {"name": "Add Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},
             ]
           },
