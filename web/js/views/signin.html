@@ -26,7 +26,10 @@
                 <oj-input-password required id="control3" value="{{password}}" label-hint="Password"></oj-input-password>
             </oj-form-layout>
         </oj-validation-group>
-          <oj-button chroming="solid" id="button1" on-oj-action="[[signIn]]">Login</oj-button>
+          <oj-button chroming="solid" style="width:280px" id="button1" on-oj-action="[[signIn]]">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+            Login
+        </oj-button>
     </div>
     <oj-popup id="popup1" class="demo-popup" auto-dismiss="none" modality="modal" position.my.horizontal="center" 
         position.my.vertical="center" position.at.horizontal="center" position.at.vertical="center" position.of="window" tail="none">

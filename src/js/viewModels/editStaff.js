@@ -276,14 +276,19 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 });
                 self.joining_date = ko.observable('');
                 self.department = ko.observable();
-                self.emergency_contact = ko.observable('');
+                self.emergency_contact_person = ko.observable('');
+                self.emergency_contact_relation = ko.observable('');
                 self.emergencyCountryCode = ko.observable('');
                 self.emergencyPhone = ko.observable('');
                 self.emergencyEmail = ko.observable('');
                 self.emergencyCountryCode = ko.observable('');
                 self.emergencyPhoneError = ko.observable('');
                 self.emergencyEmailError = ko.observable('');
-
+                self.tabData = [
+                    { id: "basic", label: "Basic Information" },
+                    { id: "password", label: "Update Password" },
+                ];
+                self.selectedTab = ko.observable("basic");  
 
               
 
@@ -320,6 +325,11 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             self.profilePhoto(result[0][9])
                             self.joining_date(result[0][11])
                             self.department(result[0][12])
+                            self.emergency_contact_person(result[0][13])
+                            self.emergency_contact_relation(result[0][14])
+                            self.emergencyCountryCode(result[0][15])
+                            self.emergencyPhone(result[0][16])
+                            self.emergencyEmail(result[0][17])
                             if(data[2] != ''){
                                 self.profilePhotoShow('data:image/jpeg;base64,'+data[2]);
                                 self.fileContent(self.profilePhotoShow())
@@ -416,6 +426,11 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     file : fileContent,
                                     joining_date : self.joining_date(),
                                     department : self.department(),
+                                    emergency_contact_person : self.emergency_contact_person(),
+                                    emergency_contact_relation : self.emergency_contact_relation(),
+                                    emergency_country_code : self.emergencyCountryCode(),
+                                    emergency_phone : self.emergencyPhone(),
+                                    emergency_email : self.emergencyEmail(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -449,6 +464,11 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     file : self.fileContent(),
                                     joining_date : self.joining_date(),
                                     department : self.department(),
+                                    emergency_contact_person : self.emergency_contact_person(),
+                                    emergency_contact_relation : self.emergency_contact_relation(),
+                                    emergency_country_code : self.emergencyCountryCode(),
+                                    emergency_phone : self.emergencyPhone(),
+                                    emergency_email : self.emergencyEmail(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -547,6 +567,16 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         })
                     }
                 }
+
+                self.selectedTabAction = ko.computed(() => { 
+                    if(self.selectedTab() == 'basic'){
+                        $("#basic-info").show();
+                        $("#update-password").hide();
+                    }else if(self.selectedTab() == 'password'){
+                        $("#basic-info").hide();
+                        $("#update-password").show();
+                    }
+                });
 
             }
         }

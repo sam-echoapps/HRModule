@@ -24,7 +24,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojinputtext", "oj
                         let popup = document.getElementById("popup1");
                         popup.open();
                         $.ajax({
-                            url: "http://169.197.183.168:8060/HRModuleLogin",
+                            url: "/HRModuleLogin", 
+                            //url: "http://169.197.183.168:8060/HRModuleLogin",
                             type: 'POST',
                             data: JSON.stringify({
                                 user: self.username(),
@@ -43,7 +44,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojinputtext", "oj
                             },
                             success: function (data) {
                                 if (data[1]== 'Y') {
-                                    sessionStorage.setItem("BaseURL", "http://169.197.183.168:8060");
+                                    sessionStorage.setItem("BaseURL", "");
+                                    //sessionStorage.setItem("BaseURL", "http://169.197.183.168:8060");
                                     sessionStorage.setItem("userId", data[2]);
                                     sessionStorage.setItem("userName", data[3]);
                                     sessionStorage.setItem("userRole", data[4]);
@@ -86,7 +88,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojinputtext", "oj
 
                 self.getCompanyDetails = ()=>{
                     $.ajax({
-                        url: "http://169.197.183.168:8060//HRModuleGetCompanyInfo",
+                        url: "/HRModuleGetCompanyInfo", 
+                        //url: "http://169.197.183.168:8060//HRModuleGetCompanyInfo",
                         type: 'GET',
                         timeout: sessionStorage.getItem("timeInetrval"),
                         context: self,

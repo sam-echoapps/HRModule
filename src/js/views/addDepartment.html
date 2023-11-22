@@ -12,7 +12,7 @@
             <oj-form-layout id="department-information" class="form" direction="row" max-columns="1">
                 <oj-input-text id="department" label-hint="Department" required="true" value="{{department}}"></oj-input-text>
             </oj-form-layout>
-            <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]">Submit</oj-button>
+            <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]"><i class="fas fa-save"></i> Submit</oj-button>
         </div>
     </oj-validation-group>
     <oj-table id='departmentTable' aria-label='All Table' data='[[dataProvider]]' display='list'
@@ -23,7 +23,7 @@
           "headerText": "Action",
           "maxWidth" : "10rem",
           "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
-          "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 70%;' class="demo-table-container">
+          "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
          <template slot="actionTemplate" data-oj-as="cell">
              <oj-button
               chroming="borderless"
