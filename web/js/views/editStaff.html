@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../../css/addStaff.css">
 <div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px; display:none;" id="contentView">
     <div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
-          <div><span class="hint-title"> <span class="icon-container"><i class="fas fa-user icon"></i></span>&nbsp;Edit Employee Details </span><span class="hint-note">(This is where you can manage the details of your selected employee.)</span></div>
+          <div><span class="hint-title"> <span class="icon-container"><i class="fas fa-user icon"></i></span>&nbsp;Edit Employee Details </span></div>
         </div>
     </div>
     
@@ -23,7 +23,7 @@
  
 <div id="basic-info">
 <div class="oj-panel oj-flex oj-xl-margin-4x">
-    <div><span class="hint-title"> <span class="icon-container"><i class="oj-ux-ico-user-data icon"></i></span>&nbsp;Basic Information </span><span class="hint-note">(This is where you can edit the basic profile details of your selected employee.)</span></div>
+    <div><span class="sub-hint-title"> <span class="icon-container"><i class="oj-ux-ico-user-data sub-icon"></i></span>&nbsp;<b>Basic Information </b></span><span class="sub-hint-note">(Edit the basic profile details of the selected employee.)</span></div>
     <oj-validation-group id="formValidation" class="form-container" role="group">
         <div id="form-container" class="">
             <oj-form-layout id="personal-information" class="form" direction="row" max-columns="2">
@@ -43,12 +43,21 @@
                     <oj-input-text id="email" label-hint="Email" required="true" value="{{email}}" on-value-changed="[[emailPatternValidator]]"></oj-input-text>
                     <div class="oj-text-color-danger"><oj-bind-text value='[[emailError]]'></oj-bind-text></div></br>
                 </div>
-                <oj-input-text id="qualification" label-hint="Qualification" required="true" autocomplete="off" value="{{qualification}}"></oj-input-text>
+                <oj-select-single required id="Nationality" label-hint="Nationality" label-edge="inside"
+                data="[[nationList]]" value="{{nationality}}"></oj-select-single>
+                <oj-select-single required id="qualification" label-hint="Qualification" label-edge="inside"
+                data="[[qualificationList]]" value="{{qualification}}"></oj-select-single>
+                 <div class="oj-flex">
+                    <div class="oj-flex-item oj-sm-5 oj-sm-padding-2x-end oj-md-padding-3x-end">
+                        <oj-combobox-one id="department" label-hint="Department" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
+                        value="{{department}}"  options="[[departmentList]]"></oj-combobox-one>
+                    </div>
+                    <div class="oj-flex-item oj-sm-7 oj-sm-padding-2x-start oj-md-padding-3x-start">
+                        <oj-combobox-one id="designation" label-hint="Designation" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
+                        value="{{designation}}"  options="[[designationList]]"></oj-combobox-one>
+                    </div>
+                </div>
                 <oj-input-date id="joining_date" label-hint="Joining Date" value="{{joining_date}}"></oj-input-date>
-                <oj-combobox-one id="department" label-hint="Department" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
-                 value="{{department}}"  options="[[departmentList]]"></oj-combobox-one>
-                <oj-combobox-one id="designation" label-hint="Designation" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
-                 value="{{designation}}"  options="[[designationList]]"></oj-combobox-one>
                  <oj-text-area id="address" value="{{address}}" label-hint="Address" raw-valuenewE=""
                  rows="3" clear-icon="always" required="true">
                  </oj-text-area> 
@@ -68,10 +77,11 @@
                     </div>
                 </div>  
                 <oj-input-text id="emergency_contact_person" label-hint="Emergency Contact Person Name" value="{{emergency_contact_person}}"></oj-input-text>
-                <oj-input-text id="emergency_contact_relation" label-hint="Emergency Contact Person Relationship" value="{{emergency_contact_relation}}"></oj-input-text>
+                <oj-select-single id="emergency_contact_relation" label-hint="Emergency Contact Person Relationship" label-edge="inside"
+                data="[[relationList]]" value="{{emergency_contact_relation}}"></oj-select-single>  
             <div class="oj-flex">
                 <div class="oj-flex-item oj-sm-5 oj-sm-padding-2x-end oj-md-padding-3x-end">
-                    <oj-select-single required id="emergencyCountryCode" label-hint="Emergency Country Code" label-edge="inside"
+                    <oj-select-single id="emergencyCountryCode" label-hint="Emergency Country Code" label-edge="inside"
                         data="[[countryCodes]]" value="{{emergencyCountryCode}}"></oj-select-single>
                 </div>
                 <div class="oj-flex-item oj-sm-7 oj-sm-padding-2x-start oj-md-padding-3x-start">
@@ -94,9 +104,9 @@
     </div>
 </div>
 
-        <div id="update-password" style="display:none;">
-        <div class="oj-panel oj-flex oj-xl-margin-4x">
-            <div><span class="hint-title"> <span class="icon-container"><i class="oj-ux-ico-reset-password icon"></i></span>&nbsp;Update Password </span><span class="hint-note">(Your username will be automatically set to match your email address. If you change your email, your username will also be updated accordingly.)</span></div>
+        <div id="update-password" class="oj-panel oj-xl-margin-4x" style="display:none;">
+        <div class=" oj-flex oj-xl-margin-4x">
+            <div><span class="sub-hint-title"> <span class="icon-container"><i class="oj-ux-ico-reset-password sub-icon"></i></span>&nbsp;<b>Update Password</b> </span><span class="sub-hint-note">(The username will automatically be set to match the email address. If the email is changed, the username will be updated accordingly.)</span></div>
             <div class="oj-flex-item oj-sm-padding-2x-horizontal">
                 <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
                   <div class="oj-flex-item oj-sm-padding-2x-horizontal">
@@ -107,7 +117,7 @@
                 </div>
               </div>
         </div>
-        <div id="form-container" class="oj-panel oj-xl-margin-4x">  
+        <div id="form-container" class="">  
             <oj-form-layout id="personal-information" class="form" direction="row" max-columns="2">
                 <oj-input-text id="username" label-hint="Username" required="true" value="{{username}}" disabled></oj-input-text>
                 <oj-input-text id="password" label-hint="Password" required="true" value="{{password}}"></oj-input-text>

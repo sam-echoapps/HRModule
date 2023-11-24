@@ -118,6 +118,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                 };
                 self.getCompanyDetails = ()=>{
                     $.ajax({
+                        //url: "/HRModuleGetCompanyInfo", 
                         url: "http://169.197.183.168:8060//HRModuleGetCompanyInfo",
                         type: 'GET',
                         timeout: sessionStorage.getItem("timeInetrval"),
