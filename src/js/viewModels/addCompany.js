@@ -1,6 +1,6 @@
 define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovider", "ojs/ojfilepickerutils",
     "ojs/ojinputtext", "ojs/ojformlayout", "ojs/ojvalidationgroup", "ojs/ojselectsingle","ojs/ojdatetimepicker",
-     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog","ojs/ojavatar"], 
+     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog","ojs/ojavatar","ojs/ojtable"], 
     function (oj,ko,$, app, ArrayDataProvider, FilePickerUtils) {
 
         class AddCompany {
@@ -273,11 +273,17 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.countryCodes = new ArrayDataProvider(self.countryCodes, {
                     keyAttributes: 'value'
                 });
-
-
-              
-
+                self.tabData = [
+                    { id: "company", label: "Company Info" },
+                    { id: "department", label: "Department" },
+                    { id: "designation", label: "Designation" },
+                ];
+                self.selectedTab = ko.observable("company");  
+                self.departmentId = ko.observable();
+                self.DepartmentDet = ko.observableArray([]); 
+                self.designationId = ko.observable();
                 self.DesignationDet = ko.observableArray([]);
+
                 self.getCompanyDetails = ()=>{
                     $.ajax({
                         url: BaseURL+"/HRModuleGetCompanyInfo",
@@ -290,7 +296,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         success: function (data) {
                             console.log(data)
                             document.getElementById('loaderView').style.display='none';
-                            document.getElementById('contentView').style.display='block';
+                            document.getElementById('company').style.display='block';
                             if(data[0] != ''){
                             self.companyId(data[0][0][0])
                             self.companyName(data[0][0][1])
@@ -473,6 +479,186 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     self.typeError('The image must be a file of type: jpeg, png, jpg')
                 }
               }
+
+              self.selectedTabAction = ko.computed(() => { 
+                if(self.selectedTab() == 'company'){
+                    $("#company").show();
+                    $("#department").hide();
+                    $("#designationSec").hide();
+                }else if(self.selectedTab() == 'department'){
+                    $("#company").hide();
+                    getDepartment()
+                    $("#department").show();
+                    $("#designationSec").hide();
+                }else if(self.selectedTab() == 'designation'){
+                    $("#company").hide();
+                    $("#department").hide();
+                    getDesignation()
+                    $("#designationSec").show();
+                }
+            });
+
+            function getDepartment(){
+                self.DepartmentDet([]);
+                document.getElementById('loaderView').style.display='block';
+                $.ajax({
+                    url: BaseURL+"/HRModuleGetDepartment",
+                    type: 'GET',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(textStatus);
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        document.getElementById('loaderView').style.display='none';
+                        document.getElementById('department').style.display='block';
+                        if(data[0].length !=0){ 
+                            for (var i = 0; i < data[0].length; i++) {
+                                self.DepartmentDet.push({'id': data[0][i][0],'department': data[0][i][1]  });
+                            }
+                        }
+                    }
+                })
+            }
+
+            self.dataProvider = new ArrayDataProvider(this.DepartmentDet, { keyAttributes: "id"});
+
+            self.formSubmitDepartment = ()=>{
+                const formValid = self._checkValidationGroup("formValidationDepartment"); 
+                if (formValid) {
+                        let popup = document.getElementById("loaderPopup");
+                        popup.open();
+                        
+                        $.ajax({
+                            url: BaseURL+"/HRModuleAddDepartment",
+                            type: 'POST',
+                            data: JSON.stringify({
+                                department : self.departmentId(),
+                            }),
+                            dataType: 'json',
+                            timeout: sessionStorage.getItem("timeInetrval"),
+                            context: self,
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.log(textStatus);
+                            },
+                            success: function (data) {
+                                let popup = document.getElementById("loaderPopup");
+                                popup.close();
+                                let popup1 = document.getElementById("popup3");
+                                popup1.open();
+                            }
+                        })
+                    }
+                }
+
+            self.messageCloseDepartment = ()=>{
+                let popup1 = document.getElementById("popup3");
+                popup1.close();
+                self.departmentId('')
+                getDepartment()
+            }
+
+            self.deleteDepartment = (event,data)=>{
+                var rowId = data.item.data.id
+                $.ajax({
+                    url: BaseURL+"/HRModuleDeleteDepartment",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        departmentId : rowId
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(textStatus);
+                    },
+                    success: function (data) {
+                        getDepartment()
+                    }
+                })
+            }
+            
+            self.formSubmitDesignation = ()=>{
+                const formValid = self._checkValidationGroup("formValidationDesignation"); 
+                if (formValid) {
+                        let popup = document.getElementById("loaderPopup");
+                        popup.open();
+                        
+                        $.ajax({
+                            url: BaseURL+"/HRModuleAddDesignation",
+                            type: 'POST',
+                            data: JSON.stringify({
+                                designation : self.designationId(),
+                            }),
+                            dataType: 'json',
+                            timeout: sessionStorage.getItem("timeInetrval"),
+                            context: self,
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.log(textStatus);
+                            },
+                            success: function (data) {
+                                let popup = document.getElementById("loaderPopup");
+                                popup.close();
+                                let popup1 = document.getElementById("popup4");
+                                popup1.open();
+                            }
+                        })
+                    }
+                }
+
+                function getDesignation(){
+                    self.DesignationDet([]);
+                    document.getElementById('loaderView').style.display='block';
+                    $.ajax({
+                        url: BaseURL+"/HRModuleGetDesignation",
+                        type: 'GET',
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        },
+                        success: function (data) {
+                            console.log(data)
+                            document.getElementById('loaderView').style.display='none';
+                            document.getElementById('designation').style.display='block';
+                            if(data[0].length !=0){ 
+                                for (var i = 0; i < data[0].length; i++) {
+                                    self.DesignationDet.push({'id': data[0][i][0],'designation': data[0][i][1]  });
+                                }
+                            }
+                        }
+                    })
+                }
+
+                self.dataProvider1 = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "id"});
+
+                self.messageCloseDesignation = ()=>{
+                    let popup1 = document.getElementById("popup4");
+                    popup1.close();
+                    self.designationId('')
+                    getDesignation()
+                }
+              
+                self.deleteDesignation = (event,data)=>{
+                    var rowId = data.item.data.id
+                    $.ajax({
+                        url: BaseURL+"/HRModuleDeleteDesignation",
+                        type: 'POST',
+                        data: JSON.stringify({
+                            designationId : rowId
+                        }),
+                        dataType: 'json',
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        },
+                        success: function (data) {
+                            getDesignation()
+                        }
+                    })
+                }
 
             }
         }
