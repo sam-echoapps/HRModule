@@ -87,12 +87,13 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
 /*               {"name": "Add Staff","id": "addStaff","icons": "fa-solid fa fa-id-card", "path":"Staff"},
  */            ]
           },
+          {"name": "Comapny Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},
           {"name": "Settings", "id": "settings", "icons": "fa-solid fa fa-cogs", 
             "children": [
               {"name": "Company Info","id": "addCompany","icons": "fa-solid fa fa-building", "path":"addCompany"},
              /*  {"name": "Add Department","id": "addDepartment","icons": "fa-solid fa fa-user-tie", "path":"addDepartment"},
-              {"name": "Add Designation","id": "addDesignation","icons": "fa-solid fa fa-user-graduate", "path":"addDesignation"}, */
-              {"name": "Add Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},
+              {"name": "Add Designation","id": "addDesignation","icons": "fa-solid fa fa-user-graduate", "path":"addDesignation"},
+              {"name": "Add Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},  */
             ]
           },
         ]

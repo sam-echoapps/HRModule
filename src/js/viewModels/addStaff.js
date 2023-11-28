@@ -543,11 +543,6 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             console.log(textStatus);
                         },
                         success: function (data) {
-                            if(data[0].length !=0){ 
-                                for (var i = 0; i < data[0].length; i++) {
-                                    self.DesignationDet.push({'value': data[0][i][0],'label': data[0][i][1]  });
-                                }
-                            }
                             if(data[1].length !=0){ 
                                 for (var i = 0; i < data[1].length; i++) {
                                     self.DepartmentDet.push({'value': data[1][i][0],'label': data[1][i][1]  });
@@ -556,7 +551,6 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         }
                     })
                 }
-                self.designationList = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "value"});
                 self.departmentList = new ArrayDataProvider(this.DepartmentDet, { keyAttributes: "value"});
 
                 self.phoneValidator = (event)=>{
@@ -725,6 +719,33 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     self.typeError('The image must be a file of type: jpeg, png, jpg')
                 }
               }
+
+              self.getDesignationList = ()=>{
+                self.DesignationDet([]);
+                if(self.department() !=undefined){
+                $.ajax({
+                    url: BaseURL+"/HRModuleGetDesignationList",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        departmentId : self.department(),
+                    }),
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(textStatus);
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        if(data[0].length !=0){ 
+                            for (var i = 0; i < data[0].length; i++) {
+                                self.DesignationDet.push({'value': data[0][i][0],'label': data[0][i][1]  });
+                            }
+                        }
+                    }
+                })
+            }
+            }
+            self.designationList = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "value"});
 
             }
         }

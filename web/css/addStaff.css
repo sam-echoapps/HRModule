@@ -19,3 +19,11 @@
 .demo-max-width {
     max-width: 100% !important;
   }
+
+#formValidationDepartment{
+    width: 100%;
+}
+
+#formValidationDesignation{
+    width: 100%;
+}

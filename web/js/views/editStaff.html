@@ -50,11 +50,11 @@
                  <div class="oj-flex">
                     <div class="oj-flex-item oj-sm-5 oj-sm-padding-2x-end oj-md-padding-3x-end">
                         <oj-combobox-one id="department" label-hint="Department" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
-                        value="{{department}}"  options="[[departmentList]]"></oj-combobox-one>
+                        value="{{department}}"  options="[[departmentList]]"  on-value-changed="[[getDesignationList]]"></oj-combobox-one>
                     </div>
                     <div class="oj-flex-item oj-sm-7 oj-sm-padding-2x-start oj-md-padding-3x-start">
-                        <oj-combobox-one id="designation" label-hint="Designation" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
-                        value="{{designation}}"  options="[[designationList]]"></oj-combobox-one>
+                        <oj-select-single id="designation" label-hint="Designation" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
+                        value="{{designation}}"  data="[[designationList]]"></oj-select-single>
                     </div>
                 </div>
                 <oj-input-date id="joining_date" label-hint="Joining Date" value="{{joining_date}}"></oj-input-date>

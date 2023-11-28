@@ -39,7 +39,6 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         success: function (data) {
                             console.log(data)
                             document.getElementById('loaderView').style.display='none';
-                            document.getElementById('contentView').style.display='block';
                             document.getElementById('actionView').style.display='block';
                             if(data[0].length !=0){ 
                                 for (var i = 0; i < data[0].length; i++) {
