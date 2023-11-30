@@ -154,6 +154,26 @@ oj-buttonset-one .oj-selected{
   font-size: 15px; 
 }
 
+.oj-dialog{
+  display:none;
+  width:480px;
+  height: auto;
+}
+
+@media (max-width: 600px) {
+  .popupDialog{
+    display: block;
+    top: 266.475px !important;
+    left: 0px !important;
+  }
+
+  .oj-dialog{
+    display:none;
+    width:390px;
+    margin:10px;
+    height: auto;
+  }
+}
 
 
 

@@ -67,6 +67,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'myProfile', detail : {label :'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'addCompany', detail : {label :'Add Company',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'addHoliday', detail : {label :'Add Holiday',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'staffLeave', detail : {label :'Staff Leave',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'leaveSettings', detail : {label :'Leave Settings',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
         ];
       }
 
@@ -87,10 +89,12 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
 /*               {"name": "Add Staff","id": "addStaff","icons": "fa-solid fa fa-id-card", "path":"Staff"},
  */            ]
           },
-          {"name": "Comapny Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},
+          {"name": "Company Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},
+          {"name": "Staff Leave","id": "staffLeave","icons": "fa-solid fa fa-person-walking-arrow-right", "path":"staffLeave"},
           {"name": "Settings", "id": "settings", "icons": "fa-solid fa fa-cogs", 
             "children": [
-              {"name": "Company Info","id": "addCompany","icons": "fa-solid fa fa-building", "path":"addCompany"},
+              {"name": "Company Settings","id": "addCompany","icons": "fa-solid fa fa-building", "path":"addCompany"},
+              {"name": "Leave Settings","id": "leaveSettings","icons": "fa-solid fa fa-person-walking-arrow-right", "path":"leaveSettings"},
              /*  {"name": "Add Department","id": "addDepartment","icons": "fa-solid fa fa-user-tie", "path":"addDepartment"},
               {"name": "Add Designation","id": "addDesignation","icons": "fa-solid fa fa-user-graduate", "path":"addDesignation"},
               {"name": "Add Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},  */

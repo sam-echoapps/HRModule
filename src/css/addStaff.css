@@ -27,3 +27,18 @@
 #formValidationDesignation{
     width: 100%;
 }
+
+#form-container-row{
+    padding-left: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    margin-top: 20px;
+    background-color: #ffffff;
+}
+
+
+#formValidationLeave{
+    width: 100%;
+}

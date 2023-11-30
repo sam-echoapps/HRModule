@@ -533,6 +533,9 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
               
                 self.DesignationDet = ko.observableArray([]);
                 self.DepartmentDet = ko.observableArray([]);
+                self.EmployeeDet = ko.observableArray([]);
+                self.line_manager = ko.observable();
+
                 self.getDesignation = ()=>{
                     $.ajax({
                         url: BaseURL+"/HRModuleGetDesignation",
@@ -616,7 +619,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     file : fileContent,
                                     joining_date : self.joining_date(),
                                     department : self.department(),
-                                    nationality : self.nationality()
+                                    nationality : self.nationality(),
+                                    line_manager : self.line_manager(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -650,7 +654,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     file : 'Null',
                                     joining_date : self.joining_date(),
                                     department : self.department(),
-                                    nationality : self.nationality()
+                                    nationality : self.nationality(),
+                                    line_manager : self.line_manager(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -659,6 +664,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     console.log(textStatus);
                                 },
                                 success: function (data) {
+                                    console.log(data)
                                     let popup = document.getElementById("popup1");
                                     popup.close();
                                     let popup1 = document.getElementById("popup2");
@@ -722,6 +728,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
 
               self.getDesignationList = ()=>{
                 self.DesignationDet([]);
+                self.EmployeeDet([]);
                 if(self.department() !=undefined){
                 $.ajax({
                     url: BaseURL+"/HRModuleGetDesignationList",
@@ -741,11 +748,17 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 self.DesignationDet.push({'value': data[0][i][0],'label': data[0][i][1]  });
                             }
                         }
+                        if(data[1].length !=0){ 
+                            for (var i = 0; i < data[1].length; i++) {
+                                self.EmployeeDet.push({'value': data[1][i][0],'label': data[1][i][1] + " " + data[1][i][2]  });
+                            }
+                        }
                     }
                 })
             }
             }
             self.designationList = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "value"});
+            self.employeeList = new ArrayDataProvider(this.EmployeeDet, { keyAttributes: "value"});
 
             }
         }

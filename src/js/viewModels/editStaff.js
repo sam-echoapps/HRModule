@@ -1,6 +1,6 @@
 define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovider", "ojs/ojfilepickerutils",
     "ojs/ojinputtext", "ojs/ojformlayout", "ojs/ojvalidationgroup", "ojs/ojselectsingle","ojs/ojdatetimepicker",
-     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog",,"ojs/ojselectcombobox","ojs/ojavatar"], 
+     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog","ojs/ojselectcombobox","ojs/ojavatar"], 
     function (oj,ko,$, app, ArrayDataProvider, FilePickerUtils) {
 
         class editStaff {
@@ -596,14 +596,14 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             self.address(result[0][8])
                             self.secondaryText(result[0][9])
                             self.profilePhoto(result[0][9])
-                            self.joining_date(result[0][11])
-                            self.department(result[0][12])
-                            self.emergency_contact_person(result[0][13])
-                            self.emergency_contact_relation(result[0][14])
-                            self.emergencyCountryCode(result[0][15])
-                            self.emergencyPhone(result[0][16])
-                            self.emergencyEmail(result[0][17])
-                            self.nationality(result[0][18])
+                            self.joining_date(result[0][10])
+                            self.department(result[0][11])
+                            self.emergency_contact_person(result[0][12])
+                            self.emergency_contact_relation(result[0][13])
+                            self.emergencyCountryCode(result[0][14])
+                            self.emergencyPhone(result[0][15])
+                            self.emergencyEmail(result[0][16])
+                            self.nationality(result[0][17])
                             if(data[2] != ''){
                                 self.profilePhotoShow('data:image/jpeg;base64,'+data[2]);
                                 self.fileContent(self.profilePhotoShow())
@@ -859,7 +859,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 });
 
                 self.getDesignationList = ()=>{
-                    self.DesignationDet([]);
+                    self.DesignationDet([])
                     if(self.department() !=undefined){
                     $.ajax({
                         url: BaseURL+"/HRModuleGetDesignationList",
@@ -876,7 +876,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             console.log(data)
                             if(data[0].length !=0){ 
                                 for (var i = 0; i < data[0].length; i++) {
-                                    self.DesignationDet.push({'value': data[0][i][0],'label': data[0][i][1]  });
+                                    self.DesignationDet.push({'value': data[0][i][1],'label': data[0][i][1]  });
                                 }
                             }else{
                                 self.designation('')
