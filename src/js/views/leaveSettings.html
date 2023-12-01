@@ -1,10 +1,15 @@
 <link rel="stylesheet" href="../../css/addStaff.css">
 <div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px;">
 <div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
-      <div><span class="hint-title"> <span class="icon-container"><i class="fa-solid fa-person-walking-arrow-right icon"></i></span>&nbsp;Leave Settings</span><span class="hint-note">(Here you can set total number of leaves and leave types and manage them.)</span></div> 
-      <div class="oj-flex-item oj-sm-padding-2x-horizontal  oj-sm-margin-4x">
+      <div><span class="hint-title"> <span class="icon-container"><i class="fa-solid fa-person-walking-arrow-right icon"></i></span>&nbsp;Leave Settings</span><span class="hint-note"> (Here you can set total number of leaves and leave types and manage them.)</span></div> 
+      <div class="oj-flex-item oj-md-padding-2x-horizontal oj-sm-margin-4x">
         <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
-          <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+          <div class="oj-flex-item oj-md-padding-2x-horizontal  oj-sm-padding-2x-horizontal">
+            <oj-button chroming="solid"  on-oj-action="[[addTotalLeave]]">
+              <i class="fa-solid fa-plus"></i>&nbsp;Total Leave
+            </oj-button>
+          </div>
+          <div class="oj-flex-item oj-md-padding-2x-horizontal oj-sm-padding-2x-horizontal">
             <oj-button chroming="solid"  on-oj-action="[[addLeaveTypes]]">
               <i class="fa-solid fa-plus"></i>&nbsp;Add Leave Type
             </oj-button>
@@ -15,14 +20,13 @@
 </div>
 
 <div class="oj-panel oj-flex oj-xl-margin-4x">
-  <oj-validation-group id="formValidation" class="form-container" role="group" style="padding-bottom: 50px;">
-      <div id="form-container">
-          <oj-form-layout id="total-leave-information" class="form" direction="row" max-columns="1">
-              <oj-input-text id="totalLeave" label-hint="Total Leave" required="true" value="{{totalLeave}}"></oj-input-text>
-          </oj-form-layout>
-          <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]"><i class="fas fa-save"></i> Submit</oj-button>
-      </div>
-  </oj-validation-group>
+  <div id="total-leave-card">
+    <oj-action-card id="total-leave" on-oj-action="" chroming="solid" class="total-leave-card oj-sm-padding-2x demo-card-content">
+        <p class="leave-count"><oj-bind-text value="[[totalLeave]]"></oj-bind-text></p>
+        <p>Total Leaves</p>
+    </oj-action-card>
+</div>
+
   <oj-table id='leaveTypeTable' aria-label='All Table' data='[[dataProvider]]' display='list'
         selection-mode='{"row": "single"}'  columns='[
         { "headerClassName" : "table-header-style",
@@ -45,6 +49,18 @@
          </template>
         </oj-table>
 </div>
+
+<oj-dialog id="openAddTotalLeave" class="popupDialog" dialog-title="Add Total Leave" modality="modeless" drag-affordance="title-bar"
+  cancel-behavior="[[CancelBehaviorOpt]]">
+  <oj-validation-group id="formValidation" class="form-container" role="group" style="padding-bottom: 50px;">
+    <div id="form-container">
+        <oj-form-layout id="total-leave-information" class="form" direction="row" max-columns="1">
+            <oj-input-text id="totalLeave" label-hint="Total Leave" required="true" value="{{totalLeave}}"></oj-input-text>
+        </oj-form-layout>
+        <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]"><i class="fas fa-save"></i> Submit</oj-button>
+    </div>
+</oj-validation-group>
+</oj-dialog>
 
 <oj-dialog id="openAddLeaveType" class="popupDialog" dialog-title="Add Leave Type" modality="modeless" drag-affordance="title-bar"
   cancel-behavior="[[CancelBehaviorOpt]]">

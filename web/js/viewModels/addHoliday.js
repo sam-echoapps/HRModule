@@ -12,8 +12,9 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 
                 self.holidayName = ko.observable();
                 self.holidayDate = ko.observable();
-                self.comments = ko.observable();
+                self.comments = ko.observable('');
                 self.HolidayDet = ko.observableArray([]); 
+                self.CancelBehaviorOpt = ko.observable('icon'); 
 
                 self.connected = function () {
                     if (sessionStorage.getItem("userName") == null) {
@@ -72,6 +73,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     console.log(textStatus);
                                 },
                                 success: function (data) {
+                                    document.querySelector('#openAddHoliday').close();
                                     let popup = document.getElementById("loaderPopup");
                                     popup.close();
                                     let popup1 = document.getElementById("successView");
@@ -115,6 +117,10 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             location.reload()
                         }
                     })
+                }
+
+                self.addHoliday = ()=>{
+                    document.querySelector('#openAddHoliday').open();
                 }
 
             }

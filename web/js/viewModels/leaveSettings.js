@@ -1,6 +1,6 @@
 define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovider", "ojs/ojfilepickerutils",
     "ojs/ojinputtext", "ojs/ojformlayout", "ojs/ojvalidationgroup", "ojs/ojselectsingle","ojs/ojdatetimepicker",
-     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog","ojs/ojtable","ojs/ojavatar"], 
+     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog","ojs/ojtable","ojs/ojavatar","ojs/ojactioncard"], 
     function (oj,ko,$, app, ArrayDataProvider, FilePickerUtils) {
 
         class LeaveSettings {
@@ -54,6 +54,10 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 }
                 self.dataProvider = new ArrayDataProvider(self.LeaveTypeDet, { keyAttributes: "id"});
 
+                self.addTotalLeave = ()=>{
+                    document.querySelector('#openAddTotalLeave').open();
+                }
+
 
                 self.addLeaveTypes = ()=>{
                     document.querySelector('#openAddLeaveType').open();
@@ -79,6 +83,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     console.log(textStatus);
                                 },
                                 success: function (data) {
+                                    document.querySelector('#openAddTotalLeave').close();
                                     let popup = document.getElementById("loaderPopup");
                                     popup.close();
                                     let popup1 = document.getElementById("successView");
@@ -107,6 +112,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                         console.log(textStatus);
                                     },
                                     success: function (data) {
+                                        document.querySelector('#openAddLeaveType').close();
                                         let popup = document.getElementById("loaderPopup");
                                         popup.close();
                                         let popup2 = document.getElementById("popup2");

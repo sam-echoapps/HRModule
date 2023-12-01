@@ -281,7 +281,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.countryCodes = new ArrayDataProvider(self.countryCodes, {
                     keyAttributes: 'value'
                 });
-                self.joining_date = ko.observable();
+                self.joining_date = ko.observable('');
                 self.department = ko.observable();
                 self.nationality = ko.observable();
                 self.nationList = ko.observableArray([]);
@@ -735,6 +735,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     type: 'POST',
                     data: JSON.stringify({
                         departmentId : self.department(),
+                        staffId : 0
                     }),
                     timeout: sessionStorage.getItem("timeInetrval"),
                     context: self,
@@ -745,12 +746,12 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         console.log(data)
                         if(data[0].length !=0){ 
                             for (var i = 0; i < data[0].length; i++) {
-                                self.DesignationDet.push({'value': data[0][i][0],'label': data[0][i][1]  });
+                                self.DesignationDet.push({'value': data[0][i][1],'label': data[0][i][1]  });
                             }
                         }
                         if(data[1].length !=0){ 
                             for (var i = 0; i < data[1].length; i++) {
-                                self.EmployeeDet.push({'value': data[1][i][0],'label': data[1][i][1] + " " + data[1][i][2]  });
+                                self.EmployeeDet.push({'value': data[1][i][1] + " " + data[1][i][2],'label': data[1][i][1] + " " + data[1][i][2]  });
                             }
                         }
                     }

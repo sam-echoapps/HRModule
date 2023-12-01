@@ -568,6 +568,9 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.StaffDet = ko.observableArray([]);
                 self.DepartmentDet = ko.observableArray([]);
                 self.DesignationDet = ko.observableArray([]);
+                self.line_manager = ko.observable('');
+                self.EmployeeDet = ko.observableArray([]);
+
                 self.getStaff = ()=>{
                     document.getElementById('loaderView').style.display='block';
                     $.ajax({
@@ -604,6 +607,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             self.emergencyPhone(result[0][15])
                             self.emergencyEmail(result[0][16])
                             self.nationality(result[0][17])
+                            self.line_manager(result[0][18])
                             if(data[2] != ''){
                                 self.profilePhotoShow('data:image/jpeg;base64,'+data[2]);
                                 self.fileContent(self.profilePhotoShow())
@@ -709,7 +713,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     emergency_country_code : self.emergencyCountryCode(),
                                     emergency_phone : self.emergencyPhone(),
                                     emergency_email : self.emergencyEmail(),
-                                    nationality : self.nationality()
+                                    nationality : self.nationality(),
+                                    line_manager : self.line_manager()
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -748,7 +753,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     emergency_country_code : self.emergencyCountryCode(),
                                     emergency_phone : self.emergencyPhone(),
                                     emergency_email : self.emergencyEmail(),
-                                    nationality : self.nationality()
+                                    nationality : self.nationality(),
+                                    line_manager : self.line_manager()
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -860,12 +866,14 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
 
                 self.getDesignationList = ()=>{
                     self.DesignationDet([])
+                    self.EmployeeDet([])
                     if(self.department() !=undefined){
                     $.ajax({
                         url: BaseURL+"/HRModuleGetDesignationList",
                         type: 'POST',
                         data: JSON.stringify({
                             departmentId : self.department(),
+                            staffId : sessionStorage.getItem("staffId"),
                         }),
                         timeout: sessionStorage.getItem("timeInetrval"),
                         context: self,
@@ -881,11 +889,19 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             }else{
                                 self.designation('')
                             }
+                            if(data[1].length !=0){ 
+                                for (var i = 0; i < data[1].length; i++) {
+                                    self.EmployeeDet.push({'value':  data[1][i][1]+ " " +  data[1][i][2],'label': data[1][i][1]+ " " +  data[1][i][2]  });
+                                }
+                            }else{
+                                self.line_manager('')
+                            }
                         }
                     })
                 }
                 }
                 self.designationList = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "value"});
+                self.employeeList = new ArrayDataProvider(this.EmployeeDet, { keyAttributes: "value"});
 
             }
         }

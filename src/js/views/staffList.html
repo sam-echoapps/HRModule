@@ -1,10 +1,10 @@
 
 <div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px; display:none;" id="contentView">
-<div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
+<div class="oj-flex oj-md-justify-content-space-between oj-md-align-items-center" style="width: 100%;padding: 10px;">
       <div><span class="hint-title"> <span class="icon-container"><i class="fas fa-users icon"></i></span>&nbsp;View Employee </span><span class="hint-note">(Here you can see the list of employee and manage them.)</span></div> 
-      <div class="oj-flex-item oj-sm-padding-2x-horizontal">
-        <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
-          <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+      <div class="oj-flex-item oj-md-padding-2x-horizontal oj-sm-padding-2x-vertical oj-sm-margin-4x">
+        <div class="oj-flex oj-md-flex-items-initial oj-md-justify-content-flex-end oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
+          <div class="oj-flex-item oj-md-padding-2x-horizontal">
             <oj-button chroming="solid"  on-oj-action="[[goToAddStaff]]">
               <i class="fa-solid fa-plus"></i>&nbsp;Add New Employee
             </oj-button>
@@ -16,7 +16,7 @@
 
 <div style="display:none;" id="actionView">
 <div class="oj-flex oj-panel oj-xl-margin-4x">
-  <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+  <div class="oj-flex-item oj-md-padding-2x-horizontal oj-sm-padding-2x-vertical">
     <oj-buttonset-one id="setMultipleButtons" value="{{selectedTab}}" aria-label="Choose only one format">
       <oj-bind-for-each data="[[tabData]]">
         <template>
@@ -30,13 +30,13 @@
     </oj-buttonset-one>
   </div>
   <div class="oj-md-3 oj-sm-12"></div>
-  <div class="oj-md-2 oj-sm-12 oj-sm-padding-2x-horizontal">
+  <div class="oj-md-2 oj-sm-12 oj-md-padding-2x-horizontal oj-sm-padding-2x-vertical">
     <oj-select-single label-hint="Select Designation"
     label-edge="inside" data="[[designationList]]" value="{{designationFilter}}" on-value-changed="[[filterDesignation]]">
     </oj-select-single>
   </div>
     <div class="oj-flex oj-sm-flex-items-initial oj-md-justify-content-flex-end">
-      <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+      <div class="oj-flex-item oj-md-padding-2x-horizontal oj-sm-padding-2x-vertical">
         <oj-input-text id="filter" label-hint="Search" label-edge="inside"
         placeholder="Search.." on-raw-value-changed="[[handleValueChanged]]" value="{{search}}" clear-icon="always">
       </oj-input-text>

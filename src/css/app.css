@@ -18,12 +18,12 @@
     --oj-dialog-header-padding: .6rem;
     --oj-dialog-body-padding: 1rem;
   
-    --oj-dialog-header-border-color: green;
+    --oj-dialog-header-border-color: 5a5278;
     --oj-dialog-cancel-icon-margin-end: .7rem;
     --oj-dialog-cancel-icon-margin-top: .1rem;
   
     --oj-dialog-title-line-height : var(--oj-typography-subheading-lg-line-height);
-    --oj-dialog-title-text-color :#012552;
+    --oj-dialog-title-text-color :#5a5278;
   
 }
 
@@ -160,6 +160,50 @@ oj-buttonset-one .oj-selected{
   height: auto;
 }
 
+/* 
+//For this id center the action card
+  #total-leave-card{
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 30px;
+} */ 
+
+.total-leave-card{
+  padding: 10px;
+  display: flex;
+  margin: 20px 10px;
+  width: 250px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+  background-color: #5a5278;
+  color: #ffffff;
+  transition: transform 0.5s ease-in-out;
+}
+
+.total-leave-card:hover {
+  transform: scale(1.1);
+}
+
+.total-leave-card p{
+  font-size: 15px;
+}
+
+.leave-count{
+  border: 3px solid #fff;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 20px !important;
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 @media (max-width: 600px) {
   .popupDialog{
     display: block;
@@ -173,7 +217,15 @@ oj-buttonset-one .oj-selected{
     margin:10px;
     height: auto;
   }
+
+  .popupHoliday{
+    display: block;
+    top: 166.475px !important;
+    left: 0px !important;
+  }
 }
+
+
 
 
 
