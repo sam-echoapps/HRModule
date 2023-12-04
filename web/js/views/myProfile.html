@@ -1,15 +1,31 @@
 <link rel="stylesheet" href="../../css/addStaff.css">
 <div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px; display:none;" id="contentView">
-<div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
-    <h6 style="font-weight: 500;font-size: 22px;">My Profile</h6>
-</div>
-<div class="hint-text">
-    <i class="bi bi-info-circle-fill hint-icon"></i> &nbsp;&nbsp;<span>This is where you can manage your profile information.</span> 
-  </div>    
-<div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
-    <h5>Basic Information</h5>
+    <div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
+          <div><span class="hint-title"> <span class="icon-container"><i class="fas fa-user icon"></i></span>&nbsp;Edit Employee Details </span></div>
+        </div>
+    </div>
+    
+    <div class="oj-panel oj-xl-margin-4x tab-bg-style">
+        <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
+            <oj-buttonset-one id="setMultipleButtons" value="{{selectedTab}}" aria-label="Choose only one format">
+          <oj-bind-for-each data="[[tabData]]">
+            <template>
+              <oj-option value="[[$current.data.id]]">
+                <span>
+                  <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+                </span>
+              </oj-option>
+            </template>
+          </oj-bind-for-each>
+        </oj-buttonset-one>
+      </div>
+    </div>
+ 
+<div id="basic-info">
+<div class="oj-panel oj-flex oj-xl-margin-4x">
+    <div style="padding-left:16px;"><span class="sub-hint-title"> <span class="icon-container"><i class="oj-ux-ico-user-data sub-icon"></i></span>&nbsp;<b>Basic Information </b></span><span class="sub-hint-note">(Edit the basic profile details of the selected employee.)</span></div>
     <oj-validation-group id="formValidation" class="form-container" role="group">
-        <div id="form-container" class="oj-panel">
+        <div id="form-container" class="">
             <oj-form-layout id="personal-information" class="form" direction="row" max-columns="2">
                 <oj-input-text id="firstname" label-hint="First Name" required="true" value="{{firstName}}"></oj-input-text>
                 <oj-input-text id="lastname" label-hint="Last Name" required="true" value="{{lastName}}"></oj-input-text>
@@ -27,9 +43,17 @@
                     <oj-input-text id="email" label-hint="Email" required="true" value="{{email}}" on-value-changed="[[emailPatternValidator]]"></oj-input-text>
                     <div class="oj-text-color-danger"><oj-bind-text value='[[emailError]]'></oj-bind-text></div></br>
                 </div>
-                <oj-input-text id="qualification" label-hint="Qualification" required="true" autocomplete="off" value="{{qualification}}"></oj-input-text>
+                <oj-select-single required id="Nationality" label-hint="Nationality" label-edge="inside"
+                data="[[nationList]]" value="{{nationality}}"></oj-select-single>
+                <oj-select-single required id="qualification" label-hint="Qualification" label-edge="inside"
+                data="[[qualificationList]]" value="{{qualification}}"></oj-select-single>
+                <oj-combobox-one id="department" label-hint="Department" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
+                value="{{department}}"  options="[[departmentList]]"  on-value-changed="[[getDesignationList]]"></oj-combobox-one>
                 <oj-combobox-one id="designation" label-hint="Designation" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
-                 value="{{designation}}"  options="[[designationList]]"></oj-combobox-one>
+                value="{{designation}}"  options="[[designationList]]"></oj-combobox-one>
+                <oj-combobox-one id="line_manager" label-hint="Line Manager" label-edge="inside" class="oj-form-control-max-width-md" 
+                value="{{line_manager}}"  options="[[employeeList]]"></oj-combobox-one>
+                <oj-input-date id="joining_date" label-hint="Joining Date" value="{{joining_date}}"></oj-input-date>
                  <oj-text-area id="address" value="{{address}}" label-hint="Address" raw-valuenewE=""
                  rows="3" clear-icon="always" required="true">
                  </oj-text-area> 
@@ -45,38 +69,63 @@
                         <oj-file-picker  id="profilePhoto" class="demo-max-width" primary-text="Profile Photo"
                         secondary-text="[[secondaryText]]" on-oj-select="[[uploadProfilePhoto]]">
                         </oj-file-picker>
-                        <div class="oj-text-color-danger"><oj-bind-text value='[[typeError]]'></oj-bind-text></div></br>                    </div>
+                        <div class="oj-text-color-danger"><oj-bind-text value='[[typeError]]'></oj-bind-text></div></br>                    
+                    </div>
                 </div>  
+                <oj-input-text id="emergency_contact_person" label-hint="Emergency Contact Person Name" value="{{emergency_contact_person}}"></oj-input-text>
+                <oj-select-single id="emergency_contact_relation" label-hint="Emergency Contact Person Relationship" label-edge="inside"
+                data="[[relationList]]" value="{{emergency_contact_relation}}"></oj-select-single>  
+            <div class="oj-flex">
+                <div class="oj-flex-item oj-sm-5 oj-sm-padding-2x-end oj-md-padding-3x-end">
+                    <oj-select-single id="emergencyCountryCode" label-hint="Emergency Country Code" label-edge="inside"
+                        data="[[countryCodes]]" value="{{emergencyCountryCode}}"></oj-select-single>
+                </div>
+                <div class="oj-flex-item oj-sm-7 oj-sm-padding-2x-start oj-md-padding-3x-start">
+                    <oj-input-text id="emergencyPhone" label-hint="Emergency Phone" value="{{emergencyPhone}}" length.max="10" on-value-changed="[[emergencyPhoneValidator]]"></oj-input-text>
+                </div>
+                <div class="oj-text-color-danger"><oj-bind-text value='[[emergencyPhoneError]]'></oj-bind-text></div></br>
+            </div> 
+            <div>
+                <oj-input-text id="emergencyEmail" label-hint="Emergency Email" value="{{emergencyEmail}}" on-value-changed="[[emergencyEmailPatternValidator]]"></oj-input-text>
+                <div class="oj-text-color-danger"><oj-bind-text value='[[emergencyEmailError]]'></oj-bind-text></div></br>
+            </div>  
                 
             </oj-form-layout>
             <div class="oj-flex">
                 <div class="oj-flex-item oj-sm-6 oj-sm-padding-2x-end oj-md-padding-12x-end">
-                    <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]">Update</oj-button>
+                    <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]"><i class="fas fa-save"></i> Update</oj-button>
                 </div>
             </div>
         </div>
-        <div class="oj-flex">
-            <div class="oj-sm-5"></div>
-            <h5>Update Password</h5>
-            <div class="oj-sm-3"></div>
-            <oj-button chroming="solid" class="oj-xl-margin-4x send-mail-btn" on-oj-action="[[sendCredentials]]">
-                <span slot="startIcon" style="color:white" class="oj-ux-ico-email"></span><span style="color:white">Send Credentials</span>
-            </oj-button>
+    </div>
+</div>
+
+        <div id="update-password" class="oj-panel oj-xl-margin-4x" style="display:none;">
+        <div class=" oj-flex oj-xl-margin-4x">
+            <div><span class="sub-hint-title"> <span class="icon-container"><i class="oj-ux-ico-reset-password sub-icon"></i></span>&nbsp;<b>Update Password</b> </span><span class="sub-hint-note">(The username will automatically be set to match the email address. If the email is changed, the username will be updated accordingly.)</span></div>
+            <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+                <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
+                  <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+                    <oj-button chroming="solid" class="oj-xl-margin-4x send-mail-btn  oj-sm-margin-4x" on-oj-action="[[sendCredentials]]">
+                        <span  slot="startIcon" style="color:white" class="oj-ux-ico-email"></span><span style="color:white"> Send Credentials</span>
+                    </oj-button>
+                  </div>
+                </div>
+              </div>
         </div>
-        <div class="hint-text">
-            <i class="bi bi-info-circle-fill hint-icon"></i> &nbsp;&nbsp;<span>Your username will be automatically set to match your email address. If you change your email, your username will also be updated accordingly.</span> 
-          </div>
-        <div id="form-container" class="oj-panel">  
+        <hr>
+        <div id="form-container" class="">  
             <oj-form-layout id="personal-information" class="form" direction="row" max-columns="2">
-                <oj-input-text id="username" label-hint="Username" required="true" value="{{username}}" readonly="true"></oj-input-text>
-                <oj-input-password mask-icon="visible" id="password" label-hint="Password" required="true" value="{{password}}"></oj-input-password>
+                <oj-input-text id="username" label-hint="Username" required="true" value="{{username}}" disabled></oj-input-text>
+                <oj-input-text id="password" label-hint="Password" required="true" value="{{password}}"></oj-input-text>
             </oj-form-layout>
             <div class="oj-flex">
                 <div class="oj-flex-item oj-sm-6 oj-sm-padding-2x-end oj-md-padding-12x-end">
-                    <oj-button id="save" chroming="solid" on-oj-action="[[crediantialUpdate]]">Update</oj-button>
+                    <oj-button id="save" chroming="solid" on-oj-action="[[crediantialUpdate]]"><i class="fas fa-save"></i> Update</oj-button>
                 </div>
             </div>
         </div>
+    </div>
     </oj-validation-group>
 
     <oj-popup id="popup1" class="demo-popup" auto-dismiss="none" modality="modal" position.my.horizontal="center"
@@ -102,8 +151,6 @@
             </div>
         </div>
     </oj-dialog>
-</div>
-</div>
 
 <oj-dialog id="popupMail">
     <div slot="header" style="display: contents;">

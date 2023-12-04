@@ -903,6 +903,35 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.designationList = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "value"});
                 self.employeeList = new ArrayDataProvider(this.EmployeeDet, { keyAttributes: "value"});
 
+                self.crediantialUpdate = function (event,data) {
+                    const formValid = self._checkValidationGroup("formValidation"); 
+                    if (formValid) {
+                        let popup3 = document.getElementById("popup1");
+                        popup3.open();
+                    $.ajax({
+                        url: BaseURL + "/HRModuleCredentialUpdate",
+                        type: 'POST',
+                        data: JSON.stringify({
+                            staffId : sessionStorage.getItem("staffId"),
+                            password : self.password()
+                        }),
+                        dataType: 'json',
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        },
+                        success: function (data) {
+                            let popup3 = document.getElementById("popup1");
+                            popup3.close();
+                            let popup4 = document.getElementById("popupPassword");
+                            popup4.open();
+                        }
+                    }) 
+                }
+                }
+
+
             }
         }
         return  editStaff;

@@ -15,6 +15,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.comments = ko.observable('');
                 self.HolidayDet = ko.observableArray([]); 
                 self.CancelBehaviorOpt = ko.observable('icon'); 
+                self.yearFilter = ko.observable('');
+                self.HolidayYearDet = ko.observableArray([]);
 
                 self.connected = function () {
                     if (sessionStorage.getItem("userName") == null) {
@@ -43,14 +45,20 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             document.getElementById('actionView').style.display='block';
                             if(data[0].length !=0){ 
                                 for (var i = 0; i < data[0].length; i++) {
-                                    self.HolidayDet.push({'id': data[0][i][0],'holiday_name': data[0][i][1],'holiday_date': data[0][i][2],'comments': data[0][i][3]  });
+                                    self.HolidayDet.push({'no': i+1,'id': data[0][i][0],'holiday_name': data[0][i][1],'holiday_date': data[0][i][2],'comments': data[0][i][3]  });
                                 }
+                            }
+                            if(data[1].length !=0){ 
+                                for (var i = 0; i < data[1].length; i++) {
+                                    self.HolidayYearDet.push({"label":data[1][i][0],"value":data[1][i][0]});
+                                }
+                                self.HolidayYearDet.unshift({ value: 'All', label: 'All' });
                             }
                         }
                     })
                 }
 
-                self.dataProvider = new ArrayDataProvider(this.HolidayDet, { keyAttributes: "id"});
+                self.yearList = new ArrayDataProvider(this.HolidayYearDet, { keyAttributes: "value"});
 
                 self.formSubmit = ()=>{
                     const formValid = self._checkValidationGroup("formValidation"); 
@@ -122,6 +130,47 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.addHoliday = ()=>{
                     document.querySelector('#openAddHoliday').open();
                 }
+
+                self.filterYear = function (event,data) {
+                    if(self.yearFilter() == ''){
+                        const currentYear = new Date().getFullYear();
+                        console.log(currentYear);
+                        self.yearFilter(currentYear)
+                    }
+                    if (self.yearFilter() != '' ) {
+                        document.getElementById('loaderView').style.display='block';
+                        self.HolidayDet([]);
+                        $.ajax({
+                            url: BaseURL  + "/HRModuleGetYearHolidayFilterList",
+                            type: 'POST',
+                            data: JSON.stringify({
+                                year : self.yearFilter()
+                            }),
+                            dataType: 'json',
+                            timeout: sessionStorage.getItem("timeInetrval"),
+                            context: self,
+                            error: function (xhr, textStatus, errorThrown) {
+                                if(textStatus == 'timeout' || textStatus == 'error'){
+                                    document.querySelector('#TimeoutSup').open();
+                                }
+                            },
+                            success: function (data) {
+                                document.getElementById('loaderView').style.display='none';
+                                document.getElementById('actionView').style.display='block';
+                                console.log(data)
+                                if(data[0].length !=0){ 
+                                    for (var i = 0; i < data[0].length; i++) {
+                                        self.HolidayDet.push({'no': i+1,'id': data[0][i][0],'holiday_name': data[0][i][1],'holiday_date': data[0][i][2],'comments': data[0][i][3]  });
+                                    }
+                                }
+                        }
+                        })
+                    }
+                       
+                    }
+                    self.dataProvider = new ArrayDataProvider(this.HolidayDet, { keyAttributes: "id"});
+
+
 
             }
         }

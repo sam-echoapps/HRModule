@@ -19,15 +19,20 @@
     </div>
 </div>
 
-<div class="oj-panel oj-flex oj-xl-margin-4x">
+<!-- <div class="oj-panel oj-flex oj-xl-margin-4x">
   <div id="total-leave-card">
     <oj-action-card id="total-leave" on-oj-action="" chroming="solid" class="total-leave-card oj-sm-padding-2x demo-card-content">
         <p class="leave-count"><oj-bind-text value="[[totalLeave]]"></oj-bind-text></p>
         <p>Total Leaves</p>
     </oj-action-card>
-</div>
+</div> -->
 
-  <oj-table id='leaveTypeTable' aria-label='All Table' data='[[dataProvider]]' display='list'
+<div class="oj-panel oj-flex oj-xl-margin-4x">
+  <oj-button chroming="solid" class="oj-xl-margin-4x">
+    <p class="oj-xl-margin-4x">Total Yearly Leaves : <oj-bind-text value="[[totalLeave]]"></oj-bind-text></p>
+  </oj-button>
+
+  <oj-table class="oj-xl-margin-4x" id='leaveTypeTable' aria-label='All Table' data='[[dataProvider]]' display='list'
         selection-mode='{"row": "single"}'  columns='[
         { "headerClassName" : "table-header-style",
         "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },

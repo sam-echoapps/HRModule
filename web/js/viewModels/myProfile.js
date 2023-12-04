@@ -1,9 +1,9 @@
 define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovider", "ojs/ojfilepickerutils",
     "ojs/ojinputtext", "ojs/ojformlayout", "ojs/ojvalidationgroup", "ojs/ojselectsingle","ojs/ojdatetimepicker",
-     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog",,"ojs/ojselectcombobox","ojs/ojavatar"], 
+     "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog","ojs/ojselectcombobox","ojs/ojavatar"], 
     function (oj,ko,$, app, ArrayDataProvider, FilePickerUtils) {
 
-        class MyProfile {
+        class editStaff {
             constructor(args) {
                 var self = this;
 
@@ -14,8 +14,18 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.lastName = ko.observable();
                 self.phone = ko.observable();
                 self.email = ko.observable();
-                self.emailCheck = ko.observable();
                 self.qualification = ko.observable();
+                self.qualificationList = ko.observableArray([]);
+                self.qualificationList.push(
+                    {"label":"Doctorate/Ph.D.","value":"Doctorate/Ph.D."},
+                    {"label":"Master's Degree","value":"Master's Degree"},
+                    {"label":"Bachelor's Degree","value":"Bachelor's Degree"},
+                    {"label":"High School Diploma","value":"High School Diploma"},
+                    {"label":"Other","value":"Other"}
+                );
+                self.qualificationList = new ArrayDataProvider(self.qualificationList, {
+                    keyAttributes: 'value'
+                });                
                 self.designation = ko.observable();
                 self.profilePhoto = ko.observable('');
                 self.profilePhotoShow = ko.observable('');
@@ -275,12 +285,292 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.countryCodes = new ArrayDataProvider(self.countryCodes, {
                     keyAttributes: 'value'
                 });
-
-
+                self.joining_date = ko.observable('');
+                self.department = ko.observable();
+                self.emergency_contact_person = ko.observable('');
+                self.emergency_contact_relation = ko.observable('');
+                self.relationList = ko.observableArray([]);
+                self.relationList.push(
+                    {"label":"Spouse","value":"Spouse"},
+                    {"label":"Parent","value":"Parent"},
+                    {"label":"Child","value":"Child"},
+                    {"label":"Sibling","value":"Sibling"},
+                    {"label":"Relative","value":"Relative"},
+                    {"label":"Friend","value":"Friend"},
+                    {"label":"Partner","value":"Partner"},
+                    {"label":"Co-worker","value":"Co-worker"},
+                    {"label":"Neighbor","value":"Neighbor"},
+                    {"label":"Other","value":"Other"}
+                );
+                self.relationList = new ArrayDataProvider(self.relationList, {
+                    keyAttributes: 'value'
+                });  
+                self.emergencyCountryCode = ko.observable('');
+                self.emergencyPhone = ko.observable('');
+                self.emergencyEmail = ko.observable('');
+                self.emergencyCountryCode = ko.observable('');
+                self.emergencyPhoneError = ko.observable('');
+                self.emergencyEmailError = ko.observable('');
+                self.tabData = [
+                    { id: "basic", label: "Basic Information" },
+                    { id: "password", label: "Update Password" },
+                ];
+                self.selectedTab = ko.observable("basic");  
+                self.nationality = ko.observable();
+                self.nationList = ko.observableArray([]);
+                self.nationList.push(
+                    {"label":"Afghanistan","value":"+93"},
+                    {"label":"Albania","value":"+355"},
+                    {"label":"Algeria","value":"+213"},
+                    {"label":"American Samoa","value":"+1684"},
+                    {"label":"Andorra","value":"+376"},
+                    {"label":"Angola","value":"+244"},
+                    {"label":"Anguilla","value":"+1264"},
+                    {"label":"Antarctica","value":"+672"},
+                    {"label":"Antigua and Barbuda","value":"+1268"},
+                    {"label":"Argentina(+54)","value":"+54"},
+                    {"label":"Armenia","value":"+374"},
+                    {"label":"Aruba","value":"+297"},
+                    {"label":"Australia","value":"+61"},
+                    {"label":"Austria","value":"+43"},
+                    {"label":"Azerbaijan","value":"+994"},
+                    {"label":"Bahamas","value":"+1242"},
+                    {"label":"Bahrain","value":"+973"},
+                    {"label":"Bangladesh","value":"+880"},
+                    {"label":"Barbados","value":"+1246"},
+                    {"label":"Belarus","value":"+375"},
+                    {"label":"Belgium","value":"+32"},
+                    {"label":"Belize","value":"+501"},
+                    {"label":"Benin","value":"+229"},
+                    {"label":"Bermuda","value":"+1441"},
+                    {"label":"Bhutan","value":"+975"},
+                    {"label":"Bolivia","value":"+591"},
+                    {"label":"Bosnia and Herzegovina","value":"+387"},
+                    {"label":"Botswana","value":"+267"},
+                    {"label":"Brazil","value":"+55"},
+                    {"label":"British Indian Ocean Territory","value":"+246"},
+                    {"label":"British Virgin Islands","value":"+1284"},
+                    {"label":"Brunei","value":"+673"},
+                    {"label":"Bulgaria","value":"+359"},
+                    {"label":"Burkina Faso","value":"+226"},
+                    {"label":"Burundi","value":"+257"},
+                    {"label":"Cambodia","value":"+855"},
+                    {"label":"Cameroon","value":"+237"},
+                    {"label":"Canada","value":"+1"},
+                    {"label":"Cape Verde","value":"+238"},
+                    {"label":"Cayman Islands","value":"+1345"},
+                    {"label":"Central African Republic","value":"+236"},
+                    {"label":"Chad","value":"+235"},
+                    {"label":"Chile","value":"+56"},
+                    {"label":"China","value":"+86"},
+                    {"label":"Christmas Island","value":"+61"},
+                    {"label":"Cocos Islands","value":"+61"},
+                    {"label":"Colombia","value":"+57"},
+                    {"label":"Comoros","value":"+269"},
+                    {"label":"Cook Islands","value":"+682"},
+                    {"label":"Costa Rica","value":"+506"},
+                    {"label":"Croatia","value":"+385"},
+                    {"label":"Cuba","value":"+53"},
+                    {"label":"Curacao","value":"+599"},
+                    {"label":"Cyprus","value":"+357"},
+                    {"label":"Czech Republic","value":"+420"},
+                    {"label":"Democratic Republic of the Congo","value":"+243"},
+                    {"label":"Denmark","value":"+45"},
+                    {"label":"Djibouti","value":"+253"},
+                    {"label":"Dominica","value":"+1767"},
+                    {"label":"Dominican Republic","value":"+1809"},
+                    {"label":"East Timor","value":"+670"},
+                    {"label":"Ecuador","value":"+593"},
+                    {"label":"Egypt","value":"+20"},
+                    {"label":"El Salvador","value":"+503"},
+                    {"label":"Equatorial Guinea","value":"+240"},
+                    {"label":"Eritrea","value":"+291"},
+                    {"label":"Estonia","value":"+372"},
+                    {"label":"Ethiopia","value":"+251"},
+                    {"label":"Falkland Islands","value":"+500"},
+                    {"label":"Faroe Islands","value":"+298"},
+                    {"label":"Fiji","value":"+679"},
+                    {"label":"Finland","value":"+358"},
+                    {"label":"France","value":"+33"},
+                    {"label":"French Polynesia","value":"+689"},
+                    {"label":"Gabon","value":"+241"},
+                    {"label":"Gambia","value":"+220"},
+                    {"label":"Georgia","value":"+995"},
+                    {"label":"Germany","value":"+49"},
+                    {"label":"Ghana","value":"+233"},
+                    {"label":"Gibraltar","value":"+350"},
+                    {"label":"Greece","value":"+30"},
+                    {"label":"Greenland","value":"+299"},
+                    {"label":"Grenada","value":"+1473"},
+                    {"label":"Guam","value":"+1671"},
+                    {"label":"Guatemala","value":"+502"},
+                    {"label":"Guernsey","value":"+441481"},
+                    {"label":"Guinea","value":"+224"},
+                    {"label":"Guinea-Bissau","value":"+245"},
+                    {"label":"Guyana","value":"+592"},
+                    {"label":"Haiti","value":"+509"},
+                    {"label":"Honduras","value":"+504"},
+                    {"label":"Hong Kong","value":"+852"},
+                    {"label":"Hungary","value":"+36"},
+                    {"label":"Iceland","value":"+354"},
+                    {"label":"India","value":"+91"},
+                    {"label":"Indonesia","value":"+62"},
+                    {"label":"Iran","value":"+98"},
+                    {"label":"Iraq","value":"+964"},
+                    {"label":"Ireland","value":"+353"},
+                    {"label":"Isle of Man","value":"+441624"},
+                    {"label":"Israel","value":"+972"},
+                    {"label":"Italy","value":"+39"},
+                    {"label":"Ivory Coast","value":"+225"},
+                    {"label":"Jamaica","value":"+1876"},
+                    {"label":"Japan","value":"+81"},
+                    {"label":"Jersey","value":"+441534"},
+                    {"label":"Jordan","value":"+962"},
+                    {"label":"Kazakhstan","value":"+7"},
+                    {"label":"Kenya","value":"+254"},
+                    {"label":"Kiribati","value":"+686"},
+                    {"label":"Kosovo","value":"+383"},
+                    {"label":"Kuwait","value":"+965"},
+                    {"label":"Kyrgyzstan","value":"+996"},
+                    {"label":"Laos","value":"+856"},
+                    {"label":"Latvia","value":"+371"},
+                    {"label":"Lebanon","value":"+961"},
+                    {"label":"Lesotho","value":"+266"},
+                    {"label":"Liberia","value":"+231"},
+                    {"label":"Libya","value":"+218"},
+                    {"label":"Liechtenstein","value":"+423"},
+                    {"label":"Lithuania","value":"+370"},
+                    {"label":"Luxembourg","value":"+352"},
+                    {"label":"Macao","value":"+853"},
+                    {"label":"Macedonia","value":"+389"},
+                    {"label":"Madagascar","value":"+261"},
+                    {"label":"Malawi","value":"+265"},
+                    {"label":"Malaysia","value":"+60"},
+                    {"label":"Maldives","value":"+960"},
+                    {"label":"Mali","value":"+223"},
+                    {"label":"Malta","value":"+356"},
+                    {"label":"Marshall Islands","value":"+692"},
+                    {"label":"Mauritania","value":"+222"},
+                    {"label":"Mauritius","value":"+230"},
+                    {"label":"Mayotte","value":"+262"},
+                    {"label":"Mexico","value":"+52"},
+                    {"label":"Micronesia","value":"+691"},
+                    {"label":"Moldova","value":"+373"},
+                    {"label":"Monaco","value":"+377"},
+                    {"label":"Mongolia","value":"+976"},
+                    {"label":"Montenegro","value":"+382"},
+                    {"label":"Montserrat","value":"+1664"},
+                    {"label":"Morocco","value":"+212"},
+                    {"label":"Mozambique","value":"+258"},
+                    {"label":"Myanmar","value":"+95"},
+                    {"label":"Namibia","value":"+264"},
+                    {"label":"Nauru","value":"+674"},
+                    {"label":"Nepal","value":"+977"},
+                    {"label":"Netherlands","value":"+31"},
+                    {"label":"Netherlands Antilles","value":"+599"},
+                    {"label":"New Caledonia","value":"+687"},
+                    {"label":"New Zealand","value":"+64"},
+                    {"label":"Nicaragua","value":"+505"},
+                    {"label":"Niger","value":"+227"},
+                    {"label":"Nigeria","value":"+234"},
+                    {"label":"Niue","value":"+683"},
+                    {"label":"North Korea","value":"+850"},
+                    {"label":"Northern Mariana Islands","value":"+1670"},
+                    {"label":"Norway","value":"+47"},
+                    {"label":"Oman","value":"+968"},
+                    {"label":"Pakistan","value":"+92"},
+                    {"label":"Palau","value":"+680"},
+                    {"label":"Palestine","value":"+970"},
+                    {"label":"Panama","value":"+507"},
+                    {"label":"Papua New Guinea","value":"+675"},
+                    {"label":"Paraguay","value":"+595"},
+                    {"label":"Peru","value":"+51"},
+                    {"label":"Philippines","value":"+63"},
+                    {"label":"Pitcairn","value":"+64"},
+                    {"label":"Poland","value":"+48"},
+                    {"label":"Portugal","value":"+351"},
+                    {"label":"Puerto Rico","value":"+1787"},
+                    {"label":"Qatar","value":"+974"},
+                    {"label":"Republic of the Congo","value":"+242"},
+                    {"label":"Reunion","value":"+262"},
+                    {"label":"Romania","value":"+40"},
+                    {"label":"Russia","value":"+7"},
+                    {"label":"Rwanda","value":"+250"},
+                    {"label":"Saint Barthelemy","value":"+590"},
+                    {"label":"Saint Helena","value":"+290"},
+                    {"label":"Saint Kitts and Nevis","value":"+1869"},
+                    {"label":"Saint Lucia","value":"+1758"},
+                    {"label":"Saint Martin","value":"+590"},
+                    {"label":"Saint Pierre and Miquelon","value":"+508"},
+                    {"label":"Saint Vincent and the Grenadines","value":"+1784"},
+                    {"label":"Samoa","value":"+685"},
+                    {"label":"San Marino","value":"+378"},
+                    {"label":"Sao Tome and Principe","value":"+239"},
+                    {"label":"Saudi Arabia","value":"+966"},
+                    {"label":"Senegal","value":"+221"},
+                    {"label":"Serbia","value":"+381"},
+                    {"label":"Seychelles","value":"+248"},
+                    {"label":"Sierra Leone","value":"+232"},
+                    {"label":"Singapore","value":"+65"},
+                    {"label":"Sint Maarten","value":"+1721"},
+                    {"label":"Slovakia","value":"+421"},
+                    {"label":"Slovenia","value":"+386"},
+                    {"label":"Solomon Islands","value":"+677"},
+                    {"label":"Somalia","value":"+252"},
+                    {"label":"South Africa","value":"+27"},
+                    {"label":"South Korea","value":"+82"},
+                    {"label":"South Sudan","value":"+211"},
+                    {"label":"Spain","value":"+34"},
+                    {"label":"Sri Lanka","value":"+94"},
+                    {"label":"Sudan","value":"+249"},
+                    {"label":"Suriname","value":"+597"},
+                    {"label":"Svalbard and Jan Mayen","value":"+47"},
+                    {"label":"Swaziland","value":"+268"},
+                    {"label":"Sweden","value":"+46"},
+                    {"label":"Switzerland","value":"+41"},
+                    {"label":"Syria","value":"+963"},
+                    {"label":"Taiwan","value":"+886"},
+                    {"label":"Tajikistan","value":"+992"},
+                    {"label":"Tanzania","value":"+255"},
+                    {"label":"Thailand","value":"+66"},
+                    {"label":"Togo","value":"+228"},
+                    {"label":"Tokelau","value":"+690"},
+                    {"label":"Tonga","value":"+676"},
+                    {"label":"Trinidad and Tobago","value":"+1868"},
+                    {"label":"Tunisia","value":"+216"},
+                    {"label":"Turkey","value":"+90"},
+                    {"label":"Turkmenistan","value":"+993"},
+                    {"label":"Turks and Caicos Islands","value":"+1649"},
+                    {"label":"Tuvalu","value":"+688"},
+                    {"label":"U.S. Virgin Islands","value":"+1340"},
+                    {"label":"Uganda","value":"+256"},
+                    {"label":"Ukraine","value":"+380"},
+                    {"label":"United Arab Emirates","value":"+971"},
+                    {"label":"United Kingdom","value":"+44"},
+                    {"label":"United States","value":"+1"},
+                    {"label":"Uruguay","value":"+598"},
+                    {"label":"Uzbekistan","value":"+998"},
+                    {"label":"Vanuatu","value":"+678"},
+                    {"label":"Vatican","value":"+379"},
+                    {"label":"Venezuela","value":"+58"},
+                    {"label":"Vietnam","value":"+84"},
+                    {"label":"Wallis and Futuna","value":"+681"},
+                    {"label":"Western Sahara","value":"+212"},
+                    {"label":"Yemen","value":"+967"},
+                    {"label":"Zambia","value":"+260"},
+                    {"label":"Zimbabwe","value":"+263"}
+                );
+                self.nationList = new ArrayDataProvider(self.nationList, {
+                    keyAttributes: 'value'
+                });
               
 
                 self.StaffDet = ko.observableArray([]);
+                self.DepartmentDet = ko.observableArray([]);
                 self.DesignationDet = ko.observableArray([]);
+                self.line_manager = ko.observable('');
+                self.EmployeeDet = ko.observableArray([]);
+
                 self.getStaff = ()=>{
                     document.getElementById('loaderView').style.display='block';
                     $.ajax({
@@ -295,46 +585,60 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             console.log(textStatus);
                         },
                         success: function (data) {
-                            console.log(data)
                             document.getElementById('loaderView').style.display='none';
                             document.getElementById('contentView').style.display='block';
-                            self.firstName(data[0][0][1])
-                            self.lastName(data[0][0][2])
-                            self.countryCode(data[0][0][3])
-                            self.phone(data[0][0][4])
-                            self.email(data[0][0][5])
-                            self.emailCheck(data[0][0][5])
-                            self.qualification(data[0][0][6])
-                            self.designation(data[0][0][7])
-                            self.address(data[0][0][8])
-                            self.secondaryText(data[0][0][9])
-                            self.profilePhoto(data[0][0][9])
+                            var result = JSON.parse(data[0]);
+                            console.log(result)
+                            self.firstName(result[0][1])
+                            self.lastName(result[0][2])
+                            self.countryCode(result[0][3])
+                            self.phone(result[0][4])
+                            self.email(result[0][5])
+                            self.qualification(result[0][6])
+                            self.designation(result[0][7])
+                            self.address(result[0][8])
+                            self.secondaryText(result[0][9])
+                            self.profilePhoto(result[0][9])
+                            self.joining_date(result[0][10])
+                            self.department(result[0][11])
+                            self.emergency_contact_person(result[0][12])
+                            self.emergency_contact_relation(result[0][13])
+                            self.emergencyCountryCode(result[0][14])
+                            self.emergencyPhone(result[0][15])
+                            self.emergencyEmail(result[0][16])
+                            self.nationality(result[0][17])
+                            self.line_manager(result[0][18])
                             if(data[2] != ''){
                                 self.profilePhotoShow('data:image/jpeg;base64,'+data[2]);
                                 self.fileContent(self.profilePhotoShow())
                             } 
-                            if(data[1].length !=0){ 
-                                for (var i = 0; i < data[1].length; i++) {
-                                    self.DesignationDet.push({'value': data[1][i][0],'label': data[1][i][1]  });
-                                }
-                            }
+                            // if(data[1].length !=0){ 
+                            //     for (var i = 0; i < data[1].length; i++) {
+                            //         self.DesignationDet.push({'value': data[1][i][0],'label': data[1][i][1]  });
+                            //     }
+                            // }
                             self.username(data[3])
                             self.password(data[4])
+                            console.log(data[5])
+                            if(data[5].length !=0){ 
+                                for (var i = 0; i < data[5].length; i++) {
+                                    self.DepartmentDet.push({'value': data[5][i][0],'label': data[5][i][1]  });
+                                }
+                            }
                         }
                     })
                 }
                 self.staffList = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
-                self.designationList = new ArrayDataProvider(self.DesignationDet, { keyAttributes: "value"});
+                //self.designationList = new ArrayDataProvider(self.DesignationDet, { keyAttributes: "value"});
+                self.departmentList = new ArrayDataProvider(self.DepartmentDet, { keyAttributes: "value"});
 
                 self.phoneValidator = (event)=>{
                     var phone = event.detail.value
-                    if(phone !=''){
                     if (phone > 31 && (phone < 48 || phone > 57) && phone.length==10){
                         self.phoneError('')
                     }else{
                         self.phoneError("Invalid phone number.");
                     }
-                }
                 }
 
                 self.emailPatternValidator = (event)=>{
@@ -347,21 +651,33 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     else
                     {
                         self.emailError("Invalid email address.");
-                    } 
-                    $.ajax({
-                        url: 'http://169.197.183.168:8060/HRModuleStaffEmailExist',
-                        //url: '/HRModuleStaffEmailExist',
-                       method: 'POST',
-                       data: JSON.stringify({ email: email }),
-                       success: function(response) {
-                           if(response == 1 && self.email() != self.emailCheck()){
-                               self.emailError("Email id already exists")
-                           }
-                       },
-                       error: function(xhr, status, error) {
-                         console.log("Error : "+xhr.responseText);
-                       }
-                     });        
+                    }   
+                }
+
+                self.emergencyPhoneValidator = (event)=>{
+                    var phone = event.detail.value
+                    if(phone != null){
+                    if (phone > 31 && (phone < 48 || phone > 57) && phone.length==10){
+                        self.emergencyPhoneError('')
+                    }else{
+                        self.emergencyPhoneError("Invalid phone number.");
+                    }
+                }
+                }
+
+                self.emergencyEmailPatternValidator = (event)=>{
+                    var email = event.detail.value
+                    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                    if(email != null){
+                    if(email.match(mailformat))
+                    {
+                        self.emergencyEmailError('')
+                    }
+                    else
+                    {
+                        self.emergencyEmailError("Invalid email address.");
+                    }   
+                }
                 }
                 
                 self.formSubmit = ()=>{
@@ -390,6 +706,15 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     address : self.address(),
                                     profile_photo : self.profilePhoto(),
                                     file : fileContent,
+                                    joining_date : self.joining_date(),
+                                    department : self.department(),
+                                    emergency_contact_person : self.emergency_contact_person(),
+                                    emergency_contact_relation : self.emergency_contact_relation(),
+                                    emergency_country_code : self.emergencyCountryCode(),
+                                    emergency_phone : self.emergencyPhone(),
+                                    emergency_email : self.emergencyEmail(),
+                                    nationality : self.nationality(),
+                                    line_manager : self.line_manager()
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -421,6 +746,15 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     address : self.address(),
                                     profile_photo : self.profilePhoto(),
                                     file : self.fileContent(),
+                                    joining_date : self.joining_date(),
+                                    department : self.department(),
+                                    emergency_contact_person : self.emergency_contact_person(),
+                                    emergency_contact_relation : self.emergency_contact_relation(),
+                                    emergency_country_code : self.emergencyCountryCode(),
+                                    emergency_phone : self.emergencyPhone(),
+                                    emergency_email : self.emergencyEmail(),
+                                    nationality : self.nationality(),
+                                    line_manager : self.line_manager()
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -520,16 +854,65 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     }
                 }
 
+                self.selectedTabAction = ko.computed(() => { 
+                    if(self.selectedTab() == 'basic'){
+                        $("#basic-info").show();
+                        $("#update-password").hide();
+                    }else if(self.selectedTab() == 'password'){
+                        $("#basic-info").hide();
+                        $("#update-password").show();
+                    }
+                });
+
+                self.getDesignationList = ()=>{
+                    self.DesignationDet([])
+                    self.EmployeeDet([])
+                    if(self.department() !=undefined){
+                    $.ajax({
+                        url: BaseURL+"/HRModuleGetDesignationList",
+                        type: 'POST',
+                        data: JSON.stringify({
+                            departmentId : self.department(),
+                            staffId : sessionStorage.getItem("userId"),
+                        }),
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        },
+                        success: function (data) {
+                            console.log(data)
+                            if(data[0].length !=0){ 
+                                for (var i = 0; i < data[0].length; i++) {
+                                    self.DesignationDet.push({'value': data[0][i][1],'label': data[0][i][1]  });
+                                }
+                            }else{
+                                self.designation('')
+                            }
+                            if(data[1].length !=0){ 
+                                for (var i = 0; i < data[1].length; i++) {
+                                    self.EmployeeDet.push({'value':  data[1][i][1]+ " " +  data[1][i][2],'label': data[1][i][1]+ " " +  data[1][i][2]  });
+                                }
+                            }else{
+                                self.line_manager('')
+                            }
+                        }
+                    })
+                }
+                }
+                self.designationList = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "value"});
+                self.employeeList = new ArrayDataProvider(this.EmployeeDet, { keyAttributes: "value"});
+
                 self.crediantialUpdate = function (event,data) {
                     const formValid = self._checkValidationGroup("formValidation"); 
                     if (formValid) {
-                        let popup = document.getElementById("popup1");
-                        popup.open();
+                        let popup3 = document.getElementById("popup1");
+                        popup3.open();
                     $.ajax({
                         url: BaseURL + "/HRModuleCredentialUpdate",
                         type: 'POST',
                         data: JSON.stringify({
-                            staffId : sessionStorage.getItem("userId"),
+                            staffId : sessionStorage.getItem("staffId"),
                             password : self.password()
                         }),
                         dataType: 'json',
@@ -539,17 +922,16 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             console.log(textStatus);
                         },
                         success: function (data) {
-                            let popup = document.getElementById("popup1");
-                            popup.close();
-                            let popup1 = document.getElementById("popupPassword");
-                            popup1.open();
+                            let popup3 = document.getElementById("popup1");
+                            popup3.close();
+                            let popup4 = document.getElementById("popupPassword");
+                            popup4.open();
                         }
                     }) 
                 }
                 }
-
             }
         }
-        return MyProfile;
+        return  editStaff;
     }
 );

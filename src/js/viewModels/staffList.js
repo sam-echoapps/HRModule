@@ -164,6 +164,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
 
                 self.filterDesignation = function (event,data) {
                     self.search('') 
+                    console.log(self.designationFilter())
                     // if(self.designationFilter() == ''){
                     //     self.designationFilter('0')
                     // }

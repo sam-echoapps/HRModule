@@ -203,6 +203,13 @@ oj-buttonset-one .oj-selected{
   align-items: center;
 }
 
+.side-bar-menu{
+  width: 260px;
+  height: auto;
+  position:fixed;
+  background-color: #363148 !important;
+}
+
 
 @media (max-width: 600px) {
   .popupDialog{
