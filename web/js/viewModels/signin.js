@@ -47,6 +47,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojinputtext", "oj
                                     //sessionStorage.setItem("BaseURL", "");
                                     sessionStorage.setItem("BaseURL", "http://169.197.183.168:8060");
                                     sessionStorage.setItem("userId", data[2]);
+                                    sessionStorage.setItem("staffId", data[2]);
                                     sessionStorage.setItem("userName", data[3]);
                                     sessionStorage.setItem("userRole", data[4]);
                                     self.SignIn('Y');

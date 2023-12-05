@@ -24,7 +24,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
         };
       
         self.username = ko.observable();
-        
+        self.userrole = ko.observable();
+
         self.manner = ko.observable('polite');
         self.message = ko.observable();
         document.getElementById('globalBody').addEventListener('announce', announcementHandler, false);
@@ -50,7 +51,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'dashboardStaff', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
 /*        { path: 'staffProfile', detail : {label: 'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
  */       { path: 'myProfile', detail : {label: 'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
-          { path: 'companyHoliday', detail : {label: 'Company Holiday',iconClass: 'oj-navigationlist-item-icon fa fa-home'} }
+          { path: 'companyHoliday', detail : {label: 'Company Holiday',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
+          { path: 'myGoals', detail : {label: 'My Goals',iconClass: 'oj-navigationlist-item-icon fa fa-home'} }
        ];  
       }
       else{
@@ -70,6 +72,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'addHoliday', detail : {label :'Add Holiday',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'staffLeave', detail : {label :'Staff Leave',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'leaveSettings', detail : {label :'Leave Settings',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'myProfileAdmin', detail : {label :'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'myGoals', detail : {label: 'My Goals',iconClass: 'oj-navigationlist-item-icon fa fa-home'} }
         ];
       }
 
@@ -79,6 +83,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
 /*           {"name": "Staff Profile","id": "staffProfile","icons": "fa-solid fa fa-home", "path":"staffProfile"},
  */          {"name": "My Profile","id": "myProfile","icons": "fa-solid fa fa-home", "path":"myProfile"},
              {"name": "Company Holiday","id": "companyHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"companyHoliday"},
+             {"name": "My Goals","id": "myGoals","icons": "fa-solid fa fa-calendar-alt", "path":"myGoals"},
         ]       
       }else {
         self.navMenu = [
@@ -90,6 +95,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
 /*               {"name": "Add Staff","id": "addStaff","icons": "fa-solid fa fa-id-card", "path":"Staff"},
  */            ]
           },
+          {"name": "My Goals","id": "myGoals","icons": "fa-solid fa fa-calendar-alt", "path":"myGoals"},
           {"name": "Company Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},
           {"name": "Staff Leave","id": "staffLeave","icons": "fa-solid fa fa-person-walking-arrow-right", "path":"staffLeave"},
           {"name": "Settings", "id": "settings", "icons": "fa-solid fa fa-cogs", 
@@ -172,6 +178,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
 
     ControllerViewModel.prototype.onAppSuccess = function() {
       self.username(sessionStorage.getItem("userName"));
+      self.userrole(sessionStorage.getItem("userRole"));
       self.SignIn('Y');
     };
 
@@ -202,6 +209,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
       self.goToSignIn();
       }else if (self.selectedMenuItem() == 'myProfile'){
         router.go({path : 'myProfile'});
+      }else if (self.selectedMenuItem() == 'myProfileAdmin'){
+        router.go({path : 'myProfileAdmin'});
       }
       else if (self.selectedMenuItem() == 'help'){
         document.querySelector('#helpDialog').open();

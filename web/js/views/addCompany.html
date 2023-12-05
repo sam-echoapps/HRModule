@@ -70,12 +70,13 @@
 <div id="department" style="display: none;">
     <div class="oj-panel oj-flex oj-xl-margin-4x">
         <oj-validation-group id="formValidationDepartment" class="form-container" role="group">
-            <div id="form-container">
-                <oj-form-layout id="designation-information" class="form" direction="row" max-columns="1">
+            <div id="form-container-row">
+                <oj-form-layout id="designation-information" class="form" direction="row" max-columns="2">
                     <oj-input-text id="departmentName" label-hint="Department" required="true" value="{{departmentName}}"></oj-input-text>
+                    <oj-button id="save" chroming="solid" class="oj-sm-padding-2x-vertical" on-oj-action="[[formSubmitDepartment]]"><i class="fas fa-save"></i> Submit</oj-button>
                 </oj-form-layout>
-                <oj-button id="save" chroming="solid" on-oj-action="[[formSubmitDepartment]]"><i class="fas fa-save"></i> Submit</oj-button>
             </div>
+            <hr>
         </oj-validation-group>
         <oj-table id='departmentTable' aria-label='All Table' data='[[dataProvider]]' display='list'
         selection-mode='{"row": "single"}'  columns='[
@@ -106,14 +107,15 @@
 <div id="designationSec" style="display: none;">
     <div class="oj-panel oj-flex oj-xl-margin-4x">
         <oj-validation-group id="formValidationDesignation" class="form-container" role="group">
-            <div id="form-container">
-                <oj-form-layout id="designation-information" class="form" direction="row" max-columns="2">
+            <div id="form-container-row">
+                <oj-form-layout id="designation-information" class="form" direction="row" max-columns="3">
                     <oj-select-single id="departmentId" label-hint="Department" label-edge="inside" required="true" class="oj-form-control-max-width-md" 
                         value="{{departmentId}}"  data="[[departmentList]]"></oj-select-single>
                     <oj-input-text id="designationId" label-hint="Designation" required="true" value="{{designationId}}"></oj-input-text>
+                    <oj-button id="save" chroming="solid" on-oj-action="[[formSubmitDesignation]]" class="oj-sm-padding-2x-vertical"><i class="fas fa-save"></i> Submit</oj-button>
                 </oj-form-layout>
-                <oj-button id="save" chroming="solid" on-oj-action="[[formSubmitDesignation]]"><i class="fas fa-save"></i> Submit</oj-button>
             </div>
+            <hr>
         </oj-validation-group>
         <oj-table id='designationTable' aria-label='All Table' data='[[dataProvider1]]' display='list'
         selection-mode='{"row": "single"}'  columns='[
@@ -123,6 +125,8 @@
           "headerText": "Department", "field": "department", "id": "department" },
         { "headerClassName" : "table-header-style",
           "headerText": "Designation", "field": "designation", "id": "designation" },
+        { "headerClassName" : "table-header-style",
+          "headerText": "Count", "field": "count", "id": "count" },
         { "headerClassName" : "table-header-style",
           "headerText": "Action",
           "maxWidth" : "10rem",

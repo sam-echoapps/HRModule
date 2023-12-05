@@ -73,7 +73,12 @@
                 <oj-menu id="menu1" slot="menu" on-oj-action="[[menuItemAction]]" style="display:none">
                   <!-- <oj-option id="seldep" value="seldep">Switch Deployment</oj-option>
                   <oj-option id="help" value="help">Help</oj-option>-->
+                  <oj-bind-if test="[[userrole() == 'staff' ]]">
                   <oj-option id="myProfile" value="myProfile">My Profile</oj-option> 
+                  </oj-bind-if>
+                  <oj-bind-if test="[[userrole() == 'admin' ]]">
+                    <oj-option id="myProfileAdmin" value="myProfileAdmin">My Profile</oj-option> 
+                    </oj-bind-if>
                   <oj-option id="out" value="out">Sign Out</oj-option>
                 </oj-menu>
               </oj-menu-button>

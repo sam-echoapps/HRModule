@@ -628,7 +628,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             document.getElementById('designation').style.display='block';
                             if(data[0].length !=0){ 
                                 for (var i = 0; i < data[0].length; i++) {
-                                    self.DesignationDet.push({'no': i+1,'id': data[0][i][0],'designation': data[0][i][1],'department': data[0][i][2]  });
+                                    self.DesignationDet.push({'no': i+1,'id': data[0][i][0],'designation': data[0][i][1],'department': data[0][i][2],'count': data[0][i][3]  });
                                 }
                             }
                         }

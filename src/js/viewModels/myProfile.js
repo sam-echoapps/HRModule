@@ -912,7 +912,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         url: BaseURL + "/HRModuleCredentialUpdate",
                         type: 'POST',
                         data: JSON.stringify({
-                            staffId : sessionStorage.getItem("staffId"),
+                            staffId : sessionStorage.getItem("userId"),
                             password : self.password()
                         }),
                         dataType: 'json',
