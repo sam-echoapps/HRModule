@@ -6,7 +6,7 @@
         <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
           <div class="oj-flex-item oj-md-padding-2x-horizontal  oj-sm-padding-2x-horizontal">
             <oj-button chroming="solid"  on-oj-action="[[addTotalLeave]]">
-              <i class="fa-solid fa-plus"></i>&nbsp;Total Leave
+              <p class="oj-xl-margin-4x"><i class="fa-solid fa-plus"></i>&nbsp;Total Yearly Leaves : <oj-bind-text value="[[totalLeave]]"></oj-bind-text></p>
             </oj-button>
           </div>
           <div class="oj-flex-item oj-md-padding-2x-horizontal oj-sm-padding-2x-horizontal">
@@ -28,9 +28,9 @@
 </div> -->
 
 <div class="oj-panel oj-flex oj-xl-margin-4x">
-  <oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[addTotalLeave]]">
+ <!--  <oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[addTotalLeave]]">
     <p class="oj-xl-margin-4x">Total Yearly Leaves : <oj-bind-text value="[[totalLeave]]"></oj-bind-text></p>
-  </oj-button>
+  </oj-button> -->
 
   <oj-table class="oj-xl-margin-4x" id='leaveTypeTable' aria-label='All Table' data='[[dataProvider]]' display='list'
         selection-mode='{"row": "single"}'  columns='[

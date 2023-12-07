@@ -73,7 +73,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'staffLeave', detail : {label :'Staff Leave',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'leaveSettings', detail : {label :'Leave Settings',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'myProfileAdmin', detail : {label :'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
-          { path: 'myGoals', detail : {label: 'My Goals',iconClass: 'oj-navigationlist-item-icon fa fa-home'} }
+          { path: 'myGoalsAdmin', detail : {label: 'My Goals',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
+          { path: 'employeeGoals', detail : {label: 'Employee Goals',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} }
         ];
       }
 
@@ -83,7 +84,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
 /*           {"name": "Staff Profile","id": "staffProfile","icons": "fa-solid fa fa-home", "path":"staffProfile"},
  */          {"name": "My Profile","id": "myProfile","icons": "fa-solid fa fa-home", "path":"myProfile"},
              {"name": "Company Holiday","id": "companyHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"companyHoliday"},
-             {"name": "My Goals","id": "myGoals","icons": "fa-solid fa fa-calendar-alt", "path":"myGoals"},
+             {"name": "My Goals","id": "myGoals","icons": "fa-solid fa fa-list-check", "path":"myGoals"},
         ]       
       }else {
         self.navMenu = [
@@ -95,7 +96,12 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
 /*               {"name": "Add Staff","id": "addStaff","icons": "fa-solid fa fa-id-card", "path":"Staff"},
  */            ]
           },
-          {"name": "My Goals","id": "myGoals","icons": "fa-solid fa fa-calendar-alt", "path":"myGoals"},
+          {"name": "Goals", "id": "goals", "icons": "fa-solid fa fa-list-check", 
+            "children": [
+              {"name": "My Goals","id": "myGoalsAdmin","icons": "fa-solid fa fa-list-check", "path":"myGoalsAdmin"},
+              {"name": "Employee Goals","id": "employeeGoals","icons": "fa-solid fa fa-list-check", "path":"employeeGoals"},
+           ]
+          },
           {"name": "Company Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},
           {"name": "Staff Leave","id": "staffLeave","icons": "fa-solid fa fa-person-walking-arrow-right", "path":"staffLeave"},
           {"name": "Settings", "id": "settings", "icons": "fa-solid fa fa-cogs", 

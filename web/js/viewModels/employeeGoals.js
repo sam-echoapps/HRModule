@@ -3,7 +3,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
      "ojs/ojfilepicker", "ojs/ojpopup", "ojs/ojprogress-circle", "ojs/ojdialog","ojs/ojtable"], 
     function (oj,ko,$, app, ArrayDataProvider, FilePickerUtils) {
 
-        class MyGoals {
+        class EmployeeGoals {
             constructor(args) {
                 var self = this;
 
@@ -19,7 +19,17 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.CancelBehaviorOpt = ko.observable('icon'); 
                 self.yearFilter = ko.observable('');
                 self.GoalYearDet = ko.observableArray([]);
-
+                self.status = ko.observable();
+                self.statusList = ko.observableArray([]);
+                self.statusList.push(
+                    {"label":"Pending","value":"Pending"},
+                    {"label":"Under Review","value":"Under Review"},
+                    {"label":"Reject","value":"Reject"},
+                    {"label":"Approve","value":"Approve"},
+                );
+                self.statusList = new ArrayDataProvider(self.statusList, {
+                    keyAttributes: 'value'
+                });   
                 self.connected = function () {
                     if (sessionStorage.getItem("userName") == null) {
                         self.router.go({path : 'signin'});
@@ -34,7 +44,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     self.GoalDet([]);
                     document.getElementById('loaderView').style.display='block';
                     $.ajax({
-                        url: BaseURL+"/HRModuleGetGoal",
+                        url: BaseURL+"/HRModuleGetEmployeeGoal",
                         type: 'POST',
                         timeout: sessionStorage.getItem("timeInetrval"),
                         context: self,
@@ -50,7 +60,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             document.getElementById('actionView').style.display='block';
                             if(data[0].length !=0){ 
                                 for (var i = 0; i < data[0].length; i++) {
-                                    self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'description': data[0][i][2],'start_date': data[0][i][3],'end_date': data[0][i][4]  });
+                                    self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'description': data[0][i][2],'start_date': data[0][i][3],'end_date': data[0][i][4],'status': data[0][i][5]  });
                                 }
                             }
                             if(data[1].length !=0){ 
@@ -148,7 +158,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         document.getElementById('loaderView').style.display='block';
                         self.GoalDet([]);
                         $.ajax({
-                            url: BaseURL  + "/HRModuleGetYearGoalFilterList",
+                            url: BaseURL  + "/HRModuleGetYearGoalEmployeeFilter",
                             type: 'POST',
                             data: JSON.stringify({
                                 staffId : sessionStorage.getItem("staffId"),
@@ -168,7 +178,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 console.log(data)
                                 if(data[0].length !=0){ 
                                     for (var i = 0; i < data[0].length; i++) {
-                                        self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'description': data[0][i][2],'start_date': data[0][i][3],'end_date': data[0][i][4]  });
+                                        self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'description': data[0][i][2],'start_date': data[0][i][3],'end_date': data[0][i][4],'status': data[0][i][5]  });
                                     }
                                 }
                         }
@@ -178,10 +188,39 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     }
                     self.dataProvider = new ArrayDataProvider(this.GoalDet, { keyAttributes: "id"});
 
-
+                    self.reviewGoal = (event,data)=>{
+                        var rowId = data.item.data.id
+                        document.querySelector('#openReviewGoal').open();
+                        document.getElementById('loaderView').style.display='block';
+                        $.ajax({
+                            url: BaseURL+"/HRModuleGetEmployeeGoalInfo",
+                            type: 'POST',
+                            timeout: sessionStorage.getItem("timeInetrval"),
+                            context: self,
+                            data: JSON.stringify({
+                                goalId : rowId
+                            }),
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.log(textStatus);
+                            },
+                            success: function (result) {
+                                console.log(result)
+                                if(result[0].length !=0){ 
+                                    document.getElementById('loaderView').style.display='none';
+                                    var data = JSON.parse(result[0]);
+                                    console.log(data)
+                                    self.goalSubject(data[0][1])
+                                    self.description(data[0][2])
+                                    self.startDate(data[0][3])
+                                    self.endDate(data[0][4])
+                                    self.status(data[0][5])
+                                }
+                            }
+                        })
+                    }
 
             }
         }
-        return  MyGoals;
+        return  EmployeeGoals;
     }
 );

@@ -11,7 +11,9 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 let BaseURL = sessionStorage.getItem("BaseURL")
                 
                 self.goalSubject = ko.observable();
-                self.deadline = ko.observable();
+                self.description = ko.observable();
+                self.startDate = ko.observable('');
+                self.endDate = ko.observable('');
                 self.comments = ko.observable('');
                 self.GoalDet = ko.observableArray([]); 
                 self.CancelBehaviorOpt = ko.observable('icon'); 
@@ -48,7 +50,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             document.getElementById('actionView').style.display='block';
                             if(data[0].length !=0){ 
                                 for (var i = 0; i < data[0].length; i++) {
-                                    self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'deadline': data[0][i][2],'comments': data[0][i][3]  });
+                                    self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'description': data[0][i][2],'start_date': data[0][i][3],'end_date': data[0][i][4],'status': data[0][i][5]  });
                                 }
                             }
                             if(data[1].length !=0){ 
@@ -75,8 +77,9 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 data: JSON.stringify({
                                     staffId : sessionStorage.getItem("userId"),
                                     goal_subject : self.goalSubject(),
-                                    deadline : self.deadline(),
-                                    comments : self.comments(),
+                                    description : self.description(),
+                                    start_date : self.startDate(),
+                                    end_date : self.endDate(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -165,7 +168,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 console.log(data)
                                 if(data[0].length !=0){ 
                                     for (var i = 0; i < data[0].length; i++) {
-                                        self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'deadline': data[0][i][2],'comments': data[0][i][3]  });
+                                        self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'description': data[0][i][2],'start_date': data[0][i][3],'end_date': data[0][i][4],'status': data[0][i][5]  });
                                     }
                                 }
                         }
@@ -175,7 +178,34 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     }
                     self.dataProvider = new ArrayDataProvider(this.GoalDet, { keyAttributes: "id"});
 
+                    self.notifyManager = ()=>{
+                        document.querySelector('#confirmPopup').open();
+                    }
 
+                    self.sendNotification = ()=>{
+                        let popup2 = document.getElementById("confirmPopup");
+                        popup2.close();                            
+                            $.ajax({
+                                url: BaseURL+"/HRModuleGoalNotifyManager",
+                                type: 'POST',
+                                data: JSON.stringify({
+                                    staffId : sessionStorage.getItem("staffId"),
+                                }),
+                                dataType: 'json',
+                                timeout: sessionStorage.getItem("timeInetrval"),
+                                context: self,
+                                error: function (xhr, textStatus, errorThrown) {
+                                    console.log(textStatus);
+                                },
+                                success: function (data) {
+                                    let popup2 = document.getElementById("confirmPopup");
+                                    popup2.close();
+                                    let popup3 = document.getElementById("successMail");
+                                    popup3.open();
+                                }
+                            })
+                        }
+        
 
             }
         }

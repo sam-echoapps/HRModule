@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../../css/addStaff.css">
 <div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px;">
     <div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
-        <div><span class="hint-title"> <span class="icon-container"><i class="fas fa-list-check icon"></i></span>&nbsp;My Goals </span><span class="hint-note">(Create and manage goals.)</span></div> 
+        <div><span class="hint-title"> <span class="icon-container"><i class="fas fa-list-check icon"></i></span>&nbsp;Employee Goals </span><span class="hint-note">(Manage employee goals.)</span></div> 
         <div class="oj-flex-item oj-sm-padding-2x-horizontal  oj-sm-margin-4x">
             <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
             <div class="oj-flex-item oj-xl-3  oj-md-6 oj-sm-12 oj-md-padding-2x-horizontal  oj-sm-padding-2x-horizontal">
@@ -9,35 +9,30 @@
                 label-edge="inside" data="[[yearList]]" value="{{yearFilter}}" on-value-changed="[[filterYear]]">
                 </oj-select-single>
             </div>
-              <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+             <!--  <div class="oj-flex-item oj-sm-padding-2x-horizontal">
                 <oj-button chroming="solid"  on-oj-action="[[addGoal]]" class="oj-sm-padding-2x-vertical">
                     <i class="fa-solid fa-plus"></i>&nbsp;Add Goals
                   </oj-button>
-              </div>
-              <div class="oj-flex-item oj-sm-padding-2x-horizontal">
-                <oj-button chroming="solid"  on-oj-action="[[notifyManager]]" class="oj-sm-padding-2x-vertical">
-                    <i class="fa-solid fa-envelope"></i>&nbsp;Notify Manager
-                  </oj-button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
     </div>
 
 <oj-dialog id="openAddGoal" class="popupGoal" dialog-title="Add Goal" modality="modeless" drag-affordance="title-bar"
-  cancel-behavior="[[CancelBehaviorOpt]]">
-  <oj-validation-group id="formValidation" class="form-container" role="group" style="padding-bottom: 50px;">
-    <div id="form-container">
-        <oj-form-layout id="goal-information" class="form" direction="row" max-columns="1">
-            <oj-input-text id="goalSubject" label-hint="Goal Subject" required="true" value="{{goalSubject}}"></oj-input-text>
-            <oj-input-text id="description" label-hint="Goal Description" required="true" value="{{description}}"></oj-input-text>
-            <oj-input-date id="startDate" label-hint="Start Date" required="true" value="{{startDate}}"></oj-input-date>
-            <oj-input-date id="endDate" label-hint="End Date" required="true" value="{{endDate}}"></oj-input-date>
-        </oj-form-layout>
-        <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]"><i class="fas fa-save"></i> Submit</oj-button>
-    </div>
-</oj-validation-group>
-</oj-dialog>
+    cancel-behavior="[[CancelBehaviorOpt]]">
+    <oj-validation-group id="formValidation" class="form-container" role="group" style="padding-bottom: 50px;">
+      <div id="form-container">
+          <oj-form-layout id="goal-information" class="form" direction="row" max-columns="1">
+              <oj-input-text id="goalSubject" label-hint="Goal Subject" required="true" value="{{goalSubject}}"></oj-input-text>
+              <oj-input-text id="description" label-hint="Goal Description" required="true" value="{{description}}"></oj-input-text>
+              <oj-input-date id="startDate" label-hint="Start Date" required="true" value="{{startDate}}"></oj-input-date>
+              <oj-input-date id="endDate" label-hint="End Date" required="true" value="{{endDate}}"></oj-input-date>
+          </oj-form-layout>
+          <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]"><i class="fas fa-save"></i> Submit</oj-button>
+      </div>
+  </oj-validation-group>
+  </oj-dialog>
 
 <div style="display:none;" class="oj-panel oj-xl-margin-4x" id="actionView"> 
 <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
@@ -61,6 +56,13 @@
           "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
           "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
          <template slot="actionTemplate" data-oj-as="cell">
+            <oj-button
+            chroming="borderless"
+            display="icons"
+            on-oj-action="[[reviewGoal]]">
+            <span slot="startIcon" class="fa-solid fa-pencil review-btn"></span>
+            Review
+          </oj-button>
              <oj-button
               chroming="borderless"
               display="icons"
@@ -98,44 +100,26 @@
             </div>
         </div>
     </oj-dialog>
-
-    <oj-dialog id="confirmPopup">
-        <div slot="header" style="display: contents;">
-            <p id="dialogTitleId" class="oj-dialog-title">Notify Manager</p>
-            <oj-button id="btnCancel" class="oj-button-sm" display="icons" on-oj-action="[[messageClose]]">
-                <span slot="startIcon" class="oj-ux-ico-close"></span>
-                Cancel
-            </oj-button>
-        </div>
-        <div slot="body">
-            <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
-                <p style="font-weight: 500;text-align: left">Do you want to notify the goals to the line manager?</p>
-            </div>
-        </div>
-        <div  class="oj-flex-bar" slot="footer">
-            <oj-button id="okdelButton" chroming="solid" class="" on-oj-action="[[sendNotification]]">
-              Yes
-            </oj-button>
-          </div>
-    </oj-dialog>
-
-    <oj-dialog id="successMail">
-        <div slot="header" style="display: contents;">
-            <p id="dialogTitleId" class="oj-dialog-title">Successfully Sent</p>
-            <oj-button id="btnCancel" class="oj-button-sm" display="icons" on-oj-action="[[messageClose]]">
-                <span slot="startIcon" class="oj-ux-ico-close"></span>
-                Cancel
-            </oj-button>
-        </div>
-        <div slot="body">
-            <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
-                <p style="font-weight: 500;text-align: left">Goal notified to manager successfully</p>
-            </div>
-        </div>
-    </oj-dialog>
-
 </div>
 
 <div class="centered-container" id="loaderView">
     <div class="loader"></div>
   </div> 
+
+  <oj-dialog id="openReviewGoal" class="popupGoal" dialog-title="Add Goal" modality="modeless" drag-affordance="title-bar"
+  cancel-behavior="[[CancelBehaviorOpt]]">
+  <oj-validation-group id="formValidation" class="form-container" role="group" style="padding-bottom: 50px;">
+    <div id="form-container">
+        <oj-form-layout id="goal-information" class="form" direction="row" max-columns="1">
+            <oj-input-text id="goalSubject" label-hint="Goal Subject" required="true" value="{{goalSubject}}"></oj-input-text>
+            <oj-input-text id="description" label-hint="Goal Description" required="true" value="{{description}}"></oj-input-text>
+            <oj-input-date id="startDate" label-hint="Start Date" required="true" value="{{startDate}}"></oj-input-date>
+            <oj-input-date id="endDate" label-hint="End Date" required="true" value="{{endDate}}"></oj-input-date>
+            <oj-select-single label-hint="Status" class="oj-sm-padding-2x-vertical"
+              label-edge="inside" data="[[statusList]]" value="{{status}}">
+              </oj-select-single>
+        </oj-form-layout>
+        <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]"><i class="fas fa-save"></i> Submit</oj-button>
+    </div>
+</oj-validation-group>
+</oj-dialog>
