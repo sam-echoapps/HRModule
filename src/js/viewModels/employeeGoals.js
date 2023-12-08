@@ -30,6 +30,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.statusList = new ArrayDataProvider(self.statusList, {
                     keyAttributes: 'value'
                 });   
+                self.goalId = ko.observable();
+
                 self.connected = function () {
                     if (sessionStorage.getItem("userName") == null) {
                         self.router.go({path : 'signin'});
@@ -60,7 +62,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             document.getElementById('actionView').style.display='block';
                             if(data[0].length !=0){ 
                                 for (var i = 0; i < data[0].length; i++) {
-                                    self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'description': data[0][i][2],'start_date': data[0][i][3],'end_date': data[0][i][4],'status': data[0][i][5]  });
+                                    self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'description': data[0][i][2],'start_date': data[0][i][3],'end_date': data[0][i][4],'status': data[0][i][5],'comments': data[0][i][6]  });
                                 }
                             }
                             if(data[1].length !=0){ 
@@ -178,7 +180,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 console.log(data)
                                 if(data[0].length !=0){ 
                                     for (var i = 0; i < data[0].length; i++) {
-                                        self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'description': data[0][i][2],'start_date': data[0][i][3],'end_date': data[0][i][4],'status': data[0][i][5]  });
+                                        self.GoalDet.push({'no': i+1,'id': data[0][i][0],'goal_subject': data[0][i][1],'description': data[0][i][2],'start_date': data[0][i][3],'end_date': data[0][i][4],'status': data[0][i][5],'comments': data[0][i][6]  });
                                     }
                                 }
                         }
@@ -190,6 +192,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
 
                     self.reviewGoal = (event,data)=>{
                         var rowId = data.item.data.id
+                        self.goalId(rowId)
                         document.querySelector('#openReviewGoal').open();
                         document.getElementById('loaderView').style.display='block';
                         $.ajax({
@@ -214,10 +217,43 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     self.startDate(data[0][3])
                                     self.endDate(data[0][4])
                                     self.status(data[0][5])
+                                    self.comments(data[0][6])
                                 }
                             }
                         })
                     }
+
+                    self.formReviewSubmit = (event,data)=>{
+                        const formValid = self._checkValidationGroup("formValidationReview"); 
+                        if (formValid) {
+                                let popup = document.getElementById("loaderPopup");
+                                popup.open();
+                                
+                                $.ajax({
+                                    url: BaseURL+"/HRModuleReviewGoalStatus",
+                                    type: 'POST',
+                                    data: JSON.stringify({
+                                        goalId : self.goalId(),
+                                        status : self.status(),
+                                        comments : self.comments(),
+                                    }),
+                                    dataType: 'json',
+                                    timeout: sessionStorage.getItem("timeInetrval"),
+                                    context: self,
+                                    error: function (xhr, textStatus, errorThrown) {
+                                        console.log(textStatus);
+                                    },
+                                    success: function (data) {
+                                        document.querySelector('#openReviewGoal').close();
+                                        let popup = document.getElementById("loaderPopup");
+                                        popup.close();
+                                        let popup2 = document.getElementById("successStatus");
+                                        popup2.open();
+                                    }
+                                })
+                            }
+                        }
+    
 
             }
         }

@@ -246,6 +246,12 @@ hr {
     top: 166.475px !important;
     left: 0px !important;
   }
+
+  .popupLeave{
+    display: block;
+    top: 166.475px !important;
+    left: 0px !important;
+  }
 }
 
 

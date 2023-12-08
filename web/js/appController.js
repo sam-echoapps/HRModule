@@ -70,10 +70,11 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'myProfile', detail : {label :'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'addCompany', detail : {label :'Add Company',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'addHoliday', detail : {label :'Add Holiday',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
-          { path: 'staffLeave', detail : {label :'Staff Leave',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'myLeaveAdmin', detail : {label :'My Leave',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'leaveSettings', detail : {label :'Leave Settings',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'myProfileAdmin', detail : {label :'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'myGoalsAdmin', detail : {label: 'My Goals',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
+          { path: 'employeeGoalsList', detail : {label: 'Employee Goals',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
           { path: 'employeeGoals', detail : {label: 'Employee Goals',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} }
         ];
       }
@@ -99,11 +100,16 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           {"name": "Goals", "id": "goals", "icons": "fa-solid fa fa-list-check", 
             "children": [
               {"name": "My Goals","id": "myGoalsAdmin","icons": "fa-solid fa fa-list-check", "path":"myGoalsAdmin"},
-              {"name": "Employee Goals","id": "employeeGoals","icons": "fa-solid fa fa-list-check", "path":"employeeGoals"},
+              {"name": "Employee Goals","id": "employeeGoalsList","icons": "fa-solid fa fa-list-check", "path":"employeeGoalsList"},
+           ]
+          },
+          {"name": "Leaves", "id": "leaves", "icons": "fa-solid fa fa-person-walking-arrow-right", 
+            "children": [
+              {"name": "My Leave","id": "myLeaveAdmin","icons": "fa-solid fa fa-person-walking-arrow-right", "path":"myLeaveAdmin"},
+              {"name": "Employee Goals","id": "employeeGoalsList","icons": "fa-solid fa fa-list-check", "path":"employeeGoalsList"},
            ]
           },
           {"name": "Company Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},
-          {"name": "Staff Leave","id": "staffLeave","icons": "fa-solid fa fa-person-walking-arrow-right", "path":"staffLeave"},
           {"name": "Settings", "id": "settings", "icons": "fa-solid fa fa-cogs", 
             "children": [
               {"name": "Company Settings","id": "addCompany","icons": "fa-solid fa fa-building", "path":"addCompany"},
