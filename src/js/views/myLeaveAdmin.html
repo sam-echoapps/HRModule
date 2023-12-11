@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../../css/addStaff.css">
 <div class="oj-panel oj-xl-margin-4x" style="margin: 10px;padding: 10px;">
     <div class="oj-flex oj-sm-justify-content-space-between oj-sm-align-items-center" style="width: 100%;padding: 10px;">
-        <div><span class="hint-title"> <span class="icon-container"><i class="fas fa-list-check icon"></i></span>&nbsp;My Leaves </span><span class="hint-note">(Create and manage leaves.)</span></div> 
+        <div><span class="hint-title"> <span class="icon-container"><i class="fas fa-person-walking-arrow-right icon"></i></span>&nbsp;My Leaves </span><span class="hint-note">(Create and manage leaves.)</span></div> 
         <div class="oj-flex-item oj-sm-padding-2x-horizontal  oj-sm-margin-4x">
             <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
             <div class="oj-flex-item oj-xl-3  oj-md-6 oj-sm-12 oj-md-padding-2x-horizontal  oj-sm-padding-2x-horizontal">
@@ -14,11 +14,11 @@
                     <i class="fa-solid fa-plus"></i>&nbsp;Add Leave
                   </oj-button>
               </div>
-              <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+          <!--     <div class="oj-flex-item oj-sm-padding-2x-horizontal">
                 <oj-button chroming="solid"  on-oj-action="[[notifyManager]]" class="oj-sm-padding-2x-vertical">
                     <i class="fa-solid fa-envelope"></i>&nbsp;Notify Manager
                   </oj-button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -32,9 +32,9 @@
             <oj-input-date id="startDate" label-hint="Start Date" required="true" value="{{startDate}}"></oj-input-date>
             <oj-input-date id="endDate" label-hint="End Date" required="true" value="{{endDate}}"></oj-input-date>
             <oj-select-single label-hint="Leave Type" class="oj-sm-padding-2x-vertical"
-            label-edge="inside" data="[[LeaveTypeList]]" value="{{leaveType}}">
+            label-edge="inside" data="[[LeaveTypeList]]" value="{{leaveType}}" required="true">
             </oj-select-single>           
-           <oj-input-text id="comments" label-hint="Comments" value="{{comments}}"></oj-input-text>
+           <oj-input-text id="description" label-hint="Description" value="{{description}}"></oj-input-text>
         </oj-form-layout>
         <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]"><i class="fas fa-save"></i> Submit</oj-button>
     </div>
@@ -43,18 +43,18 @@
 
 <div style="display:none;" class="oj-panel oj-xl-margin-4x" id="actionView"> 
 <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
-    <oj-table id='goalTable' aria-label='All Table' data='[[dataProvider]]' display='list'
+    <oj-table id='leaveTable' aria-label='All Table' data='[[dataProvider]]' display='list'
         selection-mode='{"row": "single"}'  columns='[
         { "headerClassName" : "table-header-style",
         "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
         { "headerClassName" : "table-header-style",
-          "headerText": "Goal Subject", "field": "goal_subject", "id": "goal_subject" },
-        { "headerClassName" : "table-header-style",
-        "headerText": "Description", "field": "description", "id": "description" },
-        { "headerClassName" : "table-header-style",
         "headerText": "Start Date", "field": "start_date", "id": "start_date" },
         { "headerClassName" : "table-header-style",
         "headerText": "End Date", "field": "end_date", "id": "end_date" },
+        { "headerClassName" : "table-header-style",
+        "headerText": "Leave Type", "field": "leave_type", "id": "leave_type" },
+        { "headerClassName" : "table-header-style",
+        "headerText": "Description", "field": "description", "id": "description" },
         { "headerClassName" : "table-header-style",
         "headerText": "Status", "field": "status", "id": "status" },
         { "headerClassName" : "table-header-style",
@@ -96,7 +96,7 @@
         </div>
         <div slot="body">
             <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
-                <p style="font-weight: 500;text-align: left">Goal added successfully</p>
+                <p style="font-weight: 500;text-align: left">Leave added successfully</p>
             </div>
         </div>
     </oj-dialog>

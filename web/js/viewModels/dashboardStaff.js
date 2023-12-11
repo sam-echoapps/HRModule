@@ -17,7 +17,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
 
             var routerLength = args.parentRouter._routes.length;
           
-            if(routerLength!=6){
+            if(routerLength!=7){
                 location.reload();
             }            
             

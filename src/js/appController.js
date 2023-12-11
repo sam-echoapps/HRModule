@@ -52,7 +52,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
 /*        { path: 'staffProfile', detail : {label: 'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
  */       { path: 'myProfile', detail : {label: 'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
           { path: 'companyHoliday', detail : {label: 'Company Holiday',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
-          { path: 'myGoals', detail : {label: 'My Goals',iconClass: 'oj-navigationlist-item-icon fa fa-home'} }
+          { path: 'myGoals', detail : {label: 'My Goals',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
+          { path: 'myLeave', detail : {label :'My Leave',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
        ];  
       }
       else{
@@ -75,7 +76,9 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'myProfileAdmin', detail : {label :'My Profile',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
           { path: 'myGoalsAdmin', detail : {label: 'My Goals',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
           { path: 'employeeGoalsList', detail : {label: 'Employee Goals',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
-          { path: 'employeeGoals', detail : {label: 'Employee Goals',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} }
+          { path: 'employeeGoals', detail : {label: 'Employee Goals',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
+          { path: 'employeeLeaveList', detail : {label: 'Employee Leave',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
+          { path: 'employeeLeaves', detail : {label: 'Employee Leave',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
         ];
       }
 
@@ -86,6 +89,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
  */          {"name": "My Profile","id": "myProfile","icons": "fa-solid fa fa-home", "path":"myProfile"},
              {"name": "Company Holiday","id": "companyHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"companyHoliday"},
              {"name": "My Goals","id": "myGoals","icons": "fa-solid fa fa-list-check", "path":"myGoals"},
+             {"name": "My Leaves","id": "myLeave","icons": "fa-solid fa fa-person-walking-arrow-right", "path":"myLeave"},
         ]       
       }else {
         self.navMenu = [
@@ -106,7 +110,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           {"name": "Leaves", "id": "leaves", "icons": "fa-solid fa fa-person-walking-arrow-right", 
             "children": [
               {"name": "My Leave","id": "myLeaveAdmin","icons": "fa-solid fa fa-person-walking-arrow-right", "path":"myLeaveAdmin"},
-              {"name": "Employee Goals","id": "employeeGoalsList","icons": "fa-solid fa fa-list-check", "path":"employeeGoalsList"},
+              {"name": "Employee Leaves","id": "employeeLeaveList","icons": "fa-solid fa fa-person-walking-arrow-right", "path":"employeeLeaveList"},
            ]
           },
           {"name": "Company Holiday","id": "addHoliday","icons": "fa-solid fa fa-calendar-alt", "path":"addHoliday"},
