@@ -56,21 +56,19 @@
         { "headerClassName" : "table-header-style",
         "headerText": "Description", "field": "description", "id": "description" },
         { "headerClassName" : "table-header-style",
-        "headerText": "Status", "field": "status", "id": "status" },
-        { "headerClassName" : "table-header-style",
-          "headerText": "Action",
-          "maxWidth" : "10rem",
-          "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
-          "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
-         <template slot="actionTemplate" data-oj-as="cell">
-             <oj-button
-              chroming="borderless"
-              display="icons"
-              on-oj-action="[[deleteGoal]]">
-              <span slot="startIcon" class="fa-solid fa-trash delete-btn"></span>
-              Delete
-            </oj-button>
-         </template>
+        "headerText": "Action",
+        "maxWidth" : "10rem",
+        "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
+        "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
+       <template slot="actionTemplate" data-oj-as="cell">
+           <oj-button
+            chroming="borderless"
+            display="icons"
+            on-oj-action="[[deleteGoal]]">
+            <span slot="startIcon" class="fa-solid fa-trash delete-btn"></span>
+            Delete
+          </oj-button>
+       </template>
         </oj-table>
 </div>
 </div>

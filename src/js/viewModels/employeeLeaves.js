@@ -113,14 +113,14 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             popup.open();
                             
                             $.ajax({
-                                url: BaseURL+"/HRModuleAddGoal",
+                                url: BaseURL+"/HRModuleAddLeave",
                                 type: 'POST',
                                 data: JSON.stringify({
-                                    staffId : sessionStorage.getItem("userId"),
-                                    goal_subject : self.goalSubject(),
-                                    description : self.description(),
+                                    staffId : sessionStorage.getItem("staffId"),
                                     start_date : self.startDate(),
                                     end_date : self.endDate(),
+                                    leave_type : self.leaveType(),
+                                    description : self.description(),
                                 }),
                                 dataType: 'json',
                                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -129,7 +129,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                     console.log(textStatus);
                                 },
                                 success: function (data) {
-                                    document.querySelector('#openAddGoal').close();
+                                    console.log(data)
+                                    document.querySelector('#openAddLeave').close();
                                     let popup = document.getElementById("loaderPopup");
                                     popup.close();
                                     let popup1 = document.getElementById("successView");
@@ -175,8 +176,8 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     })
                 }
 
-                self.addGoal = ()=>{
-                    document.querySelector('#openAddGoal').open();
+                self.addLeave = ()=>{
+                    document.querySelector('#openAddLeave').open();
                 }
 
                 self.filterYear = function (event,data) {
