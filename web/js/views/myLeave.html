@@ -14,11 +14,11 @@
                     <i class="fa-solid fa-plus"></i>&nbsp;Add Leave
                   </oj-button>
               </div>
-          <!--     <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+              <div class="oj-flex-item oj-sm-padding-2x-horizontal">
                 <oj-button chroming="solid"  on-oj-action="[[notifyManager]]" class="oj-sm-padding-2x-vertical">
                     <i class="fa-solid fa-envelope"></i>&nbsp;Notify Manager
                   </oj-button>
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@
         { "headerClassName" : "table-header-style",
         "headerText": "Description", "field": "description", "id": "description" },
         { "headerClassName" : "table-header-style",
-        "headerText": "Status", "field": "status", "id": "status" },
+        "headerText": "Status", "field": "status", "id": "status", "template": "bgTemplate" },
         { "headerClassName" : "table-header-style",
           "headerText": "Action",
           "maxWidth" : "10rem",
@@ -71,6 +71,20 @@
               Delete
             </oj-button>
          </template>
+         <template slot="bgTemplate" data-oj-as="cell">
+            <oj-bind-if test="[[cell.row.status == 'Pending' ]]">
+                <div class="oj-table-element-pending "><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+            </oj-bind-if>
+            <oj-bind-if test="[[cell.row.status == 'Under Review' ]]">
+                <div class="oj-table-element-review "><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+            </oj-bind-if>
+            <oj-bind-if test="[[cell.row.status == 'Reject' ]]">
+                <div class="oj-table-element-reject "><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+            </oj-bind-if>
+            <oj-bind-if test="[[cell.row.status == 'Approve' ]]">
+                <div class="oj-table-element-approve "><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+            </oj-bind-if>
+          </template>
         </oj-table>
 </div>
 </div>
@@ -111,7 +125,7 @@
         </div>
         <div slot="body">
             <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
-                <p style="font-weight: 500;text-align: left">Do you want to notify the goals to the line manager?</p>
+                <p style="font-weight: 500;text-align: left">Do you want to notify the leaves to the line manager?</p>
             </div>
         </div>
         <div  class="oj-flex-bar" slot="footer">
@@ -131,7 +145,7 @@
         </div>
         <div slot="body">
             <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
-                <p style="font-weight: 500;text-align: left">Goal notified to manager successfully</p>
+                <p style="font-weight: 500;text-align: left">Leave notified to manager successfully</p>
             </div>
         </div>
     </oj-dialog>

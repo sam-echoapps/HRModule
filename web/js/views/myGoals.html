@@ -54,7 +54,7 @@
         { "headerClassName" : "table-header-style",
         "headerText": "End Date", "field": "end_date", "id": "end_date" },
         { "headerClassName" : "table-header-style",
-        "headerText": "Status", "field": "status", "id": "status" },
+        "headerText": "Status", "field": "status", "id": "status", "template": "bgTemplate" },
         { "headerClassName" : "table-header-style",
           "headerText": "Action",
           "maxWidth" : "10rem",
@@ -69,6 +69,20 @@
               Delete
             </oj-button>
          </template>
+         <template slot="bgTemplate" data-oj-as="cell">
+            <oj-bind-if test="[[cell.row.status == 'Pending' ]]">
+                <div class="oj-table-element-pending "><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+            </oj-bind-if>
+            <oj-bind-if test="[[cell.row.status == 'Under Review' ]]">
+                <div class="oj-table-element-review "><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+            </oj-bind-if>
+            <oj-bind-if test="[[cell.row.status == 'Reject' ]]">
+                <div class="oj-table-element-reject "><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+            </oj-bind-if>
+            <oj-bind-if test="[[cell.row.status == 'Approve' ]]">
+                <div class="oj-table-element-approve "><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+            </oj-bind-if>
+          </template>
         </oj-table>
 </div>
 </div>

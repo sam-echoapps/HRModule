@@ -40,7 +40,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         timeout: sessionStorage.getItem("timeInetrval"),
                         context: self,
                         data: JSON.stringify({
-                            staffId : sessionStorage.getItem("staffId")
+                            staffId : sessionStorage.getItem("userId")
                         }),
                         error: function (xhr, textStatus, errorThrown) {
                             console.log(textStatus);
@@ -102,7 +102,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 url: BaseURL+"/HRModuleAddLeave",
                                 type: 'POST',
                                 data: JSON.stringify({
-                                    staffId : sessionStorage.getItem("staffId"),
+                                    staffId : sessionStorage.getItem("userId"),
                                     start_date : self.startDate(),
                                     end_date : self.endDate(),
                                     leave_type : self.leaveType(),
@@ -179,7 +179,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             url: BaseURL  + "/HRModuleGetYearLeaveFilterList",
                             type: 'POST',
                             data: JSON.stringify({
-                                staffId : sessionStorage.getItem("staffId"),
+                                staffId : sessionStorage.getItem("userId"),
                                 year : self.yearFilter()
                             }),
                             dataType: 'json',

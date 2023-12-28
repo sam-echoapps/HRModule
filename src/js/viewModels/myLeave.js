@@ -215,7 +215,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         let popup2 = document.getElementById("confirmPopup");
                         popup2.close();                            
                             $.ajax({
-                                url: BaseURL+"/HRModuleGoalNotifyManager",
+                                url: BaseURL+"/HRModuleLeaveNotifyManager",
                                 type: 'POST',
                                 data: JSON.stringify({
                                     staffId : sessionStorage.getItem("userId"),

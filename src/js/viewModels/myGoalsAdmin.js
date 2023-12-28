@@ -39,7 +39,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         timeout: sessionStorage.getItem("timeInetrval"),
                         context: self,
                         data: JSON.stringify({
-                            staffId : sessionStorage.getItem("staffId")
+                            staffId : sessionStorage.getItem("userId")
                         }),
                         error: function (xhr, textStatus, errorThrown) {
                             console.log(textStatus);
@@ -151,7 +151,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             url: BaseURL  + "/HRModuleGetYearGoalFilterList",
                             type: 'POST',
                             data: JSON.stringify({
-                                staffId : sessionStorage.getItem("staffId"),
+                                staffId : sessionStorage.getItem("userId"),
                                 year : self.yearFilter()
                             }),
                             dataType: 'json',
