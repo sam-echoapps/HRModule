@@ -25,7 +25,6 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.statusList = ko.observableArray([]);
                 self.statusList.push(
                     {"label":"Pending","value":"Pending"},
-                    {"label":"Under Review","value":"Under Review"},
                     {"label":"Reject","value":"Reject"},
                     {"label":"Approve","value":"Approve"},
                 );
@@ -283,7 +282,12 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 })
                             }
                         }
-    
+                        self.viewLeave = (event,data)=>{
+                            var clickedStaffId = data.item.data.id
+                            console.log(clickedStaffId)
+                            sessionStorage.setItem("staffId", clickedStaffId);
+                            self.router.go({path:'employeeLeaveCalendar'})
+                        }
 
             }
         }

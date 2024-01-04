@@ -79,6 +79,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'employeeGoals', detail : {label: 'Employee Goals',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
           { path: 'employeeLeaveList', detail : {label: 'Employee Leave',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
           { path: 'employeeLeaves', detail : {label: 'Employee Leave',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
+          { path: 'employeeLeaveCalendar', detail : {label: 'Employee Leave Calendar',iconClass: 'oj-navigationlist-item-icon fa fa-list-check'} },
         ];
       }
 

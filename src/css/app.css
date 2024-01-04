@@ -245,6 +245,12 @@ hr {
   padding: 5px;
 }
 
+.calendar-btn{
+  color: #5a5278; 
+  font-size: 20px; 
+  margin-top: 15px;
+}
+
 @media (max-width: 600px) {
   .popupDialog{
     display: block;

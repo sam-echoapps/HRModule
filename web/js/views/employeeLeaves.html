@@ -54,7 +54,7 @@
         "headerText": "Admin Comment", "field": "comments", "id": "comments" },
         { "headerClassName" : "table-header-style",
           "headerText": "Action",
-          "maxWidth" : "10rem",
+          "maxWidth" : "15rem",
           "className":"oj-helper-text-align-center oj-sm-padding-0-vertical",
           "template": "actionTemplate", "id": "action","sortable": "disabled" }]' style='width: 100%;' class="demo-table-container">
          <template slot="actionTemplate" data-oj-as="cell">
@@ -65,13 +65,22 @@
             <span slot="startIcon" class="fa-solid fa-pencil review-btn"></span>
             Review
           </oj-button>
-             <oj-button
+         <!--  <oj-button
               chroming="borderless"
               display="icons"
-              on-oj-action="[[deleteLeave]]">
-              <span slot="startIcon" class="fa-solid fa-trash delete-btn"></span>
-              Delete
-            </oj-button>
+              on-oj-action="[[viewLeave]]">
+              <span slot="startIcon" class="fa-solid fa-eye delete-btn"></span>
+              View
+            </oj-button> -->
+            <oj-bind-if test="[[cell.row.status === 'Pending']]">
+                <oj-button
+                chroming="borderless"
+                display="icons"
+                on-oj-action="[[deleteLeave]]">
+                <span slot="startIcon" class="fa-solid fa-trash delete-btn"></span>
+                Delete
+                </oj-button>
+             </oj-bind-if>
          </template>
          <template slot="bgTemplate" data-oj-as="cell">
             <oj-bind-if test="[[cell.row.status == 'Pending' ]]">

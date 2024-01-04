@@ -66,7 +66,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
               
                 
 
-                self.viewGoal = (event,data)=>{
+                self.viewLeave = (event,data)=>{
                     var clickedStaffId = data.item.data.id
                     console.log(clickedStaffId)
                     sessionStorage.setItem("staffId", clickedStaffId);
@@ -113,6 +113,13 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                        
                     }
                     self.dataProvider = new ArrayDataProvider(this.LeaveDet, { keyAttributes: "id"});
+                   
+                    self.viewLeaveCalendar = (event,data)=>{
+                        var clickedStaffId = data.item.data.id
+                        console.log(clickedStaffId)
+                        sessionStorage.setItem("staffId", clickedStaffId);
+                        self.router.go({path:'employeeLeaveCalendar'})
+                    }
 
                    
 
